@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Land &amp; Sky — Australian Curriculum Interactive Hub</title>
+<meta name="author" content="Mihir Jetley">
+<meta name="description" content="A free, offline-ready, AC v9-aligned interactive resource covering Australian climate zones, ecosystems, and the Southern Hemisphere night sky. Years 3–6.">
+<meta name="created" content="2026-06-11">
+<meta name="licence" content="CC BY 4.0 — https://creativecommons.org/licenses/by/4.0/">
+<style>
+:root{
+  --sand:#f7f1e5; --card:#fffdf8; --ink:#2b2620; --ink-soft:#6b6155;
+  --euca:#4a7c59; --ochre:#c75b39; --gold:#d9a23c; --night:#0b1d3a;
+  --tropical:#2f9e6e; --subtropical:#74b25c; --arid:#d95f2b; --semiarid:#e8a14f;
+  --med:#c9a227; --temperate:#3e8fb0; --cooltemp:#2f6f8f;
+  --radius:14px; --shadow:0 2px 10px rgba(43,38,32,.10);
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0; padding:0;}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  background:var(--sand); color:var(--ink); font-size:16px; line-height:1.5;
+}
+button{font-family:inherit;}
+
+/* ---------- Header ---------- */
+header{
+  background:linear-gradient(135deg,#3d2f23 0%,#5a3a26 55%,#7a4a2b 100%);
+  color:#fdf6ea; padding:14px 20px 12px;
+}
+.header-row{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; max-width:1280px; margin:0 auto;}
+h1{font-size:1.45rem; margin:0; letter-spacing:.2px;}
+h1 .sub{display:block; font-size:.8rem; font-weight:400; opacity:.85; margin-top:2px;}
+.header-controls{display:flex; gap:8px; align-items:center; flex-wrap:wrap;}
+.tabs{display:flex; gap:6px; flex-wrap:wrap;}
+.tab-btn{
+  border:none; border-radius:999px; padding:10px 18px; font-size:.95rem; font-weight:600;
+  background:rgba(255,255,255,.14); color:#fdf6ea; cursor:pointer; min-height:44px;
+}
+.tab-btn.active{background:#fdf6ea; color:#5a3a26;}
+.teacher-toggle{
+  display:flex; align-items:center; gap:8px; background:rgba(255,255,255,.14);
+  border-radius:999px; padding:8px 14px; cursor:pointer; min-height:44px; border:none;
+  color:#fdf6ea; font-size:.9rem; font-weight:600;
+}
+.teacher-toggle .dot{width:12px; height:12px; border-radius:50%; background:#9c8b78;}
+.teacher-toggle.on .dot{background:#ffd36b;}
+.print-btn{
+  border:none; border-radius:999px; padding:8px 14px; min-height:44px; cursor:pointer;
+  background:rgba(255,255,255,.14); color:#fdf6ea; font-size:.9rem; font-weight:600;
+}
+
+/* ---------- Layout ---------- */
+main{max-width:1280px; margin:0 auto; padding:14px;}
+.view{display:none;}
+.view.active{display:block;}
+.map-layout{display:grid; grid-template-columns:minmax(0,1.25fr) minmax(320px,1fr); gap:14px; align-items:start;}
+@media (max-width:920px){ .map-layout{grid-template-columns:1fr;} }
+
+.panel{background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); padding:16px;}
+.map-card{padding:10px 10px 6px;}
+
+/* ---------- Controls ---------- */
+.control-row{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:4px 4px 10px;}
+.seg{display:flex; background:#ece3d2; border-radius:999px; padding:3px;}
+.seg button{
+  border:none; background:transparent; border-radius:999px; padding:9px 16px; font-size:.9rem;
+  font-weight:600; color:var(--ink-soft); cursor:pointer; min-height:42px;
+}
+.seg button.active{background:var(--card); color:var(--ink); box-shadow:0 1px 4px rgba(0,0,0,.12);}
+.chip-btn{
+  border:1.5px solid #d8cbb4; background:var(--card); border-radius:999px; padding:9px 14px;
+  font-size:.88rem; font-weight:600; color:var(--ink-soft); cursor:pointer; min-height:42px;
+}
+.chip-btn.active{border-color:var(--euca); background:var(--euca); color:#fff;}
+
+/* ---------- Map SVG ---------- */
+#mapSvg{width:100%; height:auto; display:block; touch-action:manipulation;}
+.state{
+  stroke:#fdf6ea; stroke-width:2.5; cursor:pointer;
+  transition:filter .15s ease, opacity .2s ease;
+}
+.state:hover,.state:focus{filter:brightness(1.12); outline:none;}
+.state.selected{stroke:var(--ink); stroke-width:3; filter:brightness(1.08);}
+.state.dimmed{opacity:.28;}
+.state-label{
+  font-size:15px; font-weight:700; fill:#fff; pointer-events:none;
+  paint-order:stroke; stroke:rgba(43,38,32,.45); stroke-width:3px; stroke-linejoin:round;
+}
+#mapSvg.climate .state{fill:transparent !important; pointer-events:none; stroke:rgba(253,246,234,.55); stroke-width:1.5;}
+#mapSvg.climate .state.selected{stroke:rgba(253,246,234,.55); stroke-width:1.5; filter:none;}
+.czone{stroke:#fdf6ea; stroke-width:1.5; cursor:pointer; transition:filter .15s ease;}
+.czone:hover,.czone:focus{filter:brightness(1.12); outline:none;}
+.czone.selected{stroke:var(--ink); stroke-width:2.5;}
+.map-legend{display:flex; gap:10px; flex-wrap:wrap; padding:8px 6px 8px; font-size:.8rem; color:var(--ink-soft);}
+.map-legend .key{display:flex; align-items:center; gap:5px;}
+.map-legend .swatch{width:14px; height:14px; border-radius:4px; display:inline-block;}
+.map-hint{font-size:.82rem; color:var(--ink-soft); padding:0 6px 8px; margin:0;}
+
+/* ---------- Info panel ---------- */
+.info-panel h2{margin:0 0 2px; font-size:1.3rem;}
+.info-panel .trad{font-size:.85rem; color:var(--ink-soft); margin:0 0 10px; font-style:italic;}
+.zone-chips{display:flex; gap:6px; flex-wrap:wrap; margin:8px 0 12px;}
+.zone-chip{font-size:.75rem; font-weight:700; color:#fff; border-radius:999px; padding:4px 10px;}
+.info-section{margin-bottom:14px;}
+.info-section h3{
+  margin:0 0 6px; font-size:.82rem; text-transform:uppercase; letter-spacing:.7px;
+  color:var(--ink-soft); border-bottom:2px solid #ece3d2; padding-bottom:4px;
+}
+.info-section p{margin:0 0 6px; font-size:.93rem;}
+.animal-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+@media (max-width:480px){ .animal-grid{grid-template-columns:1fr;} }
+.animal-card{background:#f4ecdd; border-radius:10px; padding:9px 11px;}
+.animal-card .a-name{font-weight:700; font-size:.9rem;}
+.animal-card .a-desc{font-size:.8rem; color:var(--ink-soft); margin-top:2px;}
+.curr-code{
+  display:inline-block; background:#e9e1cf; border-radius:7px; padding:3px 8px; margin:0 6px 6px 0;
+  font-size:.78rem; font-weight:700; color:#5a4a33; font-family:ui-monospace,Menlo,monospace;
+}
+.curr-item{font-size:.85rem; margin:0 0 8px;}
+.seasons-wheel{display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-top:4px;}
+@media (max-width:480px){ .seasons-wheel{grid-template-columns:1fr;} }
+.season-card{border-left:5px solid var(--gold); background:#faf3e4; border-radius:8px; padding:8px 10px;}
+.season-card .s-name{font-weight:700; font-size:.9rem;}
+.season-card .s-time{font-size:.74rem; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.4px;}
+.season-card .s-desc{font-size:.82rem; margin-top:2px;}
+.source-note{font-size:.76rem; color:var(--ink-soft); margin-top:8px; font-style:italic;}
+.weather-table{width:100%; border-collapse:collapse; font-size:.86rem; margin-top:4px;}
+.weather-table th,.weather-table td{padding:5px 7px; text-align:left; border-bottom:1px solid #ece3d2;}
+.weather-table th{font-size:.74rem; text-transform:uppercase; letter-spacing:.5px; color:var(--ink-soft);}
+.rain-bar{height:9px; border-radius:5px; background:linear-gradient(90deg,#7db8d4,#3e8fb0); display:inline-block; vertical-align:middle;}
+
+/* ---------- Teacher panel ---------- */
+.teacher-panel{
+  border:2px dashed var(--gold); background:#fdf8ec; border-radius:var(--radius);
+  padding:14px 16px; margin-top:14px; display:none;
+}
+body.teacher-on .teacher-panel{display:block;}
+.teacher-panel h3{margin:0 0 6px; font-size:.95rem; color:#8a6a1f; display:flex; align-items:center; gap:6px;}
+.teacher-panel h4{margin:10px 0 4px; font-size:.8rem; text-transform:uppercase; letter-spacing:.6px; color:#8a6a1f;}
+.teacher-panel p,.teacher-panel li{font-size:.88rem;}
+.teacher-panel ul{margin:4px 0; padding-left:20px;}
+
+/* ---------- Night sky ---------- */
+.sky-layout{display:grid; grid-template-columns:minmax(0,1.35fr) minmax(300px,1fr); gap:14px; align-items:start;}
+@media (max-width:920px){ .sky-layout{grid-template-columns:1fr;} }
+.sky-card{background:var(--night); border-radius:var(--radius); box-shadow:var(--shadow); padding:12px; color:#dfe8f5;}
+#skySvg{width:100%; height:auto; display:block;}
+.sky-controls{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:10px;}
+.sky-controls .seg{background:rgba(255,255,255,.12);}
+.sky-controls .seg button{color:#b9c6da;}
+.sky-controls .seg button.active{background:#fdf6ea; color:#0b1d3a;}
+.sky-region-select{
+  background:rgba(255,255,255,.12); color:#dfe8f5; border:1.5px solid rgba(255,255,255,.25);
+  border-radius:10px; padding:9px 12px; font-size:.9rem; min-height:42px;
+}
+.sky-region-select option{color:#222;}
+.sky-note{font-size:.84rem; color:#aebdd6; margin:8px 4px 2px;}
+.const-list{display:grid; gap:8px; margin-top:6px;}
+.const-item{background:#f4ecdd; border-radius:10px; padding:9px 12px;}
+.const-item .c-name{font-weight:700; font-size:.92rem;}
+.const-item .c-desc{font-size:.82rem; color:var(--ink-soft); margin-top:2px;}
+.fn-sky{border-left:5px solid var(--ochre); background:#fbeee6; border-radius:8px; padding:10px 12px; margin-top:12px;}
+.fn-sky .c-name{font-weight:700; font-size:.92rem;}
+.fn-sky p{font-size:.84rem; margin:4px 0 0;}
+
+/* ---------- Compare ---------- */
+.compare-pickers{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;}
+.compare-pickers select{
+  border:1.5px solid #d8cbb4; border-radius:10px; padding:10px 12px; font-size:.95rem;
+  background:var(--card); min-height:44px; min-width:200px;
+}
+.compare-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+@media (max-width:760px){ .compare-grid{grid-template-columns:1fr;} }
+.compare-col h2{font-size:1.15rem; margin:0 0 8px;}
+
+/* ---------- Footer ---------- */
+footer{max-width:1280px; margin:8px auto 28px; padding:0 14px;}
+.ack{
+  background:#efe6d3; border-radius:var(--radius); padding:14px 18px; font-size:.84rem;
+  color:#5a4a33; line-height:1.6;
+}
+.ack strong{color:#3d2f23;}
+.footer-meta{font-size:.76rem; color:var(--ink-soft); margin-top:10px; padding:0 4px;}
+
+/* ---------- Print ---------- */
+@media print{
+  header .header-controls, .control-row, .sky-controls, .compare-pickers, .map-hint{display:none !important;}
+  body{background:#fff;}
+  .panel,.sky-card{box-shadow:none;}
+  .view{display:none;}
+  .view.active{display:block;}
+  .teacher-panel{display:none;}
+  body.teacher-on .teacher-panel{display:block;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-row">
+    <h1>Land &amp; Sky: Australia
+      <span class="sub">Explore Australia&rsquo;s climates, ecosystems and the southern night sky &mdash; aligned to the Australian Curriculum v9</span>
+    </h1>
+    <div class="header-controls">
+      <nav class="tabs" aria-label="Main views">
+        <button class="tab-btn active" data-view="map">Explore the Map</button>
+        <button class="tab-btn" data-view="sky">Night Sky</button>
+        <button class="tab-btn" data-view="compare">Compare Regions</button>
+      </nav>
+      <button class="teacher-toggle" id="teacherToggle" aria-pressed="false">
+        <span class="dot"></span> Teacher mode
+      </button>
+      <button class="print-btn" onclick="window.print()">Print</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ============ MAP VIEW ============ -->
+  <section class="view active" id="view-map">
+    <div class="map-layout">
+      <div class="panel map-card">
+        <div class="control-row">
+          <div class="seg" id="mapModeSeg" role="group" aria-label="Map view">
+            <button class="active" data-mapmode="states">States &amp; Territories</button>
+            <button data-mapmode="climate">Climate Zones</button>
+          </div>
+          <button class="chip-btn" id="weatherBtn">Seasonal weather</button>
+          <button class="chip-btn" id="atlasBtn">Animal atlas</button>
+        </div>
+        <div class="control-row" id="weatherSeasonRow" style="display:none;">
+          <div class="seg" id="weatherSeasonSeg" role="group" aria-label="Season">
+            <button class="active" data-wseason="Summer">Summer</button>
+            <button data-wseason="Autumn">Autumn</button>
+            <button data-wseason="Winter">Winter</button>
+            <button data-wseason="Spring">Spring</button>
+          </div>
+        </div>
+        <div class="control-row" id="atlasRow" style="display:none;"></div>
+        <div style="background:#dcebf2;border-radius:12px;overflow:hidden;">
+        <svg id="mapSvg" viewBox="0 0 840 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interactive map of Australia">
+          <!-- Climate zone layer (shown in climate mode, trimmed by the ocean mask) -->
+          <g id="climateLayer" style="display:none">
+            <path class="czone" data-zone="semiarid" fill="#e8a14f" d="M0,90 L120,120 220,150 300,168 380,182 470,184 560,190 640,190 676,200 700,232 726,238 744,330 766,415 740,440 660,470 560,470 460,470 380,468 300,470 240,488 160,500 80,470 0,420 Z"/>
+            <path class="czone" data-zone="tropical" fill="#2f9e6e" d="M0,0 L840,0 840,150 760,170 726,238 700,232 676,200 640,190 560,190 470,184 380,182 300,168 220,150 120,120 0,90 Z"/>
+            <path class="czone" data-zone="subtropical" fill="#74b25c" d="M726,238 L760,170 840,150 840,415 766,415 744,330 Z"/>
+            <path class="czone" data-zone="arid" fill="#d95f2b" d="M120,180 L260,200 360,210 450,220 520,240 560,280 560,360 520,420 440,440 340,440 240,430 150,400 90,340 80,260 Z"/>
+            <path class="czone" data-zone="mediterranean" fill="#c9a227" d="M0,420 L80,470 160,500 240,488 200,540 120,540 40,520 0,500 Z"/>
+            <path class="czone" data-zone="mediterranean" fill="#c9a227" d="M420,440 L560,440 600,470 600,540 520,560 460,540 420,500 Z"/>
+            <path class="czone" data-zone="temperate" fill="#3e8fb0" d="M600,470 L660,470 740,440 766,415 840,415 840,628 554,628 554,540 600,540 Z"/>
+            <path class="czone" data-zone="cooltemp" fill="#2f6f8f" d="M610,628 L800,628 800,720 610,720 Z"/>
+          </g>
+          <!-- Ocean mask: rectangle with mainland + Tasmania cut out -->
+          <path pointer-events="none" fill="#dcebf2" fill-rule="evenodd" d="M-20,-20 H860 V740 H-20 Z
+            M340,118 L350,128 356,104 368,92 376,68 392,76 404,60 410,46 432,52 452,46 470,52 486,56 498,64 488,96 478,120 486,148 502,170 520,180 538,190 554,184 564,166 576,150 588,128 596,96 602,62 610,34 618,58 630,92 644,118 662,142 676,158 686,182 696,206 716,228 744,244 762,268 776,290 788,318 810,322 824,320 818,346 820,370 830,384 822,426 808,452 796,478 784,498 774,520 766,544 758,560 760,570 744,576 720,578 704,590 688,602 672,592 658,586 646,598 630,598 610,588 592,586 580,580 566,566 548,544 534,534 522,532 528,518 524,506 514,516 506,526 500,510 518,474 502,496 488,508 478,516 464,494 450,474 434,462 404,452 380,450 358,452 340,452 300,456 242,472 198,498 160,512 118,520 88,518 62,508 60,488 76,460 62,430 52,396 46,362 30,330 36,290 42,256 62,244 100,238 132,226 156,212 182,194 204,180 218,148 234,118 252,124 266,102 284,112 298,94 322,96 Z
+            M652,652 L662,642 678,636 696,634 712,640 726,648 724,668 716,688 700,700 682,696 664,678 Z"/>
+          <!-- States layer -->
+          <g id="statesLayer">
+            <path class="state" id="st-WA" data-region="WA" fill="#b3552e" d="M340,118 L322,96 298,94 284,112 266,102 252,124 234,118 218,148 204,180 182,194 156,212 132,226 100,238 62,244 42,256 36,290 30,330 46,362 52,396 62,430 76,460 60,488 62,508 88,518 118,520 160,512 198,498 242,472 300,456 340,452 Z" tabindex="0" aria-label="Western Australia"/>
+            <path class="state" id="st-NT" data-region="NT" fill="#cc7a3d" d="M340,118 L350,128 356,104 368,92 376,68 392,76 404,60 410,46 432,52 452,46 470,52 486,56 498,64 488,96 478,120 486,148 502,170 520,180 520,340 340,340 Z" tabindex="0" aria-label="Northern Territory"/>
+            <path class="state" id="st-QLD" data-region="QLD" fill="#588157" d="M520,180 L538,190 554,184 564,166 576,150 588,128 596,96 602,62 610,34 618,58 630,92 644,118 662,142 676,158 686,182 696,206 716,228 744,244 762,268 776,290 788,318 810,322 824,320 818,346 820,370 830,384 800,400 580,400 580,340 520,340 Z" tabindex="0" aria-label="Queensland"/>
+            <path class="state" id="st-SA" data-region="SA" fill="#d49b54" d="M340,340 L580,340 580,580 566,566 548,544 534,534 522,532 528,518 524,506 514,516 506,526 500,510 518,474 502,496 488,508 478,516 464,494 450,474 434,462 404,452 380,450 358,452 340,452 Z" tabindex="0" aria-label="South Australia"/>
+            <path class="state" id="st-NSW" data-region="NSW" fill="#7a8b5c" d="M830,384 L822,426 808,452 796,478 784,498 774,520 766,544 758,560 760,570 720,556 680,540 640,520 620,508 580,500 580,400 800,400 Z" tabindex="0" aria-label="New South Wales"/>
+            <path class="state" id="st-VIC" data-region="VIC" fill="#4f7d8c" d="M580,500 L620,508 640,520 680,540 720,556 760,570 744,576 720,578 704,590 688,602 672,592 658,586 646,598 630,598 610,588 592,586 580,580 Z" tabindex="0" aria-label="Victoria"/>
+            <path class="state" id="st-TAS" data-region="TAS" fill="#3d6b75" d="M652,652 L662,642 678,636 696,634 712,640 726,648 724,668 716,688 700,700 682,696 664,678 Z" tabindex="0" aria-label="Tasmania"/>
+            <path class="state" id="st-ACT" data-region="ACT" fill="#8d5a8a" d="M734,512 L756,510 758,532 736,534 Z" tabindex="0" aria-label="Australian Capital Territory"/>
+          </g>
+          <!-- Labels -->
+          <g id="labelLayer" pointer-events="none">
+            <text class="state-label" x="155" y="330">WA</text>
+            <text class="state-label" x="415" y="230">NT</text>
+            <text class="state-label" x="640" y="290">QLD</text>
+            <text class="state-label" x="445" y="415">SA</text>
+            <text class="state-label" x="675" y="465">NSW</text>
+            <text class="state-label" x="630" y="565">VIC</text>
+            <text class="state-label" x="678" y="673" style="font-size:12px;">TAS</text>
+            <line x1="772" y1="540" x2="752" y2="526" stroke="#2b2620" stroke-width="1.5"/>
+            <text class="state-label" x="774" y="548" style="font-size:12px; fill:#2b2620; stroke:none;">ACT</text>
+          </g>
+          <g id="capitals" pointer-events="none">
+            <g font-size="11" fill="#1d1813" font-weight="600">
+              <circle cx="376" cy="68" r="4" fill="#fff" stroke="#1d1813" stroke-width="1.5"/><text x="384" y="64">Darwin</text>
+              <circle cx="76" cy="460" r="4" fill="#fff" stroke="#1d1813" stroke-width="1.5"/><text x="84" y="456">Perth</text>
+              <circle cx="532" cy="516" r="4" fill="#fff" stroke="#1d1813" stroke-width="1.5"/><text x="498" y="538">Adelaide</text>
+              <circle cx="818" cy="370" r="4" fill="#fff" stroke="#1d1813" stroke-width="1.5"/><text x="752" y="362">Brisbane</text>
+              <circle cx="784" cy="498" r="4" fill="#fff" stroke="#1d1813" stroke-width="1.5"/><text x="790" y="494">Sydney</text>
+              <circle cx="658" cy="588" r="4" fill="#fff" stroke="#1d1813" stroke-width="1.5"/><text x="600" y="618">Melbourne</text>
+              <circle cx="700" cy="698" r="4" fill="#fff" stroke="#1d1813" stroke-width="1.5"/><text x="710" y="703">Hobart</text>
+            </g>
+          </g>
+          <!-- Weather overlay labels (built by JS) -->
+          <g id="weatherLabels" pointer-events="none"></g>
+        </svg>
+        </div>
+        <div class="map-legend" id="mapLegend"></div>
+        <p class="map-hint" id="mapHint">Tap a state or territory to explore it.</p>
+      </div>
+      <div class="panel info-panel" id="infoPanel"></div>
+    </div>
+  </section>
+
+  <!-- ============ SKY VIEW ============ -->
+  <section class="view" id="view-sky">
+    <div class="sky-layout">
+      <div class="sky-card">
+        <div class="sky-controls">
+          <div class="seg" id="seasonSeg" role="group" aria-label="Season">
+            <button data-season="Summer">Summer</button>
+            <button data-season="Autumn">Autumn</button>
+            <button data-season="Winter">Winter</button>
+            <button data-season="Spring">Spring</button>
+            <button data-season="tonight" class="active">Tonight</button>
+          </div>
+          <select class="sky-region-select" id="skyRegionSelect" aria-label="View the sky from"></select>
+        </div>
+        <div id="skyHolder"></div>
+        <p class="sky-note" id="skyNote"></p>
+      </div>
+      <div class="panel" id="skyInfoPanel"></div>
+    </div>
+  </section>
+
+  <!-- ============ COMPARE VIEW ============ -->
+  <section class="view" id="view-compare">
+    <div class="panel">
+      <div class="compare-pickers">
+        <select id="cmpA" aria-label="First region"></select>
+        <select id="cmpB" aria-label="Second region"></select>
+      </div>
+      <div class="compare-grid" id="compareGrid"></div>
+      <div class="teacher-panel" id="compareTeacher"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="ack">
+    <strong>Acknowledgment of Country.</strong> We acknowledge the Traditional Owners and Custodians of the lands, waters and skies across Australia, and pay our respects to Elders past and present. The seasonal knowledge shown in this tool has been shared publicly by First Nations communities through projects such as the Bureau of Meteorology&rsquo;s <em>Indigenous Weather Knowledge</em> website and CSIRO&rsquo;s Indigenous seasonal calendars. This knowledge belongs to its communities. Teachers are encouraged to connect with local Traditional Owners to learn the seasons of their own area.
+  </div>
+  <p class="footer-meta">Works offline once loaded &bull; Built for touch &bull; Australian Curriculum v9 codes from ACARA &bull; Climate figures are approximate long-term averages (Bureau of Meteorology) &bull; Night-sky views are simplified evening guides (about 8&ndash;9 pm local time).</p>
+</footer>
+
+<script>
+/* ================= DATA: regions ================= */
+const CURR = {
+  HS3K03:{code:"AC9HS3K03", area:"HASS — Geography", year:"Year 3", text:"How Australia is represented as states and territories, and as the Countries/Places of First Nations Australians."},
+  HS3K05:{code:"AC9HS3K05", area:"HASS — Geography", year:"Year 3", text:"Similarities and differences between places, including the main climate types and their features."},
+  HS4K05:{code:"AC9HS4K05", area:"HASS — Geography", year:"Year 4", text:"The importance of environments, including natural vegetation and water sources, to people and animals."},
+  HS4K06:{code:"AC9HS4K06", area:"HASS — Geography", year:"Year 4", text:"Sustainable use of resources, including the custodial responsibility First Nations Australians have for Country/Place."},
+  HS5K04:{code:"AC9HS5K04", area:"HASS — Geography", year:"Year 5", text:"The influence of people, including First Nations Australians, on the characteristics of a place."},
+  HS5K05:{code:"AC9HS5K05", area:"HASS — Geography", year:"Year 5", text:"Managing Australian environments, including severe weather events such as bushfires, floods, droughts and cyclones."},
+  S2U01:{code:"AC9S2U01", area:"Science — Earth &amp; Space", year:"Year 2", text:"Earth is a planet in the solar system; patterns in the changing position of the sun, moon, planets and stars."},
+  S5U01:{code:"AC9S5U01", area:"Science — Biological", year:"Year 5", text:"How structural features and behaviours of living things help them survive in their habitat."},
+  S5U02:{code:"AC9S5U02", area:"Science — Earth &amp; Space", year:"Year 5", text:"How weathering and erosion slowly or rapidly change Earth’s surface."},
+  S6U01:{code:"AC9S6U01", area:"Science — Biological", year:"Year 6", text:"How changing physical conditions of a habitat affect the growth and survival of living things."},
+  S6U02:{code:"AC9S6U02", area:"Science — Earth &amp; Space", year:"Year 6", text:"Earth’s tilt, rotation and orbit, and the cyclic patterns we observe — including the night sky."}
+};
+
+const REGIONS = {
+  WA:{
+    name:"Western Australia", capital:"Perth", lat:-32,
+    trad:"Home to many First Nations peoples, including the Noongar people of the south-west and the peoples of the Kimberley and the desert.",
+    zones:["tropical","arid","semiarid","mediterranean"],
+    climate:"Australia’s biggest state holds three very different climates. The Kimberley in the north is tropical, with a hot wet season and a warm dry season. The huge middle is desert — hot days, cool nights, very little rain. The south-west corner around Perth has a Mediterranean climate: hot, dry summers and mild, rainy winters.",
+    ecosystem:"From boab trees and savanna grasslands in the Kimberley, across spinifex deserts, to tall jarrah and karri forests in the south-west — one of the world’s biodiversity hotspots, famous for spring wildflowers.",
+    animals:[
+      {n:"Numbat", d:"WA’s animal emblem. A small striped marsupial that eats up to 20,000 termites a day — and is awake in the daytime, which is rare for marsupials."},
+      {n:"Quokka", d:"A wallaby the size of a cat, famous for its ‘smile’. Safe from foxes on Rottnest Island (Wadjemup)."},
+      {n:"Whale shark", d:"The world’s biggest fish visits Ningaloo Reef every autumn. It is a gentle giant that eats tiny plankton."},
+      {n:"Red kangaroo", d:"The largest living marsupial, built for the desert — it can travel huge distances on very little water."}
+    ],
+    curriculum:["HS3K03","HS3K05","HS4K05","S5U01"],
+    fn:{
+      title:"Noongar seasons (south-west WA)", community:"Noongar people",
+      seasons:[
+        {n:"Birak", t:"Dec–Jan", d:"Season of the young. Hot and dry; traditionally a time of burning country in mosaic patterns."},
+        {n:"Bunuru", t:"Feb–Mar", d:"Hottest time of year. Time of fishing and living near the coast, rivers and estuaries."},
+        {n:"Djeran", t:"Apr–May", d:"Cooler weather begins. Winds change; a time of red flowers and collecting seeds."},
+        {n:"Makuru", t:"Jun–Jul", d:"Coldest, wettest time. Rivers fill; a time of moving inland and sheltering."},
+        {n:"Djilba", t:"Aug–Sep", d:"A mix of wet and warmer days. The season of new life — woylies and yonga (kangaroo) with young."},
+        {n:"Kambarang", t:"Oct–Nov", d:"Longer dry periods. The great wildflower bloom; lots of birth and new growth."}
+      ],
+      src:"Source: Bureau of Meteorology, Indigenous Weather Knowledge — Nyoongar calendar."
+    },
+    weather:{Summer:{t:30,r:30}, Autumn:{t:25,r:140}, Winter:{t:18,r:430}, Spring:{t:22,r:170}},
+    teacher:{
+      intention:"We are learning how one state can contain several different climate zones, and how plants, animals and people are suited to each.",
+      questions:[
+        "Perth’s rain mostly falls in winter, but Darwin’s falls in summer. Why might that be?",
+        "The Noongar calendar has six seasons. What signs in nature might tell you a season is changing?",
+        "Why do you think the south-west of WA has plants and animals found nowhere else on Earth?"
+      ]
+    },
+    skyNote:"From Perth (32°S) the Southern Cross is visible all year, swinging around the South Celestial Pole."
+  },
+  NT:{
+    name:"Northern Territory", capital:"Darwin", lat:-12,
+    trad:"Home to many First Nations peoples, including the Larrakia people of Darwin and the Arrernte people of the Central Desert. About a third of Territorians are Aboriginal.",
+    zones:["tropical","semiarid","arid"],
+    climate:"The Top End is tropical: instead of four seasons, people talk about the Wet (roughly November–April, with monsoon rain and storms) and the Dry (May–October, warm and sunny). The Red Centre around Uluru is desert — scorching summer days, freezing winter nights, and rain that may not come for months.",
+    ecosystem:"Paperbark wetlands, monsoon rainforest pockets and savanna woodland in the north; spinifex grasslands, desert oaks and rocky ranges in the centre. Kakadu’s floodplains fill with birds every wet season.",
+    animals:[
+      {n:"Saltwater crocodile", d:"The world’s largest living reptile, found in rivers and billabongs across the Top End. An ancient survivor — and a reason to always be crocwise!"},
+      {n:"Frilled-neck lizard", d:"When startled it pops out its huge neck frill to look bigger, then sprints away on two legs."},
+      {n:"Thorny devil", d:"A small spiky desert dragon. Grooves in its skin carry dew straight to its mouth — it can drink through its feet!"},
+      {n:"Magpie goose", d:"Gathers in huge noisy flocks on Top End floodplains. An important seasonal food for First Nations peoples for thousands of years."}
+    ],
+    curriculum:["HS3K05","HS4K05","HS4K06","S6U01"],
+    fn:{
+      title:"Gulumoerrgin (Larrakia) seasons — Darwin region", community:"Larrakia people",
+      seasons:[
+        {n:"Balnba", t:"~Oct–Nov", d:"Rainy season — first storms break the dry."},
+        {n:"Dalay", t:"~Dec–Mar", d:"Monsoon season — heavy rain, full rivers, everything green."},
+        {n:"Mayilema", t:"~Mar–Apr", d:"Speargrass and magpie-goose-egg season."},
+        {n:"Damibila", t:"~Apr–Jun", d:"Barramundi and bush-fruit time as the rain eases."},
+        {n:"Dinidjanggama", t:"~Jun–Jul", d:"Heavy-dew time — cool nights and misty mornings."},
+        {n:"Gurrulwa", t:"~Jul–Sep", d:"Big-wind time — dry season breezes."},
+        {n:"Dalirrgang", t:"~Sep–Oct", d:"The build-up — hot and humid, waiting for rain."}
+      ],
+      src:"Source: CSIRO Indigenous seasonal calendars — Gulumoerrgin (Larrakia) seasons, developed with Larrakia language custodians."
+    },
+    weather:{Summer:{t:32,r:950}, Autumn:{t:33,r:350}, Winter:{t:31,r:5}, Spring:{t:33,r:330}},
+    teacher:{
+      intention:"We are learning that different places — and different cultures — describe seasons in different ways, based on what actually happens in nature.",
+      questions:[
+        "Darwin’s winter has almost no rain at all. How would that change daily life compared to your town?",
+        "The Larrakia calendar has seven seasons. Why might seven seasons describe Darwin’s year better than four?",
+        "How does the thorny devil survive in a place with almost no water?"
+      ]
+    },
+    skyNote:"From Darwin (12°S) the Southern Cross sits low near the horizon and even sets for part of the night — while northern stars climb higher than anywhere else in Australia."
+  },
+  QLD:{
+    name:"Queensland", capital:"Brisbane", lat:-27,
+    trad:"Home to many Aboriginal peoples and, in the Torres Strait, the Torres Strait Islander peoples — Australia’s two distinct First Nations cultures.",
+    zones:["tropical","subtropical","semiarid","arid"],
+    climate:"The tropical north-east coast is warm all year with a summer wet season — it holds Australia’s wettest towns. Brisbane and the south-east are subtropical: hot, stormy summers and mild, sunny winters. Travel inland and it becomes drier and drier, ending in desert in the far south-west corner.",
+    ecosystem:"The Wet Tropics rainforest is over 100 million years old — older than the Amazon — and meets the Great Barrier Reef, the world’s largest living structure. Inland are eucalypt woodlands, then vast grasslands and channel country.",
+    animals:[
+      {n:"Southern cassowary", d:"A huge, shy rainforest bird with a helmet-like casque. It spreads rainforest seeds and is called a ‘gardener of the rainforest’."},
+      {n:"Green turtle", d:"Swims thousands of kilometres across the Pacific, then returns to the same Queensland beach where it hatched to lay its own eggs."},
+      {n:"Lumholtz’s tree-kangaroo", d:"A kangaroo that lives in trees! Found only in the rainforests of the Atherton Tablelands."},
+      {n:"Koala", d:"Sleeps up to 20 hours a day to save energy, because its eucalyptus-leaf diet is so low in nutrition."}
+    ],
+    curriculum:["HS3K05","HS4K05","HS5K05","S6U01"],
+    fn:{
+      title:"Torres Strait (Zenadth Kes) seasons", community:"Torres Strait Islander peoples",
+      seasons:[
+        {n:"Kuki", t:"~Jan–Apr", d:"North-west monsoon winds bring the wet season — rough seas and rain."},
+        {n:"Sager", t:"~May–Oct", d:"Steady south-east trade winds — the cooler, drier time of year."},
+        {n:"Naiger", t:"~Oct–Dec", d:"Calm, hot weather with light northerly winds — good for fishing and travel."},
+        {n:"Zei", t:"in between", d:"Times of south-westerly winds marking the change between seasons."}
+      ],
+      src:"Source: Torres Strait Regional Authority and Bureau of Meteorology Indigenous Weather Knowledge — Torres Strait seasonal calendars. Names and timing vary between island communities."
+    },
+    weather:{Summer:{t:29,r:430}, Autumn:{t:27,r:290}, Winter:{t:22,r:110}, Spring:{t:27,r:200}},
+    teacher:{
+      intention:"We are learning how climate shapes ecosystems — why a rainforest, a reef and a desert can all exist in one state.",
+      questions:[
+        "Why does so much more rain fall on the Queensland coast than far inland?",
+        "The cassowary spreads rainforest seeds. What might happen to the rainforest if cassowaries disappeared?",
+        "Torres Strait Islanders read the winds to know the season. What signs could you use where you live?"
+      ]
+    },
+    skyNote:"From Brisbane (27°S) the Milky Way’s bright centre passes almost straight overhead on winter evenings."
+  },
+  SA:{
+    name:"South Australia", capital:"Adelaide", lat:-35,
+    trad:"Home to many First Nations peoples, including the Kaurna people of the Adelaide Plains and the Aṇangu peoples of the northern deserts.",
+    zones:["arid","semiarid","mediterranean"],
+    climate:"The driest state in the driest inhabited continent. Most of SA is desert or semi-desert, including huge salt lakes like Kati Thanda–Lake Eyre that fill with water only a few times in a lifetime. The coast around Adelaide is Mediterranean — hot dry summers, cool wet winters — perfect for growing grapes and wheat.",
+    ecosystem:"Saltbush plains, mallee scrub (multi-stemmed eucalypts) and the ancient folded rock of the Flinders Ranges. When desert rains do come, wildflowers and birds appear as if from nowhere.",
+    animals:[
+      {n:"Southern hairy-nosed wombat", d:"SA’s animal emblem. A burrowing champion whose tunnels stay cool in the desert heat."},
+      {n:"Yellow-footed rock-wallaby", d:"A beautifully striped wallaby that bounds up near-vertical cliffs in the Flinders Ranges."},
+      {n:"Shingleback lizard", d:"A slow, armoured lizard with a blue tongue. Its stumpy tail looks like a second head to confuse predators."},
+      {n:"Emu", d:"Australia’s tallest bird. Cannot fly, but can run at 50 km/h. The male sits on the eggs for eight weeks without eating."}
+    ],
+    curriculum:["HS3K05","HS4K06","HS5K05","S5U02"],
+    fn:{
+      title:"Kaurna seasons — Adelaide Plains", community:"Kaurna people",
+      seasons:[
+        {n:"Warltati", t:"~Jan–Mar", d:"The hot season — dry heat across the plains."},
+        {n:"Parnatti", t:"~Apr–Jun", d:"The windy season of autumn — changing weather arrives."},
+        {n:"Kudlilla", t:"~Jul–Sep", d:"The wet season — rains fill the creeks and rivers."},
+        {n:"Wirltuti", t:"~Oct–Dec", d:"The mild, warming season of spring."}
+      ],
+      src:"Source: Bureau of Meteorology, Indigenous Weather Knowledge — Kaurna calendar. Kaurna seasons follow signs in nature, not fixed dates."
+    },
+    weather:{Summer:{t:29,r:60}, Autumn:{t:22,r:130}, Winter:{t:16,r:230}, Spring:{t:22,r:130}},
+    teacher:{
+      intention:"We are learning how living things — and people — adapt to life in a very dry place.",
+      questions:[
+        "Kati Thanda–Lake Eyre is usually a dry salt crust. Where could its water come from when it fills?",
+        "How does burrowing help the hairy-nosed wombat survive extreme heat?",
+        "Adelaide gets most rain in winter, like Perth. What do these two places have in common?"
+      ]
+    },
+    skyNote:"SA’s dark outback skies are world-famous for stargazing — the River Murray Dark Sky Reserve is one of the best places on Earth to see the Milky Way."
+  },
+  NSW:{
+    name:"New South Wales", capital:"Sydney", lat:-34,
+    trad:"Home to many First Nations peoples, including the Gadigal of the Eora Nation in Sydney, the D’harawal people to the south, and the Wiradjuri inland.",
+    zones:["subtropical","temperate","semiarid","arid"],
+    climate:"A state of contrasts. The coast is temperate — warm summers, mild winters, rain all year. The Great Dividing Range catches the rain, so the land beyond gets steadily drier all the way to the far-west outback. The Snowy Mountains get real snow — Australia’s highest peak, Mt Kosciuszko (2,228 m), is here.",
+    ecosystem:"Coastal eucalypt forests and sandstone bushland, the misty Blue Mountains, golden inland plains and the red soils of the far west. The eucalypt haze above the Blue Mountains is what makes them look blue.",
+    animals:[
+      {n:"Platypus", d:"A duck-billed, egg-laying, venomous mammal so strange that scientists in Europe first thought it was a fake. It senses prey using electricity."},
+      {n:"Superb lyrebird", d:"The world’s best mimic — it copies kookaburras, whipbirds, and even chainsaws and camera shutters."},
+      {n:"Common wombat", d:"A solid burrowing marsupial with a backwards-facing pouch (so it doesn’t fill with dirt while digging)."},
+      {n:"Koala", d:"Lives in coastal forests and inland woodlands. Each koala has its own home range of favourite food trees."}
+    ],
+    curriculum:["HS3K03","HS4K05","HS5K05","S5U01"],
+    fn:{
+      title:"D’harawal seasons — Sydney region", community:"D’harawal people",
+      seasons:[
+        {n:"Gadalung marool", t:"~Jan–Mar", d:"Hot and dry — the time of the blooming weetjellan (wattle)."},
+        {n:"Bana’marrai’yung", t:"~Mar–May", d:"Wet, becoming cooler — time of the Marrai’gang (quoll) seeking its mate."},
+        {n:"Tugarah tuli", t:"~Jun–Jul", d:"Cold and frosty — the time of the flowering burringoa (gum blossom)."},
+        {n:"Tugarah gunya’marri", t:"~Aug", d:"Cold and windy — the talgarra (coast wattle) flowers."},
+        {n:"Murrai’yunggory", t:"~Sep–Oct", d:"Cool, getting warmer — the time of the flowering waratah."},
+        {n:"Goray’murrai", t:"~Nov–Dec", d:"Warm and wet — a time to be careful of flash floods near rivers."}
+      ],
+      src:"Source: Bureau of Meteorology, Indigenous Weather Knowledge — D’harawal calendar (knowledge shared by D’harawal Elder Frances Bodkin)."
+    },
+    weather:{Summer:{t:26,r:300}, Autumn:{t:23,r:350}, Winter:{t:18,r:250}, Spring:{t:23,r:220}},
+    teacher:{
+      intention:"We are learning how mountains change the weather — and why the coast and the outback of one state can feel like different countries.",
+      questions:[
+        "Why is the land west of the Great Dividing Range so much drier than the coast?",
+        "The D’harawal seasons are signalled by flowering plants. Which plants or animals mark the seasons where you live?",
+        "What features make the platypus suited to life in creeks and rivers?"
+      ]
+    },
+    skyNote:"From Sydney (34°S) Orion’s belt and sword hang upside down in summer — Australians call it ‘the Saucepan’."
+  },
+  VIC:{
+    name:"Victoria", capital:"Melbourne", lat:-38,
+    trad:"Home to the Kulin Nation peoples around Melbourne and many other First Nations peoples, including the Gunditjmara of the west and the peoples of Gariwerd (the Grampians).",
+    zones:["temperate","semiarid"],
+    climate:"Mostly temperate, famous for ‘four seasons in one day’ — cold fronts sweep in from the Southern Ocean and change the weather in hours. The High Country has snow in winter, while the dry Mallee in the north-west feels almost like the outback.",
+    ecosystem:"Towering mountain ash forests (the world’s tallest flowering trees), cool fern gullies, snow gum woodlands in the Alps, and volcanic plains in the west farmed and managed by First Nations peoples for thousands of years — including the ancient Budj Bim eel traps.",
+    animals:[
+      {n:"Leadbeater’s possum", d:"Victoria’s tiny, endangered faunal emblem, hiding in the mountain ash forests. It was thought extinct for 50 years!"},
+      {n:"Little penguin", d:"The world’s smallest penguin (about 33 cm). Every evening at Phillip Island, hundreds parade up the beach to their burrows."},
+      {n:"Helmeted honeyeater", d:"Victoria’s bird emblem, found nowhere else on Earth — fewer than 250 survive in the wild."},
+      {n:"Common wombat", d:"Thrives in Victoria’s forests and alps. Wombat burrows can be over 20 metres long."}
+    ],
+    curriculum:["HS3K05","HS4K05","HS5K04","S6U01"],
+    fn:{
+      title:"Gariwerd seasons — western Victoria", community:"Djab Wurrung and Jardwadjali peoples",
+      seasons:[
+        {n:"Kooyang", t:"~Dec–Jan", d:"Eel season — hot, dry weather; eels are harvested from rivers and traps."},
+        {n:"Gwangal moronn", t:"~Feb–Mar", d:"Honeybee season — late-summer warmth, a time of plenty."},
+        {n:"Chunnup", t:"~Apr–May", d:"Cockatoo season — cooling days and gathering flocks."},
+        {n:"Larneuk", t:"~Jun–Jul", d:"Nesting season — cold, wet weather; birds prepare nests."},
+        {n:"Petyan", t:"~Aug–Sep", d:"Wildflower season — the country bursts into flower; changeable skies."},
+        {n:"Ballambar", t:"~Oct–Nov", d:"Butterfly season — mild settled spring weather."}
+      ],
+      src:"Source: Bureau of Meteorology, Indigenous Weather Knowledge — Gariwerd calendar, developed with the management of Gariwerd (Grampians) National Park."
+    },
+    weather:{Summer:{t:25,r:150}, Autumn:{t:20,r:160}, Winter:{t:14,r:150}, Spring:{t:19,r:180}},
+    teacher:{
+      intention:"We are learning how people, past and present, shape the places they live in — from ancient eel traps to modern cities.",
+      questions:[
+        "Why does Melbourne’s weather change so quickly compared to northern Australia’s?",
+        "The Budj Bim eel traps are over 6,000 years old. What does that tell us about First Nations engineering?",
+        "Why might an animal like the helmeted honeyeater live in only one small area?"
+      ]
+    },
+    skyNote:"From Melbourne (38°S), southern stars like the Southern Cross ride high, and on dark nights the two Magellanic Clouds — entire neighbouring galaxies — are easy to spot."
+  },
+  TAS:{
+    name:"Tasmania", capital:"Hobart", lat:-43,
+    trad:"Home of the palawa (Tasmanian Aboriginal) people, whose ancestors lived here through the last Ice Age — cut off from the mainland when sea levels rose about 12,000 years ago.",
+    zones:["cooltemp"],
+    climate:"Cool temperate — Australia’s coldest, wettest state. The Roaring Forties winds blow in from the Southern Ocean, dumping rain on the wild west coast (over 2,400 mm a year in places) while the east stays much drier. Snow can fall on the highlands in any month.",
+    ecosystem:"Ancient Gondwanan rainforest of myrtle beech, sassafras and 2,000-year-old Huon pines — living links to the supercontinent Gondwana. Buttongrass moorlands, alpine herbfields and giant kelp forests offshore.",
+    animals:[
+      {n:"Tasmanian devil", d:"The world’s largest surviving marsupial carnivore. Its spine-chilling screech earned it its name from early settlers."},
+      {n:"Eastern quoll", d:"A spotted nocturnal hunter, extinct on the mainland but still roaming Tasmania’s grasslands and forests."},
+      {n:"Tasmanian pademelon", d:"A small, round, thick-furred wallaby of the rainforest edges — found only in Tasmania."},
+      {n:"Wedge-tailed eagle", d:"Tasmania has its own endangered subspecies of Australia’s biggest bird of prey, with wings spanning over two metres."}
+    ],
+    curriculum:["HS3K05","HS4K05","S5U01","S6U01"],
+    fn:{
+      title:"palawa seasonal knowledge", community:"palawa / Tasmanian Aboriginal people",
+      seasons:[],
+      noSeasonsNote:"The palawa people hold deep seasonal knowledge of lutruwita (Tasmania) — reading the migrations of muttonbirds, the flowering of plants and the movement of whales. Much of this knowledge is held and shared by the community itself rather than published as a calendar. The Tasmanian Aboriginal Centre is revitalising palawa kani, the Tasmanian Aboriginal language.",
+      src:"Learn more: Tasmanian Aboriginal Centre (palawa kani language program)."
+    },
+    weather:{Summer:{t:21,r:130}, Autumn:{t:17,r:150}, Winter:{t:12,r:160}, Spring:{t:16,r:180}},
+    teacher:{
+      intention:"We are learning how Tasmania’s island climate and ancient forests make it different from every other state.",
+      questions:[
+        "Tasmania’s west coast is soaked; its east coast is dry. What could cause such a difference on one small island?",
+        "Huon pines can live over 2,000 years. What could scientists learn from such old trees?",
+        "Why do you think some animals, like the eastern quoll, survive in Tasmania but not on the mainland?"
+      ]
+    },
+    skyNote:"From Hobart (43°S) — Australia’s southernmost capital — the aurora australis (southern lights) sometimes glows on the horizon, and the South Celestial Pole sits highest in the sky."
+  },
+  ACT:{
+    name:"Australian Capital Territory", capital:"Canberra", lat:-35,
+    trad:"Ngunnawal Country. The Canberra region has been a meeting place for thousands of years — including for feasts when bogong moths arrive in the mountains each spring.",
+    zones:["temperate"],
+    climate:"A highland temperate climate: four distinct seasons, hot dry summers, crisp frosty winters (Canberra is Australia’s coldest capital on winter mornings) and clear autumn days. The Brindabella Ranges catch winter snow.",
+    ecosystem:"Grassy woodlands and yellow box gums on the plains, wet eucalypt forest and alpine bogs in Namadgi National Park, which covers almost half the territory.",
+    animals:[
+      {n:"Gang-gang cockatoo", d:"The ACT’s bird emblem — a smoky-grey cockatoo; the male has a bright red head. Its call sounds like a creaky gate."},
+      {n:"Northern corroboree frog", d:"A tiny black-and-yellow striped frog found only in alpine bogs near Canberra. One of Australia’s most endangered animals."},
+      {n:"Eastern grey kangaroo", d:"Canberra is the ‘kangaroo capital’ — mobs graze on hills and reserves right inside the city."},
+      {n:"Platypus", d:"Lives in the Murrumbidgee and Molonglo rivers — patient watchers can spot one at dawn or dusk."}
+    ],
+    curriculum:["HS3K03","HS4K05","S5U01","S6U02"],
+    fn:{
+      title:"Ngunnawal seasonal knowledge", community:"Ngunnawal people",
+      seasons:[],
+      noSeasonsNote:"Ngunnawal seasonal knowledge follows natural signals of the high country — most famously the arrival of bogong moths in the mountains in late spring, which once drew neighbouring nations together for feasting and ceremony. Local Ngunnawal custodians are the right people to share this knowledge in depth.",
+      src:"Learn more: ACT Government ‘Ngunnawal Country’ resources, developed with Ngunnawal Traditional Custodians."
+    },
+    weather:{Summer:{t:27,r:170}, Autumn:{t:20,r:130}, Winter:{t:12,r:120}, Spring:{t:19,r:190}},
+    teacher:{
+      intention:"We are learning why Australia built a capital city between Sydney and Melbourne, and how its highland setting shapes its seasons.",
+      questions:[
+        "Canberra is inland and high up. How does that explain its frosty winters and its clear, starry nights?",
+        "Bogong moths once arrived in the mountains in their billions each spring. Why would that bring people together?",
+        "Why might a tiny frog survive only in cold alpine bogs?"
+      ]
+    },
+    skyNote:"Canberra’s clear, dry highland air makes for excellent stargazing — Mount Stromlo Observatory has watched the southern sky from here for a century."
+  }
+};
+
+const CLIMATE_ZONES = {
+  tropical:{ name:"Tropical", color:"#2f9e6e",
+    desc:"Hot all year with two seasons: a wet season (roughly November to April) of monsoon rain and storms, and a warm dry season. Found across northern Australia.",
+    temp:"Warm to hot all year — about 25–35°C", rain:"Heavy summer rain (often 1,000–2,000+ mm a year), almost none in winter",
+    where:"The Top End, the Kimberley, Cape York and the Queensland coast", example:"Saltwater crocodiles, magpie geese, monsoon rainforest and savanna"},
+  subtropical:{ name:"Subtropical", color:"#74b25c",
+    desc:"Hot, humid, stormy summers and mild, sunny winters. No real cold season — frost is rare near the coast.",
+    temp:"About 10–30°C across the year", rain:"Mostly summer rain and thunderstorms (700–1,200 mm a year)",
+    where:"South-east Queensland and the northern NSW coast", example:"Koalas, eucalypt forests, banana and sugar cane farms"},
+  arid:{ name:"Arid (desert)", color:"#d95f2b",
+    desc:"Australia’s red centre — the largest climate zone. Very hot days, surprisingly cold nights, and rain that is rare and unpredictable.",
+    temp:"Summer days over 40°C; winter nights can drop below 0°C", rain:"Less than 250 mm a year — sometimes nothing for months",
+    where:"The interior: most of WA, SA, NT and far-west QLD and NSW", example:"Red kangaroos, thorny devils, spinifex and desert oaks"},
+  semiarid:{ name:"Semi-arid (grassland)", color:"#e8a14f",
+    desc:"The in-between country circling the deserts — dry, but with enough rain for grasslands and hardy woodland. Big sheep and cattle country.",
+    temp:"Hot summers, mild to cool winters", rain:"About 250–500 mm a year, varying a lot from year to year",
+    where:"A huge ring around the arid centre, from inland QLD to the WA wheatbelt", example:"Emus, galahs, saltbush plains and mallee scrub"},
+  mediterranean:{ name:"Mediterranean", color:"#c9a227",
+    desc:"Hot, dry summers and mild, rainy winters — the same climate as around the Mediterranean Sea. Brilliant for wheat, grapes and wildflowers.",
+    temp:"About 8–32°C across the year", rain:"400–800 mm a year, nearly all in winter",
+    where:"South-west WA (around Perth) and southern SA (around Adelaide)", example:"Numbats, quokkas, jarrah forests and spring wildflower country"},
+  temperate:{ name:"Temperate", color:"#3e8fb0",
+    desc:"Warm summers, cool winters and rain through the year. Where most Australians live. Includes the Australian Alps, which get winter snow.",
+    temp:"About 5–27°C across the year", rain:"600–1,200 mm spread across the year",
+    where:"The south-east: most of NSW and Victoria, plus the ACT", example:"Platypus, lyrebirds, wombats and mountain ash forests"},
+  cooltemp:{ name:"Cool temperate", color:"#2f6f8f",
+    desc:"Mild summers and cold, wet winters, shaped by the Roaring Forties winds off the Southern Ocean. Snow on the highlands in any month.",
+    temp:"About 3–22°C across the year", rain:"600 mm in the east to over 2,400 mm on the west coast",
+    where:"Tasmania", example:"Tasmanian devils, pademelons and ancient Gondwanan rainforest"}
+};
+
+/* Species atlas: animals found in more than one region */
+const SPECIES = [
+  {n:"Short-beaked echidna", regions:["WA","NT","QLD","SA","NSW","VIC","TAS","ACT"], fact:"The only native animal found in every state and territory — from deserts to snow."},
+  {n:"Emu", regions:["WA","NT","QLD","SA","NSW","VIC"], fact:"Roams the whole mainland but never made it to Tasmania."},
+  {n:"Red kangaroo", regions:["WA","NT","QLD","SA","NSW"], fact:"An animal of the dry inland — it follows the rain across the outback."},
+  {n:"Koala", regions:["QLD","NSW","VIC","SA"], fact:"Lives only where its food trees grow — the eucalypt forests of the east and south-east."},
+  {n:"Platypus", regions:["QLD","NSW","VIC","TAS","ACT"], fact:"Needs clean, permanent creeks and rivers — so no platypus in the dry west."},
+  {n:"Saltwater crocodile", regions:["WA","NT","QLD"], fact:"Tropical water only — it can’t survive cold southern winters."},
+  {n:"Common wombat", regions:["NSW","VIC","TAS","ACT"], fact:"Likes cool forests and mountains in the south-east — SA has its own species, the hairy-nosed wombat."},
+  {n:"Wedge-tailed eagle", regions:["WA","NT","QLD","SA","NSW","VIC","TAS","ACT"], fact:"Australia’s biggest bird of prey soars over every state — Tasmania’s are a rare subspecies."},
+  {n:"Dingo", regions:["WA","NT","QLD","SA","NSW","VIC"], fact:"Australia’s wild canine, here for thousands of years — absent only from Tasmania."}
+];
+
+/* ================= DATA: night sky ================= */
+/* Constellation shapes: local coordinates, [x, y, radius, colour?] */
+const CONSTS = {
+  crux:{name:"Southern Cross (Crux)",
+    stars:[[0,55,5],[38,8,4.5],[8,-48,4],[-34,0,3.5],[-10,18,2.2]],
+    lines:[[2,0],[3,1]]},
+  pointers:{name:"The Pointers (Alpha & Beta Centauri)",
+    stars:[[0,0,5.5,"#ffe9b8"],[-34,-14,4.5]],
+    lines:[[0,1]]},
+  scorpius:{name:"Scorpius",
+    stars:[[0,0,5,"#ff8e6b"],[-30,-28,3],[-38,-12,3],[-36,4,3],[16,18,3],[28,38,3],[30,60,3],[20,80,3],[36,94,3],[56,96,3.5],[66,86,3]],
+    lines:[[1,2],[2,3],[3,0],[0,4],[4,5],[5,6],[6,7],[7,8],[8,9],[9,10]]},
+  orion:{name:"Orion — “the Saucepan”",
+    stars:[[40,55,5,"#ffb08a"],[-35,50,3.5],[-40,-55,4.5,"#cfe4ff"],[40,-50,3.5],[-12,8,3],[0,0,3],[12,-8,3],[2,-18,2],[6,-26,2],[10,-34,2]],
+    lines:[[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[5,7],[7,8],[8,9]]},
+  canopus:{name:"Canopus", stars:[[0,0,5.5,"#fdf6d8"]], lines:[]},
+  sirius:{name:"Sirius", stars:[[0,0,6,"#cfe4ff"]], lines:[]},
+  achernar:{name:"Achernar", stars:[[0,0,4.8]], lines:[]},
+  fomalhaut:{name:"Fomalhaut", stars:[[0,0,4.5]], lines:[]},
+  pleiades:{name:"Pleiades (Seven Sisters)",
+    stars:[[0,0,1.9],[8,-4,1.9],[14,2,1.9],[6,8,1.9],[-6,6,1.9],[-8,-6,1.9],[12,10,1.6]],
+    lines:[]},
+  falsecross:{name:"False Cross",
+    stars:[[0,40,3.5],[30,0,3.5],[0,-40,3.5],[-30,0,3.5]],
+    lines:[[0,2],[1,3]]},
+  sagittarius:{name:"Sagittarius — “the Teapot”",
+    stars:[[-20,10,3],[0,-12,3],[22,-8,3],[32,8,3],[18,24,3],[-4,26,3]],
+    lines:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0]]},
+  pegasus:{name:"Great Square of Pegasus",
+    stars:[[-32,-28,3],[32,-28,3],[32,28,3],[-32,28,3]],
+    lines:[[0,1],[1,2],[2,3],[3,0]]},
+  magellanic:{name:"Magellanic Clouds", cloud:true, stars:[], lines:[]}
+};
+
+const SKY = {
+  Summer:{
+    months:"December – February",
+    milky:"M520,40 Q465,150 435,240 Q395,345 385,430 Q375,475 365,525",
+    emu:null,
+    place:[
+      {c:"orion", x:380, y:130, s:1},
+      {c:"pleiades", x:540, y:110, s:1.4},
+      {c:"sirius", x:430, y:235, s:1},
+      {c:"canopus", x:440, y:330, s:1},
+      {c:"crux", x:400, y:432, s:0.75},
+      {c:"pointers", x:295, y:462, s:0.65},
+      {c:"magellanic", x:280, y:395, s:1}
+    ],
+    list:[
+      {n:"Orion — “the Saucepan”", d:"Orion stands upside down in our sky. His belt and sword form a shape every Australian knows: the Saucepan, riding high in the north."},
+      {n:"Sirius", d:"The brightest star in the whole night sky, blazing blue-white almost overhead on summer evenings."},
+      {n:"Canopus", d:"The second-brightest star. Sirius and Canopus together are a southern summer treat — most of the world never sees Canopus."},
+      {n:"Pleiades (Seven Sisters)", d:"A sparkling little cluster low in the north. How many stars can your eyes count? Most people see six or seven."},
+      {n:"Southern Cross", d:"Low in the south on summer evenings — it never sets from southern Australia, it just circles the pole."}
+    ],
+    fn:{t:"First Nations sky knowledge: the Seven Sisters",
+      p:"Across many Aboriginal nations, the Pleiades are sisters fleeing a hunter in the stars of Orion. Versions of the Seven Sisters songline cross the whole continent — one of the world’s oldest continuing stories."}
+  },
+  Autumn:{
+    months:"March – May",
+    milky:"M50,330 Q240,420 400,350 Q540,310 670,190",
+    emu:{d:"M340,348 q9,6 7,16 q-2,10 -13,9 q-9,-1 -9,-11 q0,-9 15,-14", lx:235, ly:402, label:"Emu’s head (Coalsack)"},
+    place:[
+      {c:"crux", x:390, y:325, s:1.1},
+      {c:"pointers", x:290, y:368, s:0.95},
+      {c:"falsecross", x:520, y:350, s:1},
+      {c:"canopus", x:615, y:400, s:1},
+      {c:"sirius", x:600, y:180, s:1},
+      {c:"scorpius", x:140, y:325, s:0.75},
+      {c:"magellanic", x:330, y:452, s:0.9}
+    ],
+    list:[
+      {n:"Southern Cross", d:"Autumn is Cross season — it climbs high into the south-east. Use the Pointers to check you’ve found the real one."},
+      {n:"The Pointers", d:"Two bright stars that always point to the Southern Cross. The brighter one, Alpha Centauri, is the closest star system to our sun."},
+      {n:"False Cross", d:"A bigger, fainter cross to the west that tricks many people. It has no Pointers — that’s how you know."},
+      {n:"Scorpius rising", d:"Late in autumn, the scorpion’s claws climb up from the eastern horizon — a preview of winter."}
+    ],
+    fn:{t:"First Nations sky knowledge: the Emu’s head appears",
+      p:"Beside the Southern Cross sits the Coalsack — a cloud of dark dust that forms the head of the Emu in the Sky. When the Emu’s head rises in the autumn evening sky, several Aboriginal peoples know it is time to collect emu eggs."}
+  },
+  Winter:{
+    months:"June – August",
+    milky:"M350,530 Q370,420 380,330 Q395,230 420,150 Q445,75 480,10",
+    emu:{d:"M352,392 q10,5 8,16 q-2,11 -14,10 q-10,-1 -10,-12 q0,-10 16,-14 M354,404 Q370,355 372,315 Q374,272 350,242 Q322,212 285,205 Q258,202 240,212 Q272,222 296,242 Q322,264 330,302 Q338,348 380,420 Q366,416 354,404 Z", lx:60, ly:300, label:"Emu in the Sky (dark clouds)"},
+    place:[
+      {c:"scorpius", x:410, y:155, s:1.2},
+      {c:"sagittarius", x:265, y:205, s:1.05},
+      {c:"crux", x:355, y:390, s:1},
+      {c:"pointers", x:395, y:318, s:0.9},
+      {c:"magellanic", x:525, y:420, s:0.85}
+    ],
+    list:[
+      {n:"Scorpius", d:"A giant scorpion curling right overhead, with the red heart-star Antares — a star so big that if it replaced our sun, it would swallow Mars."},
+      {n:"Sagittarius — “the Teapot”", d:"Next to Scorpius. When you look here you are looking at the very centre of our Milky Way galaxy, 26,000 light-years away."},
+      {n:"The Milky Way", d:"Winter is the best season: from a dark place the galaxy stretches like a glowing river from horizon to horizon."},
+      {n:"Southern Cross", d:"High in the southern sky, with the Pointers blazing beside it."}
+    ],
+    fn:{t:"First Nations sky knowledge: the Emu in the Sky",
+      p:"The full Emu — drawn not in stars but in the dark clouds of the Milky Way — stretches from the Southern Cross to Sagittarius on winter evenings. As the Emu changes position through the year, it tells of the emu’s real life cycle: running, nesting, and sitting on eggs. Look for it in the painting-like dark shapes, a way of seeing the sky that is uniquely Australian."}
+  },
+  Spring:{
+    months:"September – November",
+    milky:"M640,210 Q560,340 420,450 Q280,500 100,420",
+    emu:null,
+    place:[
+      {c:"crux", x:385, y:468, s:0.7},
+      {c:"pointers", x:455, y:482, s:0.6},
+      {c:"achernar", x:300, y:295, s:1},
+      {c:"magellanic", x:310, y:385, s:1.1},
+      {c:"fomalhaut", x:420, y:170, s:1},
+      {c:"scorpius", x:625, y:262, s:0.75},
+      {c:"pegasus", x:390, y:75, s:1}
+    ],
+    list:[
+      {n:"Achernar", d:"The bright ‘end of the river’ — the ninth-brightest star in the sky, high in the south-east on spring evenings."},
+      {n:"Magellanic Clouds", d:"Two soft glowing smudges that are actually whole galaxies orbiting our own — visible only from the Southern Hemisphere."},
+      {n:"Fomalhaut", d:"The ‘lonely star of autumn’ in the north — for us, a spring star almost overhead, with very few bright stars near it."},
+      {n:"Southern Cross", d:"At its lowest now, skimming the southern horizon in the evening — from Darwin it disappears below it."}
+    ],
+    fn:{t:"First Nations sky knowledge: the Clouds",
+      p:"In some Aboriginal traditions the two Magellanic Clouds are an old man and an old woman by their campfires, or the campsites of ancestors. Stories differ between nations — each people has its own sky and its own astronomy."}
+  }
+};
+const SEASON_OF_MONTH = ["Summer","Summer","Autumn","Autumn","Autumn","Winter","Winter","Winter","Spring","Spring","Spring","Summer"];
+
+/* ================= LOGIC ================= */
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const REGION_ORDER = ["WA","NT","QLD","SA","NSW","VIC","TAS","ACT"];
+const STATE_FILLS = {};
+$$("#statesLayer .state").forEach(p => STATE_FILLS[p.dataset.region] = p.getAttribute("fill"));
+
+/* ---------- Tabs ---------- */
+$$(".tab-btn").forEach(b => b.addEventListener("click", () => {
+  $$(".tab-btn").forEach(x => x.classList.toggle("active", x === b));
+  $$(".view").forEach(v => v.classList.toggle("active", v.id === "view-" + b.dataset.view));
+}));
+
+/* ---------- Teacher mode ---------- */
+$("#teacherToggle").addEventListener("click", () => {
+  const on = document.body.classList.toggle("teacher-on");
+  $("#teacherToggle").classList.toggle("on", on);
+  $("#teacherToggle").setAttribute("aria-pressed", on);
+});
+
+/* ---------- Helpers ---------- */
+function zoneChips(zones){
+  return '<div class="zone-chips">' + zones.map(z =>
+    `<span class="zone-chip" style="background:${CLIMATE_ZONES[z].color}">${CLIMATE_ZONES[z].name}</span>`).join("") + "</div>";
+}
+function currHTML(keys){
+  return keys.map(k => {
+    const c = CURR[k];
+    return `<p class="curr-item"><span class="curr-code">${c.code}</span><strong>${c.area} (${c.year}):</strong> ${c.text}</p>`;
+  }).join("");
+}
+function weatherTable(w){
+  const max = 950;
+  return `<table class="weather-table"><tr><th>Season</th><th>Avg max</th><th>Rainfall</th></tr>` +
+    ["Summer","Autumn","Winter","Spring"].map(s => {
+      const d = w[s], bw = Math.max(6, Math.round(Math.sqrt(d.r / max) * 110));
+      return `<tr><td>${s}</td><td>${d.t}&deg;C</td><td><span class="rain-bar" style="width:${bw}px"></span> ${d.r} mm</td></tr>`;
+    }).join("") + "</table>";
+}
+function fnSeasonsHTML(fn){
+  let body;
+  if (fn.seasons.length){
+    body = `<div class="seasons-wheel">` + fn.seasons.map(s =>
+      `<div class="season-card"><div class="s-name">${s.n}</div><div class="s-time">${s.t}</div><div class="s-desc">${s.d}</div></div>`).join("") + "</div>";
+  } else {
+    body = `<p>${fn.noSeasonsNote}</p>`;
+  }
+  return `<div class="info-section"><h3>First Nations seasons — ${fn.title}</h3>${body}<p class="source-note">${fn.src}</p></div>`;
+}
+
+/* ---------- Region info panel ---------- */
+let selectedRegion = null;
+function renderRegion(id){
+  selectedRegion = id;
+  $$("#statesLayer .state").forEach(p => p.classList.toggle("selected", p.dataset.region === id));
+  const r = REGIONS[id];
+  $("#infoPanel").innerHTML = `
+    <h2>${r.name}</h2>
+    <p class="trad">${r.trad}</p>
+    ${zoneChips(r.zones)}
+    <div class="info-section"><h3>Climate</h3><p>${r.climate}</p></div>
+    <div class="info-section"><h3>Ecosystem</h3><p>${r.ecosystem}</p>
+      <div class="animal-grid">${r.animals.map(a =>
+        `<div class="animal-card"><div class="a-name">${a.n}</div><div class="a-desc">${a.d}</div></div>`).join("")}</div>
+    </div>
+    ${fnSeasonsHTML(r.fn)}
+    <div class="info-section"><h3>Seasonal weather — ${r.capital}</h3>${weatherTable(r.weather)}
+      <p class="source-note">Approximate long-term averages for ${r.capital} (Bureau of Meteorology).</p></div>
+    <div class="info-section"><h3>Night sky from here</h3><p>${r.skyNote}</p></div>
+    <div class="info-section"><h3>Australian Curriculum v9 links</h3>${currHTML(r.curriculum)}</div>
+    <div class="teacher-panel">
+      <h3>&#9733; Teacher panel</h3>
+      <h4>Learning intention</h4><p>${r.teacher.intention}</p>
+      <h4>Discussion questions</h4>
+      <ul>${r.teacher.questions.map(q => `<li>${q}</li>`).join("")}</ul>
+      <h4>Tip</h4><p>Students can press <strong>Print</strong> (or screenshot on iPad) to keep a record of the regions they explore.</p>
+    </div>`;
+}
+function renderWelcome(){
+  $("#infoPanel").innerHTML = `
+    <h2>G&rsquo;day, explorer!</h2>
+    <p class="trad">Australia — one continent, hundreds of First Nations Countries, seven climate zones and one spectacular southern sky.</p>
+    <div class="info-section"><h3>How to explore</h3>
+      <p><strong>Tap any state or territory</strong> to discover its climate, ecosystems, animals and First Nations seasons.</p>
+      <p>Switch to <strong>Climate Zones</strong> to see Australia the way geographers do, or try <strong>Seasonal weather</strong> and the <strong>Animal atlas</strong>.</p>
+      <p>Then visit the <strong>Night Sky</strong> tab to see what&rsquo;s above your head tonight.</p></div>
+    <div class="info-section"><h3>Did you know?</h3>
+      <p>Australia is the only nation that covers a whole continent — and the driest inhabited continent on Earth. Yet it holds tropical rainforests older than the Amazon, snowfields bigger than Switzerland and more than one million square kilometres of desert.</p></div>
+    <div class="teacher-panel">
+      <h3>&#9733; Teacher panel</h3>
+      <h4>About this tool</h4>
+      <p>A free, offline-ready interactive for Years 3–6 covering Australian geography, ecosystems, First Nations seasonal knowledge and Southern Hemisphere astronomy, aligned to Australian Curriculum v9 (codes shown in each panel).</p>
+      <h4>Suggested starter</h4>
+      <p>Ask students to predict: which state has crocodiles AND deserts? Which capital city is coldest in winter? Then explore to check.</p>
+    </div>`;
+}
+
+/* ---------- Climate zone panel ---------- */
+function renderZone(id){
+  $$("#climateLayer .czone").forEach(p => p.classList.toggle("selected", p.dataset.zone === id));
+  const z = CLIMATE_ZONES[id];
+  const states = REGION_ORDER.filter(rid => REGIONS[rid].zones.includes(id)).map(rid => REGIONS[rid].name).join(", ");
+  $("#infoPanel").innerHTML = `
+    <h2>${z.name} zone</h2>
+    <div class="zone-chips"><span class="zone-chip" style="background:${z.color}">${z.name}</span></div>
+    <div class="info-section"><h3>What it&rsquo;s like</h3><p>${z.desc}</p></div>
+    <div class="info-section"><h3>Temperature</h3><p>${z.temp}</p></div>
+    <div class="info-section"><h3>Rainfall</h3><p>${z.rain}</p></div>
+    <div class="info-section"><h3>Where you&rsquo;ll find it</h3><p>${z.where}</p><p><strong>States &amp; territories:</strong> ${states}</p></div>
+    <div class="info-section"><h3>Life in this zone</h3><p>${z.example}</p></div>
+    <div class="info-section"><h3>Australian Curriculum v9 links</h3>${currHTML(["HS3K05","HS4K05"])}</div>
+    <div class="teacher-panel">
+      <h3>&#9733; Teacher panel</h3>
+      <h4>Discussion questions</h4>
+      <ul><li>Which climate zone do we live in? How do you know?</li>
+      <li>How would your daily life change if you moved to the ${z.name.toLowerCase()} zone?</li>
+      <li>Why do the same climate zones appear at similar distances from the equator all around the world?</li></ul>
+    </div>`;
+}
+
+/* ---------- Map mode ---------- */
+let mapMode = "states";
+$$("#mapModeSeg button").forEach(b => b.addEventListener("click", () => {
+  mapMode = b.dataset.mapmode;
+  $$("#mapModeSeg button").forEach(x => x.classList.toggle("active", x === b));
+  const climate = mapMode === "climate";
+  $("#climateLayer").style.display = climate ? "" : "none";
+  $("#mapSvg").classList.toggle("climate", climate);
+  $("#capitals").style.display = climate ? "none" : "";
+  if (climate){ clearWeather(); clearAtlas(); }
+  updateLegend();
+  $("#mapHint").textContent = climate ? "Tap a coloured climate zone to learn about it." : "Tap a state or territory to explore it.";
+  if (climate) renderZone("arid"); else (selectedRegion ? renderRegion(selectedRegion) : renderWelcome());
+}));
+
+function updateLegend(){
+  const L = $("#mapLegend");
+  if (mapMode === "climate"){
+    L.innerHTML = Object.entries(CLIMATE_ZONES).filter(([k]) => k !== "cooltemp" || true).map(([k,z]) =>
+      `<span class="key"><span class="swatch" style="background:${z.color}"></span>${z.name}</span>`).join("");
+  } else if (weatherOn){
+    L.innerHTML = `<span class="key"><span class="swatch" style="background:#f3e9c8"></span>Drier</span>
+      <span class="key"><span class="swatch" style="background:#8db8d4"></span></span>
+      <span class="key"><span class="swatch" style="background:#1f6f9f"></span>Wetter</span>
+      <span class="key">Labels show average max temperature &deg;C and seasonal rainfall (capital city)</span>`;
+  } else { L.innerHTML = ""; }
+}
+
+/* ---------- Weather overlay ---------- */
+let weatherOn = false, weatherSeason = "Summer";
+function rainColor(mm){
+  const t = Math.min(1, Math.sqrt(mm / 950));
+  const a = [243,233,200], b = [31,111,159];
+  return `rgb(${a.map((v,i) => Math.round(v + (b[i]-v)*t)).join(",")})`;
+}
+const WLABEL = {WA:[150,355], NT:[400,255], QLD:[625,315], SA:[432,440], NSW:[652,490], VIC:[610,548], TAS:[742,672], ACT:null};
+function paintWeather(){
+  $$("#statesLayer .state").forEach(p => {
+    const r = REGIONS[p.dataset.region];
+    p.setAttribute("fill", rainColor(r.weather[weatherSeason].r));
+  });
+  const g = $("#weatherLabels");
+  g.innerHTML = REGION_ORDER.map(id => {
+    const pos = WLABEL[id]; if (!pos) return "";
+    const d = REGIONS[id].weather[weatherSeason];
+    return `<text x="${pos[0]}" y="${pos[1]}" font-size="13" font-weight="700" fill="#1d2b36"
+      style="paint-order:stroke;stroke:rgba(255,255,255,.75);stroke-width:3px;">${d.t}° · ${d.r}mm</text>`;
+  }).join("");
+}
+function clearWeather(){
+  if (!weatherOn) return;
+  weatherOn = false;
+  $("#weatherBtn").classList.remove("active");
+  $("#weatherSeasonRow").style.display = "none";
+  $("#weatherLabels").innerHTML = "";
+  $$("#statesLayer .state").forEach(p => p.setAttribute("fill", STATE_FILLS[p.dataset.region]));
+  updateLegend();
+}
+$("#weatherBtn").addEventListener("click", () => {
+  if (weatherOn){ clearWeather(); return; }
+  if (mapMode === "climate") $$("#mapModeSeg button")[0].click();
+  clearAtlas();
+  weatherOn = true;
+  $("#weatherBtn").classList.add("active");
+  $("#weatherSeasonRow").style.display = "";
+  paintWeather(); updateLegend();
+  $("#mapHint").textContent = "Map is coloured by " + weatherSeason.toLowerCase() + " rainfall — bluer means wetter. Tap a state for details.";
+});
+$$("#weatherSeasonSeg button").forEach(b => b.addEventListener("click", () => {
+  weatherSeason = b.dataset.wseason;
+  $$("#weatherSeasonSeg button").forEach(x => x.classList.toggle("active", x === b));
+  if (weatherOn){ paintWeather(); $("#mapHint").textContent = "Map is coloured by " + weatherSeason.toLowerCase() + " rainfall — bluer means wetter."; }
+}));
+
+/* ---------- Animal atlas ---------- */
+let atlasOn = false, atlasSpecies = null;
+function buildAtlasRow(){
+  $("#atlasRow").innerHTML = SPECIES.map((s,i) =>
+    `<button class="chip-btn atlas-chip" data-sp="${i}">${s.n}</button>`).join("");
+  $$(".atlas-chip").forEach(b => b.addEventListener("click", () => {
+    const sp = SPECIES[+b.dataset.sp];
+    atlasSpecies = sp;
+    $$(".atlas-chip").forEach(x => x.classList.toggle("active", x === b));
+    $$("#statesLayer .state").forEach(p => p.classList.toggle("dimmed", !sp.regions.includes(p.dataset.region)));
+    $("#mapHint").innerHTML = `<strong>${sp.n}:</strong> ${sp.fact}`;
+  }));
+}
+function clearAtlas(){
+  if (!atlasOn) return;
+  atlasOn = false; atlasSpecies = null;
+  $("#atlasBtn").classList.remove("active");
+  $("#atlasRow").style.display = "none";
+  $$("#statesLayer .state").forEach(p => p.classList.remove("dimmed"));
+  $("#mapHint").textContent = "Tap a state or territory to explore it.";
+}
+$("#atlasBtn").addEventListener("click", () => {
+  if (atlasOn){ clearAtlas(); return; }
+  if (mapMode === "climate") $$("#mapModeSeg button")[0].click();
+  clearWeather();
+  atlasOn = true;
+  $("#atlasBtn").classList.add("active");
+  $("#atlasRow").style.display = "";
+  $("#mapHint").textContent = "Tap an animal to light up everywhere it lives.";
+});
+buildAtlasRow();
+
+/* ---------- Map clicks ---------- */
+$$("#statesLayer .state").forEach(p => {
+  const go = () => renderRegion(p.dataset.region);
+  p.addEventListener("click", go);
+  p.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+});
+$$("#climateLayer .czone").forEach(p => p.addEventListener("click", () => renderZone(p.dataset.zone)));
+
+/* ================= NIGHT SKY ================= */
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+const SOUTHERN = new Set(["crux","pointers","magellanic","achernar","falsecross","canopus"]);
+let skySeasonChoice = "tonight", skyRegion = "NSW";
+
+function constGroup(key, x, y, s, latShift){
+  const c = CONSTS[key];
+  const dy = SOUTHERN.has(key) ? latShift : 0;
+  let inner = "";
+  if (c.cloud){
+    inner = `<ellipse cx="-18" cy="0" rx="26" ry="17" fill="rgba(215,228,255,.22)"/>
+             <ellipse cx="-18" cy="0" rx="14" ry="9" fill="rgba(215,228,255,.20)"/>
+             <ellipse cx="34" cy="22" rx="16" ry="11" fill="rgba(215,228,255,.20)"/>
+             <ellipse cx="34" cy="22" rx="8" ry="6" fill="rgba(215,228,255,.18)"/>`;
+  } else {
+    inner += c.lines.map(l => {
+      const a = c.stars[l[0]], b = c.stars[l[1]];
+      return `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="rgba(170,195,240,.45)" stroke-width="1.6"/>`;
+    }).join("");
+    inner += c.stars.map(st =>
+      `<circle cx="${st[0]}" cy="${st[1]}" r="${st[2]*2.1}" fill="${st[3]||"#ffffff"}" opacity=".16"/>
+       <circle cx="${st[0]}" cy="${st[1]}" r="${st[2]}" fill="${st[3]||"#ffffff"}"/>`).join("");
+  }
+  const single = !c.cloud && c.stars.length === 1;
+  const fs = Math.min(15, 12 / s).toFixed(1);
+  const labelY = c.cloud ? 48 : (Math.max(...(c.stars.map(st => st[1]).concat([0]))) + 24);
+  const label = single
+    ? `<text x="12" y="5" font-size="${fs}" fill="#9fb3d4">${c.name}</text>`
+    : `<text x="0" y="${labelY}" font-size="${fs}" fill="#9fb3d4" text-anchor="middle">${c.name}</text>`;
+  return `<g transform="translate(${x},${y + dy}) scale(${s})">${inner}${label}</g>`;
+}
+
+function renderSky(){
+  const region = REGIONS[skyRegion];
+  let season = skySeasonChoice, tonightNote = "";
+  if (season === "tonight"){
+    const now = new Date();
+    season = SEASON_OF_MONTH[now.getMonth()];
+    tonightNote = `Tonight (${now.toLocaleDateString("en-AU",{day:"numeric",month:"long"})}) is a ${season.toLowerCase()} sky. `;
+  }
+  const sky = SKY[season];
+  const latShift = Math.round((33 + region.lat) * 2.2);
+  const rnd = mulberry32(42);
+  let bgStars = "";
+  for (let i = 0; i < 150; i++){
+    const ang = rnd() * Math.PI * 2, rad = Math.sqrt(rnd());
+    bgStars += `<circle cx="${(380 + Math.cos(ang)*rad*350).toFixed(1)}" cy="${(270 + Math.sin(ang)*rad*240).toFixed(1)}" r="${(0.5 + rnd()*1.1).toFixed(2)}" fill="#fff" opacity="${(0.25 + rnd()*0.6).toFixed(2)}"/>`;
+  }
+  const emu = sky.emu ? `<path d="${sky.emu.d}" fill="rgba(6,10,22,.75)" />` : "";
+  const emuLabel = sky.emu ? `<text x="${sky.emu.lx}" y="${sky.emu.ly}" font-size="12" fill="#c9a37a" font-style="italic">${sky.emu.label}</text>` : "";
+  $("#skyHolder").innerHTML = `
+  <svg id="skySvg" viewBox="0 0 760 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Southern hemisphere night sky, ${season}">
+    <defs>
+      <radialGradient id="nightg" cx="50%" cy="45%" r="75%">
+        <stop offset="0%" stop-color="#182c54"/><stop offset="100%" stop-color="#0b1d3a"/>
+      </radialGradient>
+      <clipPath id="domeclip"><ellipse cx="380" cy="270" rx="355" ry="245"/></clipPath>
+      <filter id="mwblur" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="14"/></filter>
+    </defs>
+    <rect width="760" height="540" fill="#0b1d3a"/>
+    <ellipse cx="380" cy="270" rx="355" ry="245" fill="url(#nightg)"/>
+    <g clip-path="url(#domeclip)">
+      <path d="${sky.milky}" fill="none" stroke="rgba(215,228,255,.13)" stroke-width="72" stroke-linecap="round" filter="url(#mwblur)"/>
+      <path d="${sky.milky}" fill="none" stroke="rgba(215,228,255,.10)" stroke-width="30" stroke-linecap="round" filter="url(#mwblur)"/>
+      ${bgStars}
+      ${emu}
+      ${sky.place.map(p => constGroup(p.c, p.x, p.y, p.s, latShift)).join("")}
+      ${emuLabel}
+    </g>
+    <ellipse cx="380" cy="270" rx="355" ry="245" fill="none" stroke="rgba(190,210,255,.3)" stroke-width="2"/>
+    <text x="380" y="22" text-anchor="middle" font-size="14" fill="#8fa5c8" font-weight="700">N</text>
+    <text x="380" y="534" text-anchor="middle" font-size="14" fill="#8fa5c8" font-weight="700">S</text>
+    <text x="12" y="276" font-size="14" fill="#8fa5c8" font-weight="700">E</text>
+    <text x="736" y="276" font-size="14" fill="#8fa5c8" font-weight="700">W</text>
+  </svg>`;
+  $("#skyNote").innerHTML = tonightNote +
+    `Evening sky (about 8&ndash;9 pm) as seen from <strong>${region.capital}</strong>. Hold the map over your head with N pointing north. ` + region.skyNote;
+  renderSkyInfo(season, region);
+}
+
+function renderSkyInfo(season, region){
+  const sky = SKY[season];
+  $("#skyInfoPanel").innerHTML = `
+    <h2>The ${season.toLowerCase()} evening sky</h2>
+    <p class="trad">${sky.months} &mdash; Southern Hemisphere</p>
+    <div class="info-section"><h3>What to spot</h3>
+      <div class="const-list">${sky.list.map(c =>
+        `<div class="const-item"><div class="c-name">${c.n}</div><div class="c-desc">${c.d}</div></div>`).join("")}</div>
+    </div>
+    <div class="fn-sky"><div class="c-name">${sky.fn.t}</div><p>${sky.fn.p}</p>
+      <p class="source-note">First Nations astronomy sourced from published research and community-shared accounts (see the references document accompanying this tool). Sky stories differ between nations.</p></div>
+    <div class="info-section" style="margin-top:14px;"><h3>Australian Curriculum v9 links</h3>${currHTML(["S2U01","S6U02"])}</div>
+    <div class="teacher-panel">
+      <h3>&#9733; Teacher panel</h3>
+      <h4>Learning intention</h4>
+      <p>We are learning that Earth&rsquo;s orbit around the sun changes which stars we see each season — and that the Southern Hemisphere sees a sky most of the world never sees.</p>
+      <h4>Discussion questions</h4>
+      <ul>
+        <li>Why can we see Scorpius in winter but not in summer? (Hint: where is the sun?)</li>
+        <li>The Emu in the Sky is drawn in <em>dark</em> clouds, not stars. How does that change the way you look at the night sky?</li>
+        <li>Why can&rsquo;t people in Europe ever see the Southern Cross?</li>
+        <li>Try changing the city — why does the Southern Cross sit lower in the sky from Darwin than from Hobart?</li>
+      </ul>
+    </div>`;
+}
+
+$$("#seasonSeg button").forEach(b => b.addEventListener("click", () => {
+  skySeasonChoice = b.dataset.season;
+  $$("#seasonSeg button").forEach(x => x.classList.toggle("active", x === b));
+  renderSky();
+}));
+const skySel = $("#skyRegionSelect");
+skySel.innerHTML = REGION_ORDER.map(id => `<option value="${id}" ${id==="NSW"?"selected":""}>${REGIONS[id].capital} (${id})</option>`).join("");
+skySel.addEventListener("change", () => { skyRegion = skySel.value; renderSky(); });
+
+/* ================= COMPARE ================= */
+function compareCol(id){
+  const r = REGIONS[id];
+  return `<div class="compare-col">
+    <h2>${r.name}</h2>
+    ${zoneChips(r.zones)}
+    <div class="info-section"><h3>Climate</h3><p>${r.climate}</p></div>
+    <div class="info-section"><h3>Seasonal weather — ${r.capital}</h3>${weatherTable(r.weather)}</div>
+    <div class="info-section"><h3>Signature animals</h3><p>${r.animals.map(a => a.n).join(" &bull; ")}</p></div>
+    <div class="info-section"><h3>First Nations seasons</h3>
+      <p>${r.fn.seasons.length ? `<strong>${r.fn.title}</strong> — ${r.fn.seasons.length} seasons: ${r.fn.seasons.map(s => s.n).join(", ")}.` : r.fn.noSeasonsNote}</p></div>
+  </div>`;
+}
+function renderCompare(){
+  const a = $("#cmpA").value, b = $("#cmpB").value;
+  $("#compareGrid").innerHTML = compareCol(a) + compareCol(b);
+  $("#compareTeacher").innerHTML = `
+    <h3>&#9733; Teacher panel</h3>
+    <h4>Learning intention</h4>
+    <p>We are learning to compare places using geographic evidence: climate, rainfall, ecosystems and seasons.</p>
+    <h4>Comparison prompts</h4>
+    <ul>
+      <li>Find <strong>two differences</strong> and <strong>one surprising similarity</strong> between these regions.</li>
+      <li>Which region gets more summer rain? Use the tables to prove your answer.</li>
+      <li>Could an animal from one region survive in the other? Why or why not?</li>
+      <li>How do the First Nations seasonal calendars differ — and what does each one pay attention to?</li>
+    </ul>`;
+}
+["cmpA","cmpB"].forEach((sid,i) => {
+  const sel = document.getElementById(sid);
+  sel.innerHTML = REGION_ORDER.map(id => `<option value="${id}" ${(i===0?id==="NT":id==="TAS")?"selected":""}>${REGIONS[id].name}</option>`).join("");
+  sel.addEventListener("change", renderCompare);
+});
+
+/* ---------- Init ---------- */
+renderWelcome();
+updateLegend();
+renderSky();
+renderCompare();
+
+</script>
+
+<footer style="background:#2b2620;color:#c8b99a;text-align:center;padding:14px 20px;font-size:.8rem;line-height:1.6;">
+  <strong style="color:#f7f1e5;">Land &amp; Sky: Australian Curriculum Interactive Hub</strong> &nbsp;&middot;&nbsp;
+  Created by <strong style="color:#f7f1e5;">Mihir Jetley</strong> &nbsp;&middot;&nbsp; 2026 &nbsp;&middot;&nbsp;
+  <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener"
+     style="color:#d9a23c;text-decoration:none;">CC BY 4.0</a>
+  &nbsp;&mdash;&nbsp; Free to use and share with attribution.
+</footer>
+</body>
+</html>
