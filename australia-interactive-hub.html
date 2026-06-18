@@ -114,6 +114,59 @@ main{max-width:1280px; margin:0 auto; padding:14px;}
 .animal-card{background:#f4ecdd; border-radius:10px; padding:9px 11px;}
 .animal-card .a-name{font-weight:700; font-size:.9rem;}
 .animal-card .a-desc{font-size:.8rem; color:var(--ink-soft); margin-top:2px;}
+.a-status{display:inline-block; margin-left:6px; font-size:.6rem; font-weight:700; color:#fff; border-radius:999px; padding:2px 7px; vertical-align:middle; letter-spacing:.2px;}
+button.animal-card{font-family:inherit; text-align:left; width:100%; border:1.5px solid transparent; cursor:pointer; transition:border-color .15s, transform .1s;}
+button.animal-card.has-detail:hover{border-color:var(--euca);}
+button.animal-card.has-detail:active{transform:scale(.985);}
+button.animal-card[disabled]{cursor:default;}
+.a-more{float:right; font-size:.72rem; font-weight:700; color:var(--euca);}
+button.animal-card{display:flex; gap:11px; align-items:center;}
+.ac-icon{flex:0 0 auto;}
+.ac-txt{flex:1 1 auto; min-width:0;}
+.ac-txt .a-name,.ac-txt .a-desc{display:block;}
+.animal-badge{display:block; transition:transform .15s ease;}
+.ad-head-row{display:flex; align-items:center; gap:14px;}
+.ad-portrait .animal-badge{box-shadow:0 2px 8px rgba(0,0,0,.22);}
+.lifecycle{width:100%; height:auto; background:#fbf7ee; border-radius:10px; margin-top:2px;}
+button.animal-card.has-detail:hover .ac-icon .animal-badge{transform:scale(1.05);}
+@media (prefers-reduced-motion: reduce){ .animal-badge{transition:none;} button.animal-card.has-detail:hover .ac-icon .animal-badge{transform:none;} }
+
+/* Animal detail modal */
+#animalOverlay{position:fixed; inset:0; background:rgba(29,28,24,.55); display:none; align-items:center; justify-content:center; padding:16px; z-index:60;}
+#animalOverlay.open{display:flex;}
+#animalCard{background:var(--card); border-radius:18px; max-width:720px; width:100%; max-height:92vh; overflow:auto; box-shadow:0 12px 44px rgba(0,0,0,.32);}
+.ad-head{position:relative; background:linear-gradient(135deg,#3d6b4e,#4a7c59); color:#f3f8f1; padding:18px 22px;}
+.ad-crumb{font-size:.72rem; text-transform:uppercase; letter-spacing:.9px; opacity:.9;}
+.ad-head h2{margin:4px 0 2px; font-size:1.5rem;}
+.ad-role{margin:0; font-size:.9rem; opacity:.92;}
+#animalClose{position:absolute; top:12px; right:14px; width:38px; height:38px; border-radius:50%; border:none; background:rgba(255,255,255,.2); color:#fff; font-size:1.3rem; line-height:1; cursor:pointer;}
+.ad-body{padding:18px 22px 22px;}
+.ad-sec{margin-bottom:16px;}
+.ad-sec h4{margin:0 0 6px; font-size:.78rem; text-transform:uppercase; letter-spacing:.6px; color:var(--euca); border-bottom:2px solid #ece3d2; padding-bottom:4px;}
+.ad-sec p{margin:0; font-size:.95rem;}
+/* food chain */
+.chain{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:4px 0 6px;}
+.chain-col{display:flex; flex-direction:column; gap:6px; flex:1; min-width:90px;}
+.chain-cell{border-radius:9px; padding:8px 10px; font-size:.82rem; font-weight:600; text-align:center; line-height:1.2;}
+.chain-cell.food{background:var(--green-soft,#def0e4); color:#2c5a3d; border:1.5px solid #b6dcc4;}
+.chain-cell.animalc{background:#2563a8; color:#fff; border:1.5px solid #1d4f86;}
+.chain-cell.pred{background:#f7e2dd; color:#8a3526; border:1.5px solid #e6b3a7;}
+.chain-cell.none{background:#efe7d6; color:#6e5b33; font-style:italic; font-weight:500;}
+.chain-arrow{font-size:1.4rem; color:var(--ink-soft); font-weight:700;}
+.chain-note{font-size:.76rem; color:var(--ink-soft); margin:2px 0 0; font-style:italic;}
+/* life cycle */
+.life{display:flex; align-items:stretch; gap:6px; flex-wrap:wrap; margin-top:4px;}
+.life-stage{background:#faf3e4; border:1.5px solid #e6d8b8; border-radius:9px; padding:8px 10px; font-size:.82rem; font-weight:600; flex:1; min-width:88px; text-align:center; display:flex; align-items:center; justify-content:center;}
+.life-arrow{align-self:center; color:var(--gold); font-weight:800; font-size:1.1rem;}
+.life-cycle-note{font-size:.76rem; color:var(--ink-soft); margin:6px 0 0; font-style:italic;}
+.ad-curric{background:#f4ecdd; border-radius:10px; padding:10px 12px; margin-top:6px;}
+.ad-curric .curr-item{margin-bottom:6px;}
+.ad-sources{font-size:.74rem; color:var(--ink-soft); font-style:italic; margin:10px 0 0; line-height:1.5;}
+.ad-sources strong{font-style:normal; color:#6e5b33;}
+@media print{ #animalOverlay{display:none !important;} }
+.state.nz{stroke:#fdf6ea; stroke-width:2;}
+.state.nz.selected{stroke:var(--ink); stroke-width:3;}
+.nz-label{font-size:13px;}
 .curr-code{
   display:inline-block; background:#e9e1cf; border-radius:7px; padding:3px 8px; margin:0 6px 6px 0;
   font-size:.78rem; font-weight:700; color:#5a4a33; font-family:ui-monospace,Menlo,monospace;
@@ -161,6 +214,13 @@ body.teacher-on .teacher-panel{display:block;}
 .const-item{background:#f4ecdd; border-radius:10px; padding:9px 12px;}
 .const-item .c-name{font-weight:700; font-size:.92rem;}
 .const-item .c-desc{font-size:.82rem; color:var(--ink-soft); margin-top:2px;}
+.moon-now{display:flex; align-items:center; gap:14px; margin:4px 0 6px;}
+.phase-strip{display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin:8px 0;}
+@media (min-width:520px){ .phase-strip{grid-template-columns:repeat(8,1fr);} }
+.phase-cell{display:flex; flex-direction:column; align-items:center; text-align:center; border-radius:8px; padding:4px 2px;}
+.phase-cell.here{background:#fdf6ea;}
+.phase-lab{font-size:.6rem; color:var(--ink-soft); margin-top:2px; line-height:1.1;}
+.phase-cell.here .phase-lab{color:var(--ink); font-weight:700;}
 .fn-sky{border-left:5px solid var(--ochre); background:#fbeee6; border-radius:8px; padding:10px 12px; margin-top:12px;}
 .fn-sky .c-name{font-weight:700; font-size:.92rem;}
 .fn-sky p{font-size:.84rem; margin:4px 0 0;}
@@ -201,7 +261,7 @@ footer{max-width:1280px; margin:8px auto 28px; padding:0 14px;}
 <header>
   <div class="header-row">
     <h1>Land &amp; Sky: Australia
-      <span class="sub">Explore Australia&rsquo;s climates, ecosystems and the southern night sky &mdash; aligned to the Australian Curriculum v9</span>
+      <span class="sub">Explore Australia &amp; its neighbour New Zealand &mdash; climates, ecosystems, the southern night sky and the Moon &mdash; aligned to the Australian Curriculum v9</span>
     </h1>
     <div class="header-controls">
       <nav class="tabs" aria-label="Main views">
@@ -240,7 +300,7 @@ footer{max-width:1280px; margin:8px auto 28px; padding:0 14px;}
         </div>
         <div class="control-row" id="atlasRow" style="display:none;"></div>
         <div style="background:#dcebf2;border-radius:12px;overflow:hidden;">
-        <svg id="mapSvg" viewBox="0 0 840 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interactive map of Australia">
+        <svg id="mapSvg" viewBox="0 0 1010 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interactive map of Australia and New Zealand">
           <!-- Climate zone layer (shown in climate mode, trimmed by the ocean mask) -->
           <g id="climateLayer" style="display:none">
             <path class="czone" data-zone="semiarid" fill="#e8a14f" d="M0,90 L120,120 220,150 300,168 380,182 470,184 560,190 640,190 676,200 700,232 726,238 744,330 766,415 740,440 660,470 560,470 460,470 380,468 300,470 240,488 160,500 80,470 0,420 Z"/>
@@ -253,7 +313,7 @@ footer{max-width:1280px; margin:8px auto 28px; padding:0 14px;}
             <path class="czone" data-zone="cooltemp" fill="#2f6f8f" d="M610,628 L800,628 800,720 610,720 Z"/>
           </g>
           <!-- Ocean mask: rectangle with mainland + Tasmania cut out -->
-          <path pointer-events="none" fill="#dcebf2" fill-rule="evenodd" d="M-20,-20 H860 V740 H-20 Z
+          <path pointer-events="none" fill="#dcebf2" fill-rule="evenodd" d="M-20,-20 H1030 V740 H-20 Z
             M340,118 L350,128 356,104 368,92 376,68 392,76 404,60 410,46 432,52 452,46 470,52 486,56 498,64 488,96 478,120 486,148 502,170 520,180 538,190 554,184 564,166 576,150 588,128 596,96 602,62 610,34 618,58 630,92 644,118 662,142 676,158 686,182 696,206 716,228 744,244 762,268 776,290 788,318 810,322 824,320 818,346 820,370 830,384 822,426 808,452 796,478 784,498 774,520 766,544 758,560 760,570 744,576 720,578 704,590 688,602 672,592 658,586 646,598 630,598 610,588 592,586 580,580 566,566 548,544 534,534 522,532 528,518 524,506 514,516 506,526 500,510 518,474 502,496 488,508 478,516 464,494 450,474 434,462 404,452 380,450 358,452 340,452 300,456 242,472 198,498 160,512 118,520 88,518 62,508 60,488 76,460 62,430 52,396 46,362 30,330 36,290 42,256 62,244 100,238 132,226 156,212 182,194 204,180 218,148 234,118 252,124 266,102 284,112 298,94 322,96 Z
             M652,652 L662,642 678,636 696,634 712,640 726,648 724,668 716,688 700,700 682,696 664,678 Z"/>
           <!-- States layer -->
@@ -267,6 +327,11 @@ footer{max-width:1280px; margin:8px auto 28px; padding:0 14px;}
             <path class="state" id="st-TAS" data-region="TAS" fill="#3d6b75" d="M652,652 L662,642 678,636 696,634 712,640 726,648 724,668 716,688 700,700 682,696 664,678 Z" tabindex="0" aria-label="Tasmania"/>
             <path class="state" id="st-ACT" data-region="ACT" fill="#8d5a8a" d="M734,512 L756,510 758,532 736,534 Z" tabindex="0" aria-label="Australian Capital Territory"/>
           </g>
+          <!-- New Zealand (neighbouring country) -->
+          <g id="nzLayer">
+            <path class="state nz" data-region="NZ" fill="#6f9b8a" d="M946,396 L962,402 968,418 962,434 974,448 970,466 956,478 944,492 936,506 928,494 932,476 924,466 930,448 936,432 940,414 Z" tabindex="0" aria-label="New Zealand North Island"/>
+            <path class="state nz" data-region="NZ" fill="#6f9b8a" d="M922,512 L938,520 934,538 918,558 904,580 890,602 876,624 866,640 858,632 866,610 880,584 896,560 910,538 916,522 Z" tabindex="0" aria-label="New Zealand South Island"/>
+          </g>
           <!-- Labels -->
           <g id="labelLayer" pointer-events="none">
             <text class="state-label" x="155" y="330">WA</text>
@@ -278,6 +343,9 @@ footer{max-width:1280px; margin:8px auto 28px; padding:0 14px;}
             <text class="state-label" x="678" y="673" style="font-size:12px;">TAS</text>
             <line x1="772" y1="540" x2="752" y2="526" stroke="#2b2620" stroke-width="1.5"/>
             <text class="state-label" x="774" y="548" style="font-size:12px; fill:#2b2620; stroke:none;">ACT</text>
+            <text class="state-label nz-label" x="950" y="450">NZ</text>
+            <text x="900" y="690" font-size="12" fill="#3d5a52" font-style="italic" text-anchor="middle">Aotearoa New Zealand</text>
+            <text x="800" y="430" font-size="12" fill="#7a93a8" font-style="italic">Tasman Sea</text>
           </g>
           <g id="capitals" pointer-events="none">
             <g font-size="11" fill="#1d1813" font-weight="600">
@@ -288,6 +356,7 @@ footer{max-width:1280px; margin:8px auto 28px; padding:0 14px;}
               <circle cx="784" cy="498" r="4" fill="#fff" stroke="#1d1813" stroke-width="1.5"/><text x="790" y="494">Sydney</text>
               <circle cx="658" cy="588" r="4" fill="#fff" stroke="#1d1813" stroke-width="1.5"/><text x="600" y="618">Melbourne</text>
               <circle cx="700" cy="698" r="4" fill="#fff" stroke="#1d1813" stroke-width="1.5"/><text x="710" y="703">Hobart</text>
+              <circle cx="948" cy="486" r="4" fill="#fff" stroke="#1d1813" stroke-width="1.5"/><text x="942" y="482" text-anchor="end">Wellington</text>
             </g>
           </g>
           <!-- Weather overlay labels (built by JS) -->
@@ -295,7 +364,7 @@ footer{max-width:1280px; margin:8px auto 28px; padding:0 14px;}
         </svg>
         </div>
         <div class="map-legend" id="mapLegend"></div>
-        <p class="map-hint" id="mapHint">Tap a state or territory to explore it.</p>
+        <p class="map-hint" id="mapHint">Tap a state, territory or New Zealand to explore it.</p>
       </div>
       <div class="panel info-panel" id="infoPanel"></div>
     </div>
@@ -337,10 +406,17 @@ footer{max-width:1280px; margin:8px auto 28px; padding:0 14px;}
 
 <footer>
   <div class="ack">
-    <strong>Acknowledgment of Country.</strong> We acknowledge the Traditional Owners and Custodians of the lands, waters and skies across Australia, and pay our respects to Elders past and present. The seasonal knowledge shown in this tool has been shared publicly by First Nations communities through projects such as the Bureau of Meteorology&rsquo;s <em>Indigenous Weather Knowledge</em> website and CSIRO&rsquo;s Indigenous seasonal calendars. This knowledge belongs to its communities. Teachers are encouraged to connect with local Traditional Owners to learn the seasons of their own area.
+    <strong>Acknowledgment of Country.</strong> We acknowledge the Traditional Owners and Custodians of the lands, waters and skies across Australia, and pay our respects to Elders past and present. We also acknowledge Māori as tangata whenua of Aotearoa New Zealand. The seasonal and sky knowledge shown here has been shared publicly by First Nations Australian communities (through the Bureau of Meteorology&rsquo;s <em>Indigenous Weather Knowledge</em> and CSIRO&rsquo;s Indigenous seasonal calendars) and by Māori sources such as Te Papa and Te Ara. This knowledge belongs to its communities. Teachers are encouraged to connect with local Traditional Owners and iwi to learn the knowledge of their own area.
   </div>
   <p class="footer-meta">Works offline once loaded &bull; Built for touch &bull; Australian Curriculum v9 codes from ACARA &bull; Climate figures are approximate long-term averages (Bureau of Meteorology) &bull; Night-sky views are simplified evening guides (about 8&ndash;9 pm local time).</p>
 </footer>
+
+<div id="animalOverlay" role="dialog" aria-modal="true" aria-label="Animal detail">
+  <div id="animalCard">
+    <div class="ad-head" id="animalHead"></div>
+    <div class="ad-body" id="animalBody"></div>
+  </div>
+</div>
 
 <script>
 /* ================= DATA: regions ================= */
@@ -352,6 +428,8 @@ const CURR = {
   HS5K04:{code:"AC9HS5K04", area:"HASS — Geography", year:"Year 5", text:"The influence of people, including First Nations Australians, on the characteristics of a place."},
   HS5K05:{code:"AC9HS5K05", area:"HASS — Geography", year:"Year 5", text:"Managing Australian environments, including severe weather events such as bushfires, floods, droughts and cyclones."},
   S2U01:{code:"AC9S2U01", area:"Science — Earth &amp; Space", year:"Year 2", text:"Earth is a planet in the solar system; patterns in the changing position of the sun, moon, planets and stars."},
+  S3U01:{code:"AC9S3U01", area:"Science — Biological", year:"Year 3", text:"Compare living and non-living things and the differences between the life cycles of plants and animals."},
+  S4U01:{code:"AC9S4U01", area:"Science — Biological", year:"Year 4", text:"The roles of consumers, producers and decomposers in a habitat, and how food chains represent feeding relationships."},
   S5U01:{code:"AC9S5U01", area:"Science — Biological", year:"Year 5", text:"How structural features and behaviours of living things help them survive in their habitat."},
   S5U02:{code:"AC9S5U02", area:"Science — Earth &amp; Space", year:"Year 5", text:"How weathering and erosion slowly or rapidly change Earth’s surface."},
   S6U01:{code:"AC9S6U01", area:"Science — Biological", year:"Year 6", text:"How changing physical conditions of a habitat affect the growth and survival of living things."},
@@ -631,6 +709,41 @@ const REGIONS = {
       ]
     },
     skyNote:"Canberra’s clear, dry highland air makes for excellent stargazing — Mount Stromlo Observatory has watched the southern sky from here for a century."
+  },
+  NZ:{
+    name:"New Zealand (Aotearoa)", capital:"Wellington", lat:-41, neighbour:true,
+    trad:"Australia’s closest neighbour across the Tasman Sea — about 4 hours’ flight east. Aotearoa is home to the Māori people, the tangata whenua (people of the land), who navigated here from across the Pacific around 700 years ago.",
+    zones:["subtropical","temperate","cooltemp"],
+    climate:"A maritime climate shaped by the surrounding ocean and the Southern Alps. The far north is warm and subtropical; most of the country is temperate; the deep south is cool temperate. The west coast of the South Island is one of the wettest places on Earth, while inland Central Otago is almost semi-arid — and the Alps hold snow and glaciers all year.",
+    ecosystem:"Ancient Gondwanan forests of evergreen broadleaf and southern beech, with about 80% of plants found nowhere else. Because no land mammals (except bats) ever lived here, birds evolved to fill every role — many, like the kiwi, lost the ability to fly.",
+    animals:[
+      {n:"Kiwi", d:"New Zealand’s flightless national bird. It hunts at night by smell — its nostrils are at the tip of its beak — and lays an egg up to a fifth of its own body weight."},
+      {n:"Kea", d:"The world’s only alpine parrot, living in the snowy Southern Alps. Famously cheeky and clever, it solves puzzles and has been known to dismantle car windscreen wipers."},
+      {n:"Kākāpō", d:"The world’s heaviest parrot — flightless, nocturnal and moss-green. Once nearly extinct, every living bird is now named and tracked by conservation teams."},
+      {n:"Tuatara", d:"A living fossil: the sole survivor of a reptile order that shared the Earth with dinosaurs. It can live over 100 years and has a light-sensitive ‘third eye’ on top of its head."}
+    ],
+    curriculum:["HS3K05","HS4K05","S5U01","S6U02"],
+    fn:{
+      heading:"Māori knowledge — Matariki and the Maramataka",
+      title:"Māori knowledge",
+      seasons:[
+        {n:"Matariki", t:"the star cluster", d:"The Pleiades — the same stars Aboriginal Australians call the Seven Sisters. Its first dawn rising in mid-winter (June–July) marks the Māori New Year, now a national public holiday."},
+        {n:"Maramataka", t:"the lunar calendar", d:"Literally ‘the moon turning’. Each night of the moon has a name guiding the best times to plant, fish and harvest — a calendar read from the Moon’s phases."},
+        {n:"Tupuānuku &amp; Tupuārangi", t:"two of the nine stars", d:"Stars of food from the earth and food from the sky — a time to remember the harvest and plan the planting season."},
+        {n:"Pōhutukawa &amp; Hiwa-i-te-rangi", t:"two of the nine stars", d:"One remembers those who have passed; the other carries hopes and wishes for the year ahead."}
+      ],
+      src:"Sources: Te Papa and Te Ara — the Encyclopedia of New Zealand (Maramataka and Matariki); New Zealand Government Matariki resources. Knowledge belongs to Māori; iwi (tribes) hold their own traditions and star names."
+    },
+    weather:{Summer:{t:20,r:200}, Autumn:{t:17,r:250}, Winter:{t:11,r:340}, Spring:{t:15,r:280}},
+    teacher:{
+      intention:"We are learning to compare Australia with its closest neighbour — how a different landscape, ocean and history shape a place — and how Māori, like Aboriginal Australians, read the sky and seasons.",
+      questions:[
+        "New Zealand has almost no native land mammals, so birds took over their jobs. How might that explain a flightless bird like the kiwi?",
+        "Matariki (the Pleiades) marks the Māori New Year. Aboriginal Australians know the same stars as the Seven Sisters. Why might cultures across the world tell stories about this one cluster?",
+        "The Maramataka is a calendar read from the Moon. What changes in the Moon could you use to keep track of time?"
+      ]
+    },
+    skyNote:"From Wellington (41°S) the Southern Cross and the Pointers wheel high overhead, and Matariki (the Pleiades) rises before dawn in mid-winter to open the Māori New Year."
   }
 };
 
@@ -677,6 +790,181 @@ const SPECIES = [
   {n:"Wedge-tailed eagle", regions:["WA","NT","QLD","SA","NSW","VIC","TAS","ACT"], fact:"Australia’s biggest bird of prey soars over every state — Tasmania’s are a rare subspecies."},
   {n:"Dingo", regions:["WA","NT","QLD","SA","NSW","VIC"], fact:"Australia’s wild canine, here for thousands of years — absent only from Tasmania."}
 ];
+
+/* Per-animal detail pages — all content held inside the tool (no external links).
+   role · habitat (AC9S6U01) · diet · eats/eatenBy food chain (AC9S4U01) · adapt (AC9S5U01) · life cycle (AC9S3U01) */
+const ANIMAL_DETAIL = {
+  "Numbat":{role:"Insect-eater", habitat:"Eucalypt woodlands of south-west WA, sheltering in hollow logs and burrows.", diet:"Almost only termites — up to 20,000 a day.", eats:["Termites"], eatenBy:["Foxes","Birds of prey","Feral cats"], adapt:"A long sticky tongue for termites, and it feeds by day when termites are active — unusual for a marsupial.", life:["Tiny young (no true pouch)","Cling to mother","Left in burrow","Adult"]},
+  "Quokka":{role:"Plant-eater", habitat:"Scrub and forest on Rottnest Island (Wadjemup) and pockets of south-west WA.", diet:"Leaves, grasses and bark.", eats:["Leaves","Grasses","Shrubs"], eatenBy:["Foxes & cats (mainland)","Dingoes"], adapt:"Can climb low trees and survive long dry spells by reusing water stored in its body.", life:["Joey in pouch ~6 months","Young-at-foot","Adult"]},
+  "Whale shark":{role:"Filter-feeder", habitat:"Warm open ocean, gathering each autumn at Ningaloo Reef (WA).", diet:"Plankton and tiny fish strained from seawater.", eats:["Plankton","Krill","Small fish"], eatenBy:["Few — its huge size protects adults"], adapt:"A vast mouth filters food from enormous gulps of water; the world’s biggest fish.", life:["Pup (born live)","Juvenile","Adult (to ~18 m)"]},
+  "Red kangaroo":{role:"Plant-eater", habitat:"Arid and semi-arid inland plains.", diet:"Grasses and low shrubs.", eats:["Grasses","Shrubs"], eatenBy:["Dingoes","Wedge-tailed eagles (young)"], adapt:"Hops vast distances for little energy and rests in shade to beat the heat.", life:["Joey (jellybean-sized)","In pouch ~8 months","Young-at-foot","Adult"]},
+  "Saltwater crocodile":{role:"Apex predator", habitat:"Rivers, billabongs and estuaries of the tropical north.", diet:"Fish, birds and mammals — almost anything it can catch.", eats:["Fish","Birds","Mammals","Mud crabs"], eatenBy:["None — apex predator"], adapt:"Eyes and nostrils on top of its head let it lie hidden just below the surface.", life:["Egg in a mound nest","Hatchling","Juvenile","Adult (to 6 m)"]},
+  "Frilled-neck lizard":{role:"Carnivore", habitat:"Tropical woodlands and savanna of the north.", diet:"Insects, spiders and small lizards.", eats:["Insects","Spiders","Small lizards"], eatenBy:["Birds of prey","Snakes","Quolls"], adapt:"Flares a wide neck frill to look bigger, then sprints away on two legs.", life:["Egg","Hatchling","Juvenile","Adult"]},
+  "Thorny devil":{role:"Ant specialist", habitat:"Sandy deserts of central and western Australia.", diet:"Only ants — thousands a day.", eats:["Ants"], eatenBy:["Birds of prey","Goannas"], adapt:"Tiny grooves channel dew across its skin to its mouth — it ‘drinks’ through its feet.", life:["Egg in a burrow","Hatchling","Adult"]},
+  "Magpie goose":{role:"Plant-eater", habitat:"Tropical floodplains and wetlands of the north.", diet:"Water plants, seeds and bulbs.", eats:["Water plants","Seeds","Bulbs"], eatenBy:["Saltwater crocodiles","Birds of prey","Dingoes"], adapt:"Partly webbed feet for both paddling and walking on soft mud.", life:["Egg","Gosling","Juvenile","Adult"]},
+  "Southern cassowary":{role:"Fruit-eater", habitat:"Wet Tropics rainforest of north Queensland.", diet:"Fallen rainforest fruit — and it spreads the seeds.", eats:["Rainforest fruit","Fungi","Small animals"], eatenBy:["None as adult; eggs/chicks: pythons, quolls"], adapt:"A bony helmet (casque) to push through dense forest and powerful kicking legs.", life:["Egg (father incubates)","Striped chick","Brown juvenile","Adult"]},
+  "Green turtle":{role:"Plant-eater (adult)", habitat:"Coral reefs and seagrass meadows; nests on Queensland beaches.", diet:"Seagrasses and algae as an adult.", eats:["Seagrass","Algae"], eatenBy:["Sharks","(eggs) goannas & birds"], adapt:"Navigates thousands of kilometres back to the very beach where it hatched.", life:["Egg in beach sand","Hatchling","Juvenile (open ocean)","Adult"]},
+  "Lumholtz’s tree-kangaroo":{role:"Plant-eater", habitat:"Rainforest canopy of the Atherton Tablelands.", diet:"Leaves and fruit of rainforest trees.", eats:["Rainforest leaves","Fruit"], eatenBy:["Pythons","Dingoes (on the ground)"], adapt:"Strong forelimbs and a long tail for balance high in the trees.", life:["Joey in pouch","Young in tree","Adult"]},
+  "Koala":{role:"Leaf-eater", habitat:"Eucalypt forests and woodlands of eastern and south-eastern Australia.", diet:"Almost only eucalyptus leaves.", eats:["Eucalyptus leaves"], eatenBy:["(young) owls, pythons, goannas"], adapt:"A special gut breaks down toxic gum leaves; it sleeps ~20 hours a day to save energy.", life:["Joey in pouch ~6 months","Rides on mother’s back","Adult"]},
+  "Southern hairy-nosed wombat":{role:"Plant-eater", habitat:"Dry grassland and saltbush plains of South Australia.", diet:"Native grasses and roots.", eats:["Native grasses","Roots"], eatenBy:["Dingoes","(young) eagles"], adapt:"Digs cool burrows to escape desert heat and needs very little water.", life:["Joey in backward-facing pouch","Weaned","Adult"]},
+  "Yellow-footed rock-wallaby":{role:"Plant-eater", habitat:"Rocky cliffs and gorges of the Flinders Ranges.", diet:"Grasses and leaves.", eats:["Grasses","Leaves"], eatenBy:["Wedge-tailed eagles","Foxes (introduced)"], adapt:"Padded, gripping feet bound up almost-vertical rock.", life:["Joey in pouch","Young-at-foot","Adult"]},
+  "Shingleback lizard":{role:"Omnivore", habitat:"Dry shrubland and grassland of southern Australia.", diet:"Plants, flowers, snails and insects.", eats:["Plants","Flowers","Snails","Insects"], eatenBy:["Birds of prey","Snakes","Dingoes"], adapt:"A stumpy tail shaped like its head to fool predators; it gives birth to live young.", life:["Born live (1–2 young)","Juvenile","Adult"]},
+  "Emu":{role:"Omnivore", habitat:"Open plains and woodlands across the mainland.", diet:"Seeds, fruit, flowers and insects.", eats:["Seeds","Fruit","Insects"], eatenBy:["Dingoes","(eggs/chicks) eagles, foxes"], adapt:"Long legs run at 50 km/h; the father alone raises the striped chicks.", life:["Green egg","Striped chick","Juvenile","Adult"]},
+  "Platypus":{role:"Carnivore", habitat:"Clean creeks and rivers of the east and Tasmania.", diet:"Insect larvae, worms and yabbies from the riverbed.", eats:["Insect larvae","Worms","Yabbies"], eatenBy:["Water rats","Goannas","Birds of prey"], adapt:"Hunts with its eyes shut, sensing prey by tiny electric signals; an egg-laying mammal.", life:["Egg in a riverbank burrow","Nursed on milk","Juvenile","Adult"]},
+  "Superb lyrebird":{role:"Ground forager", habitat:"Moist forests and fern gullies of the south-east.", diet:"Insects, worms and spiders raked from leaf litter.", eats:["Insects","Worms","Spiders"], eatenBy:["Foxes","Cats","Birds of prey"], adapt:"Mimics almost any sound — other birds, chainsaws, cameras — to defend territory and attract a mate.", life:["Egg","Chick","Juvenile","Adult"]},
+  "Common wombat":{role:"Plant-eater", habitat:"Forests, mountains and heath of the south-east and Tasmania.", diet:"Grasses, roots and bark.", eats:["Grasses","Roots","Bark"], eatenBy:["Dingoes","(young) Tasmanian devils"], adapt:"Powerful digging claws and a backward pouch that won’t fill with soil.", life:["Joey in pouch ~6 months","Weaned","Adult"]},
+  "Leadbeater’s possum":{role:"Omnivore", habitat:"Tall mountain ash forests of Victoria’s Central Highlands.", diet:"Tree sap, insects and spiders.", eats:["Tree sap","Insects","Spiders"], eatenBy:["Owls","Goannas"], adapt:"Nests only in old tree hollows — which take more than 150 years to form.", life:["Joey in pouch","Young in a nest hollow","Adult"]},
+  "Little penguin":{role:"Carnivore", habitat:"Coasts of southern Australia, with burrows on islands like Phillip Island.", diet:"Small fish and squid caught at sea.", eats:["Small fish","Squid","Krill"], eatenBy:["Seals","Sharks","(on land) foxes & dogs"], adapt:"Waterproof feathers and flipper-wings to ‘fly’ underwater; the world’s smallest penguin.", life:["Egg in burrow","Chick","Juvenile","Adult"]},
+  "Helmeted honeyeater":{role:"Nectar & insect eater", habitat:"Streamside swamp forest east of Melbourne — its only home.", diet:"Nectar, sap and insects.", eats:["Nectar","Tree sap","Insects"], eatenBy:["Currawongs","Cats","Snakes"], adapt:"A brush-tipped tongue laps nectar; a gold crest gives it its ‘helmet’.", life:["Egg","Chick","Juvenile","Adult"]},
+  "Tasmanian devil":{role:"Carnivore & scavenger", habitat:"Forests and woodlands across Tasmania.", diet:"Mostly carrion (dead animals), plus small prey.", eats:["Carrion","Small mammals","Birds","Insects"], eatenBy:["None — Tasmania’s top mammal carnivore"], adapt:"Pound-for-pound the strongest bite of any mammal — it crushes bone.", life:["Joey in pouch ~4 months","In a den","Juvenile","Adult"]},
+  "Eastern quoll":{role:"Carnivore", habitat:"Grasslands and open forest of Tasmania.", diet:"Insects, small mammals and birds.", eats:["Insects","Small mammals","Birds"], eatenBy:["Tasmanian devils","Birds of prey"], adapt:"A nocturnal hunter with spotted fur for camouflage in moonlight.", life:["Joey in pouch","In a den","Juvenile","Adult"]},
+  "Tasmanian pademelon":{role:"Plant-eater", habitat:"Rainforest edges and wet forest of Tasmania.", diet:"Leaves, herbs and grasses.", eats:["Leaves","Herbs","Grasses"], eatenBy:["Tasmanian devils","Wedge-tailed eagles","Quolls (young)"], adapt:"Stays close to dense cover so it can bolt from predators.", life:["Joey in pouch","Young-at-foot","Adult"]},
+  "Wedge-tailed eagle":{role:"Apex predator", habitat:"The skies over every Australian landscape.", diet:"Rabbits, wallabies and carrion.", eats:["Rabbits","Wallabies","Reptiles","Carrion"], eatenBy:["None — apex predator"], adapt:"A 2-metre-plus wingspan and superb eyesight to spot prey from far above.", life:["Egg in a huge stick nest","Chick","Juvenile","Adult"]},
+  "Gang-gang cockatoo":{role:"Seed-eater", habitat:"Cool mountain forests of the south-east.", diet:"Seeds, berries and nuts.", eats:["Seeds","Berries","Nuts"], eatenBy:["Birds of prey","(eggs) goannas"], adapt:"A strong curved beak cracks hard seeds; its call sounds like a creaky gate.", life:["Egg in a tree hollow","Chick","Juvenile","Adult"]},
+  "Northern corroboree frog":{role:"Insect-eater", habitat:"Alpine bogs and pools near Canberra.", diet:"Small insects such as ants and beetles.", eats:["Ants","Beetles","Small insects"], eatenBy:["Birds","Snakes","Larger frogs"], adapt:"Bright yellow-and-black skin warns predators that it is poisonous.", life:["Egg in moss","Tadpole","Froglet","Adult frog"], metamorphic:true},
+  "Eastern grey kangaroo":{role:"Plant-eater", habitat:"Grassy forests and plains of eastern Australia.", diet:"Grasses and herbs.", eats:["Grasses","Herbs"], eatenBy:["Dingoes","(young) eagles"], adapt:"Grazes in mobs at dawn and dusk; hops long distances for little energy.", life:["Joey in pouch ~9 months","Young-at-foot","Adult"]},
+  "Kiwi":{role:"Ground forager", habitat:"Forests of New Zealand (Aotearoa).", diet:"Worms, insects and fallen fruit.", eats:["Worms","Insects","Fallen fruit"], eatenBy:["Stoats & dogs (introduced)"], adapt:"Smells food with nostrils at its beak-tip; flightless, with hair-like feathers.", life:["A huge egg","Chick","Juvenile","Adult"]},
+  "Kea":{role:"Omnivore", habitat:"Alpine mountains of New Zealand’s South Island.", diet:"Plants, insects and carrion — almost anything.", eats:["Plants","Insects","Carrion"], eatenBy:["Stoats & cats (introduced, on nests)"], adapt:"A clever problem-solver with a strong hooked beak; the world’s only alpine parrot.", life:["Egg in a rock den","Chick","Juvenile","Adult"]},
+  "Kākāpō":{role:"Plant-eater", habitat:"Forests of predator-free New Zealand islands.", diet:"Native plants, seeds and fruit.", eats:["Native plants","Seeds","Fruit"], eatenBy:["Stoats, cats & rats (introduced)"], adapt:"Flightless, nocturnal and the heaviest parrot; freezes still to avoid being seen.", life:["Egg in a ground nest","Chick","Juvenile","Adult"]},
+  "Tuatara":{role:"Carnivore", habitat:"Burrows on New Zealand’s offshore islands.", diet:"Insects (especially wētā), plus eggs and chicks.", eats:["Wētā & insects","Eggs","Chicks"], eatenBy:["Rats take young (introduced)"], adapt:"Has a light-sensing ‘third eye’, lives 100+ years and stays active in the cold.", life:["Egg (incubates ~1 year)","Hatchling","Juvenile","Adult"]}
+};
+/* Citations — the reputable sources the research drew on (paraphrased on-site). Full URLs in the companion references document. */
+const ANIMAL_SOURCES = {
+  "Numbat":["DCCEEW (Australian Government)","IUCN Red List"],
+  "Quokka":["Australian Museum","DCCEEW"],
+  "Whale shark":["Australian Institute of Marine Science","Australian Museum"],
+  "Red kangaroo":["Australian Museum","Taronga Conservation Society"],
+  "Saltwater crocodile":["Australian Museum","DCCEEW"],
+  "Frilled-neck lizard":["Taronga Conservation Society","IUCN Red List"],
+  "Thorny devil":["Bush Heritage Australia","Australian Museum"],
+  "Magpie goose":["Australian Museum","DCCEEW"],
+  "Southern cassowary":["Australian Museum","DCCEEW"],
+  "Green turtle":["Great Barrier Reef Marine Park Authority","DCCEEW"],
+  "Lumholtz’s tree-kangaroo":["Australian Museum","IUCN Red List"],
+  "Koala":["Australian Museum","WWF-Australia"],
+  "Southern hairy-nosed wombat":["Australian Wildlife Conservancy","DCCEEW"],
+  "Yellow-footed rock-wallaby":["DCCEEW (SPRAT)","Australian Wildlife Conservancy"],
+  "Shingleback lizard":["Australian Museum"],
+  "Emu":["Australian Museum","Bush Heritage Australia"],
+  "Platypus":["Taronga Conservation Society","Bush Heritage Australia"],
+  "Superb lyrebird":["Australian Museum","Journal of Animal Ecology"],
+  "Common wombat":["Australian Museum","Bush Heritage Australia"],
+  "Leadbeater’s possum":["Zoos Victoria","DCCEEW"],
+  "Little penguin":["Phillip Island Nature Parks","Penguin Foundation"],
+  "Helmeted honeyeater":["Zoos Victoria","DCCEEW (SPRAT)"],
+  "Tasmanian devil":["Australian Museum","Bush Heritage Australia"],
+  "Eastern quoll":["Bush Heritage Australia","DCCEEW"],
+  "Tasmanian pademelon":["NRE Tasmania","Atlas of Living Australia"],
+  "Wedge-tailed eagle":["Australian Museum","Victorian Government (Wildlife)"],
+  "Gang-gang cockatoo":["Australian Museum","DCCEEW"],
+  "Northern corroboree frog":["Zoos Victoria","DCCEEW"],
+  "Eastern grey kangaroo":["Australian Museum","Atlas of Living Australia"],
+  "Kiwi":["NZ Department of Conservation","Auckland Zoo"],
+  "Kea":["Auckland Zoo","NZ Department of Conservation"],
+  "Kākāpō":["NZ Department of Conservation","NZ Birds Online"],
+  "Tuatara":["NZ Department of Conservation","Auckland Zoo"]
+};
+function animalSources(name){
+  const s = ANIMAL_SOURCES[name] || ANIMAL_SOURCES[name.replace(/'/g,"’")] || ANIMAL_SOURCES[name.replace(/’/g,"'")];
+  if(!s) return "";
+  return `<p class="ad-sources"><strong>Sources:</strong> ${s.join("; ")}. Facts paraphrased for Years 3&ndash;6; full citations in the companion references document.</p>`;
+}
+/* ================= Animal icons (in-tool SVG, no external images) ================= */
+const INK = "#3a2c1e";
+const TINT = {arid:"#f1dcb8", forest:"#cfe6cf", ocean:"#cfe3f0", wetland:"#d6e8da", temperate:"#e6dcc4", alpine:"#dde7ec", urban:"#ece3d2"};
+const BASE_KANGA = `<path d="M22,86 Q26,66 45,62 L51,70 Q35,73 30,88 Z"/><ellipse cx="48" cy="55" rx="15" ry="20"/><path d="M37,80 h30 a5,5 0 0 1 0,9 h-35 q-2,-5 5,-9 z"/><path d="M52,40 L61,29 66,36 58,51 Z"/><circle cx="64" cy="30" r="8"/><path d="M59,25 q-2,-10 1,-13 q4,4 4,12 z"/><path d="M65,24 q2,-9 5,-10 q2,5 -1,12 z"/><path d="M50,51 q8,0 11,6 q-7,2 -12,-1 z"/>`;
+const BASE_QUOKKA = `<path d="M30,60 q-7,4 -3,9 q3,2 6,-2 z"/><ellipse cx="50" cy="58" rx="18" ry="17"/><path d="M30,72 q-6,2 -4,8 q2,2 6,0 z"/><circle cx="63" cy="42" r="11"/><path d="M57,33 q-1,-8 2,-9 q3,3 2,9 z"/><path d="M65,32 q2,-7 5,-7 q1,4 -1,9 z"/>`;
+const BASE_WOMBAT = `<ellipse cx="50" cy="58" rx="24" ry="15"/><circle cx="71" cy="54" r="11"/><path d="M65,45 q-1,-6 2,-7 q3,2 2,7 z"/><path d="M73,44 q2,-6 5,-5 q1,4 -1,8 z"/><rect x="33" y="66" width="7" height="11" rx="3"/><rect x="46" y="67" width="7" height="11" rx="3"/><rect x="60" y="66" width="7" height="11" rx="3"/>`;
+const BASE_BIRD = `<path d="M30,54 q-12,2 -16,10 q10,-2 18,-4 z"/><ellipse cx="46" cy="52" rx="16" ry="14"/><circle cx="62" cy="40" r="9"/><path d="M70,40 L82,42 70,45 z"/><rect x="44" y="64" width="3" height="13"/><rect x="52" y="64" width="3" height="13"/>`;
+const BASE_PARROT = `<path d="M34,60 q-10,6 -10,16 q9,-4 14,-10 z"/><ellipse cx="48" cy="54" rx="17" ry="18"/><circle cx="64" cy="40" r="11"/><path d="M73,38 q6,1 6,6 q-1,4 -7,2 q3,-4 1,-8 z"/><rect x="44" y="70" width="3.5" height="10"/><rect x="53" y="70" width="3.5" height="10"/>`;
+const BASE_LIZARD = `<path d="M18,56 Q8,55 13,51 Q24,50 34,54 Z"/><ellipse cx="50" cy="55" rx="22" ry="9"/><path d="M70,55 q14,-1 18,3 q-3,4 -18,2 z"/><rect x="36" y="60" width="4" height="9" rx="2"/><rect x="58" y="60" width="4" height="9" rx="2"/><rect x="44" y="61" width="4" height="8" rx="2"/><rect x="64" y="61" width="4" height="8" rx="2"/>`;
+
+const ANIMAL_ICON = {
+  "Numbat":{t:"forest", a:`<path d="M16,52 Q6,48 12,44 Q22,46 30,52 Q22,58 14,56 Z"/><ellipse cx="48" cy="54" rx="20" ry="8"/><path d="M66,54 q16,-2 22,2 q-4,5 -22,3 z"/><rect x="38" y="59" width="3.5" height="8" rx="1.5"/><rect x="46" y="60" width="3.5" height="8" rx="1.5"/><rect x="58" y="59" width="3.5" height="8" rx="1.5"/><g fill="#f7f1e5"><rect x="42" y="48" width="2" height="12" rx="1"/><rect x="48" y="48" width="2" height="13" rx="1"/><rect x="54" y="48" width="2" height="12" rx="1"/></g>`},
+  "Quokka":{t:"forest", a:BASE_QUOKKA},
+  "Whale shark":{t:"ocean", a:`<path d="M14,55 L30,46 Q55,40 80,52 Q86,55 80,58 Q55,68 30,62 Z"/><path d="M10,55 L24,50 24,60 Z"/><path d="M52,40 L58,28 62,42 Z"/><path d="M58,60 L64,70 68,58 Z"/><g fill="#f7f1e5"><circle cx="44" cy="52" r="2.2"/><circle cx="54" cy="49" r="2.2"/><circle cx="62" cy="54" r="2.2"/><circle cx="50" cy="58" r="2.2"/><circle cx="70" cy="52" r="2.2"/></g>`},
+  "Red kangaroo":{t:"arid", a:BASE_KANGA},
+  "Saltwater crocodile":{t:"wetland", a:`<path d="M12,58 Q6,58 10,54 Q22,52 32,56 Z"/><path d="M14,57 Q40,48 60,55 Q78,57 92,52 L92,57 Q78,62 60,60 Q40,64 16,61 Z"/><rect x="40" y="60" width="4" height="8" rx="2"/><rect x="56" y="60" width="4" height="8" rx="2"/><g fill="#2a2018"><path d="M30,50 l3,-5 3,5 z"/><path d="M40,49 l3,-5 3,5 z"/><path d="M50,49 l3,-5 3,5 z"/></g><circle cx="82" cy="51" r="1.6" fill="#f7f1e5"/>`},
+  "Frilled-neck lizard":{t:"forest", a:`<circle cx="72" cy="55" r="16" fill="#7a5230"/>${BASE_LIZARD}`},
+  "Thorny devil":{t:"arid", a:`<path d="M22,56 q-8,-1 -11,2 q4,2 11,1 z"/><ellipse cx="50" cy="56" rx="18" ry="9"/><path d="M68,56 q10,-1 13,2 q-3,3 -13,2 z"/><rect x="38" y="61" width="3.5" height="7" rx="1.5"/><rect x="58" y="61" width="3.5" height="7" rx="1.5"/><path d="M40,47 l3,-7 3,7z"/><path d="M48,46 l3,-8 3,8z"/><path d="M56,47 l3,-7 3,7z"/><path d="M32,52 l-6,-4 2,6z"/><path d="M70,52 l6,-3 -2,6z"/>`},
+  "Magpie goose":{t:"wetland", a:`<path d="M28,58 q-10,1 -14,7 q9,0 16,-2 z"/><ellipse cx="44" cy="58" rx="16" ry="13"/><path d="M54,50 Q60,30 64,22 Q70,24 66,36 L58,56 Z"/><circle cx="66" cy="20" r="6"/><path d="M72,20 L82,22 72,24 z"/><rect x="42" y="69" width="3" height="11"/><rect x="50" y="69" width="3" height="11"/>`},
+  "Southern cassowary":{t:"forest", a:`<ellipse cx="44" cy="60" rx="18" ry="16"/><path d="M55,52 Q60,34 62,26 L70,28 Q66,42 60,58 Z" fill="#2b7fb0"/><circle cx="64" cy="24" r="7" fill="#2b7fb0"/><path d="M61,17 q3,-6 7,-4 q1,4 -3,8 z"/><path d="M70,24 L80,25 71,28 z"/><rect x="40" y="74" width="3.5" height="10"/><rect x="50" y="74" width="3.5" height="10"/>`},
+  "Green turtle":{t:"ocean", a:`<path d="M28,58 Q50,36 74,58 Z"/><ellipse cx="51" cy="60" rx="25" ry="6"/><circle cx="80" cy="57" r="7"/><path d="M34,62 q-10,6 -8,12 q8,-2 12,-8 z"/><path d="M66,64 q6,8 1,12 q-6,-3 -5,-11 z"/><g fill="#bfe09a"><path d="M40,54 l5,-6 5,6 -5,5z"/><path d="M54,52 l5,-6 5,6 -5,5z"/></g>`},
+  "Lumholtz’s tree-kangaroo":{t:"forest", a:`<rect x="10" y="80" width="80" height="6" rx="3" fill="#7a5230"/>${BASE_KANGA}`},
+  "Koala":{t:"forest", a:`<ellipse cx="50" cy="62" rx="17" ry="17"/><circle cx="36" cy="36" r="9"/><circle cx="64" cy="36" r="9"/><circle cx="50" cy="40" r="15"/><path d="M46,42 q4,9 8,0 q-2,9 -8,2 z" fill="#2a2018"/>`},
+  "Southern hairy-nosed wombat":{t:"arid", a:BASE_WOMBAT},
+  "Yellow-footed rock-wallaby":{t:"arid", a:`<path d="M18,86 q16,-11 44,-3 q5,4 -2,7 l-48,0 q-3,-2 6,-4 z" fill="#9b8f7a"/>${BASE_KANGA}`},
+  "Shingleback lizard":{t:"arid", a:`<path d="M26,56 q-9,-1 -12,2 q4,3 12,1 z"/><ellipse cx="50" cy="56" rx="22" ry="10"/><path d="M70,56 q12,-1 15,2 q-3,3 -15,2 z"/><rect x="38" y="61" width="4" height="7" rx="2"/><rect x="58" y="61" width="4" height="7" rx="2"/><path d="M83,57 q6,1 8,3 q-4,2 -8,0 z" fill="#2b7fb0"/><g fill="#5a4632"><circle cx="44" cy="52" r="2.5"/><circle cx="54" cy="53" r="2.5"/><circle cx="62" cy="52" r="2.5"/></g>`},
+  "Emu":{t:"temperate", a:`<ellipse cx="46" cy="56" rx="17" ry="19"/><path d="M52,42 Q56,26 58,16 Q64,17 61,30 L56,50 Z"/><circle cx="59" cy="14" r="5"/><path d="M64,14 L72,15 64,17 z"/><rect x="42" y="74" width="3" height="16"/><rect x="50" y="74" width="3" height="16"/>`},
+  "Platypus":{t:"wetland", a:`<path d="M20,56 q-12,0 -16,6 q10,3 18,-1 z"/><ellipse cx="48" cy="56" rx="22" ry="11"/><path d="M68,54 q12,0 16,4 q-4,4 -16,3 q-3,-3 0,-7 z"/><path d="M40,66 q-4,7 2,9 q5,-2 3,-8 z"/><path d="M56,66 q-4,7 2,9 q5,-2 3,-8 z"/>`},
+  "Superb lyrebird":{t:"temperate", a:`<g fill="#8a6a40"><path d="M30,52 Q4,28 8,60 Q18,52 32,58 Z"/><path d="M30,55 Q8,48 12,70 Q22,60 33,63 Z"/></g>${BASE_BIRD}`},
+  "Common wombat":{t:"temperate", a:BASE_WOMBAT},
+  "Leadbeater’s possum":{t:"temperate", a:`<path d="M34,58 q-16,2 -18,12 q12,-2 22,-6 z"/><ellipse cx="48" cy="56" rx="15" ry="12"/><circle cx="63" cy="46" r="9"/><path d="M57,38 q-1,-6 2,-7 q3,2 2,7z"/><path d="M65,37 q2,-6 5,-5 q1,4 -1,8z"/><circle cx="64" cy="45" r="3" fill="#f7f1e5"/><circle cx="64" cy="45" r="1.6" fill="#2a2018"/>`},
+  "Little penguin":{t:"ocean", a:`<path d="M50,24 Q66,28 64,58 Q62,80 50,82 Q38,80 36,58 Q34,28 50,24 Z"/><path d="M50,31 Q59,35 58,56 Q57,73 50,76 Z" fill="#eef5fb"/><circle cx="50" cy="30" r="9"/><path d="M50,33 L58,36 50,39 z" fill="#caa24a"/><path d="M37,46 q-7,8 -3,18 q5,-3 6,-12 z"/><path d="M63,46 q7,8 3,18 q-5,-3 -6,-12 z"/><rect x="45" y="80" width="4" height="6" fill="#caa24a"/><rect x="52" y="80" width="4" height="6" fill="#caa24a"/>`},
+  "Helmeted honeyeater":{t:"temperate", a:`${BASE_BIRD}<path d="M60,32 q2,-9 6,-9 q1,5 -2,11 z" fill="#e0b53a"/>`},
+  "Tasmanian devil":{t:"temperate", a:`<path d="M22,58 q-10,2 -12,9 q9,0 16,-3 z"/><ellipse cx="48" cy="58" rx="22" ry="14"/><circle cx="70" cy="54" r="13"/><path d="M62,44 q0,-6 4,-7 q3,3 1,8 z"/><path d="M76,44 q3,-6 6,-4 q1,5 -3,8z"/><rect x="34" y="68" width="6" height="9" rx="2"/><rect x="56" y="68" width="6" height="9" rx="2"/><path d="M60,62 q8,3 16,0 q-2,4 -8,4 q-6,0 -8,-4 z" fill="#f7f1e5"/>`},
+  "Eastern quoll":{t:"temperate", a:`<path d="M26,57 q-14,2 -18,11 q13,-1 22,-5 z"/><ellipse cx="46" cy="56" rx="20" ry="10"/><circle cx="67" cy="52" r="9"/><path d="M62,44 q0,-5 3,-6 q3,2 1,7z"/><path d="M71,43 q2,-5 5,-4 q1,4 -2,7z"/><path d="M72,52 L82,53 73,56 z"/><rect x="36" y="63" width="3.5" height="8" rx="1.5"/><rect x="54" y="63" width="3.5" height="8" rx="1.5"/><g fill="#f7f1e5"><circle cx="40" cy="54" r="1.8"/><circle cx="48" cy="52" r="1.8"/><circle cx="54" cy="56" r="1.8"/><circle cx="34" cy="58" r="1.8"/></g>`},
+  "Tasmanian pademelon":{t:"forest", a:BASE_QUOKKA},
+  "Wedge-tailed eagle":{t:"temperate", a:`<ellipse cx="50" cy="52" rx="7" ry="15"/><circle cx="50" cy="34" r="6"/><path d="M52,30 L60,30 53,35 z"/><path d="M44,46 Q18,36 8,46 Q22,50 44,54 Z"/><path d="M56,46 Q82,36 92,46 Q78,50 56,54 Z"/><path d="M46,64 L50,82 54,64 Z"/>`},
+  "Gang-gang cockatoo":{t:"alpine", a:`${BASE_PARROT}<circle cx="64" cy="40" r="11" fill="#b23b2e"/><path d="M73,38 q6,1 6,6 q-1,4 -7,2 q3,-4 1,-8 z"/><g fill="#b23b2e"><path d="M58,32 q-4,-8 -1,-12 q4,3 5,10 z"/><path d="M63,30 q-2,-9 2,-12 q3,4 1,12 z"/></g>`},
+  "Northern corroboree frog":{t:"alpine", a:`<ellipse cx="50" cy="58" rx="20" ry="14"/><circle cx="38" cy="46" r="6"/><circle cx="62" cy="46" r="6"/><path d="M30,66 q-8,6 -10,12 q8,-2 12,-8z"/><path d="M70,66 q8,6 10,12 q-8,-2 -12,-8z"/><g fill="#e8c33b"><path d="M40,50 q10,-3 20,0 l0,4 q-10,-3 -20,0 z"/><path d="M38,58 q12,-3 24,0 l0,4 q-12,-3 -24,0z"/><path d="M40,66 q10,-2 20,0 l0,3 q-10,-2 -20,0z"/></g>`},
+  "Eastern grey kangaroo":{t:"temperate", a:BASE_KANGA},
+  "Kiwi":{t:"forest", a:`<path d="M30,58 Q34,36 56,38 Q74,40 72,60 Q70,76 50,76 Q34,76 30,58 Z"/><circle cx="60" cy="42" r="7"/><path d="M64,44 Q80,46 86,56 Q84,58 78,54 Q70,48 62,48 Z"/><rect x="44" y="74" width="3.5" height="8"/><rect x="54" y="74" width="3.5" height="8"/>`},
+  "Kea":{t:"alpine", a:`${BASE_PARROT}<path d="M73,38 q9,2 9,9 q-2,5 -9,1 q4,-5 0,-11 z"/>`},
+  "Kākāpō":{t:"forest", a:`<ellipse cx="50" cy="58" rx="22" ry="20"/><circle cx="60" cy="42" r="12"/><path d="M51,40 q9,-3 18,0 q-2,4 -9,4 q-7,0 -9,-4 z" fill="#6b8a4a"/><path d="M70,42 q6,1 6,6 q-1,4 -7,2 q3,-4 1,-8z"/><rect x="44" y="74" width="4" height="8"/><rect x="55" y="74" width="4" height="8"/>`},
+  "Tuatara":{t:"temperate", a:`${BASE_LIZARD}<g><path d="M38,48 l2,-5 2,5z"/><path d="M44,47 l2,-5 2,5z"/><path d="M50,46 l2,-5 2,5z"/><path d="M56,47 l2,-5 2,5z"/><path d="M62,48 l2,-5 2,5z"/></g>`}
+};
+function iconFor(name){ return ANIMAL_ICON[name] || ANIMAL_ICON[name.replace(/'/g,"’")] || ANIMAL_ICON[name.replace(/’/g,"'")]; }
+function animalBadge(name, px, decorative){
+  const ic = iconFor(name);
+  const tint = ic ? (TINT[ic.t]||TINT.urban) : TINT.urban;
+  const art = ic ? ic.a : `<circle cx="50" cy="50" r="13"/>`;
+  const aria = decorative ? 'aria-hidden="true"' : `role="img" aria-label="Illustration of a ${name}"`;
+  return `<svg class="animal-badge" width="${px}" height="${px}" viewBox="0 0 100 100" ${aria}>`
+    + `<circle cx="50" cy="50" r="48" fill="${tint}" stroke="#d8cbb4" stroke-width="2"/>`
+    + `<g transform="translate(50,50) scale(0.82) translate(-50,-50)" fill="${INK}">${art}</g></svg>`;
+}
+function wrapWords(str, max){
+  const words=str.split(" "); const lines=[]; let cur="";
+  words.forEach(w=>{ if((cur+" "+w).trim().length>max){ if(cur)lines.push(cur); cur=w; } else cur=(cur+" "+w).trim(); });
+  if(cur) lines.push(cur); return lines;
+}
+function lcGlyph(label, art, cx, gy){
+  if(/adult/i.test(label)) return `<g transform="translate(${cx},${gy}) scale(0.34) translate(-50,-50)" fill="${INK}">${art}</g>`;
+  if(/egg/i.test(label)) return `<ellipse cx="${cx}" cy="${gy}" rx="9" ry="12" fill="#fdf6ea" stroke="${INK}" stroke-width="2"/>`;
+  if(/tadpole/i.test(label)) return `<path d="M${cx-10},${gy} q5,-7 11,-3 q8,4 0,8 q-9,3 -11,-5 z" fill="${INK}"/>`;
+  if(/juvenile/i.test(label)) return `<circle cx="${cx}" cy="${gy}" r="11" fill="#8a7a5e" stroke="${INK}" stroke-width="1.5"/>`;
+  return `<circle cx="${cx}" cy="${gy}" r="8" fill="#b3a488" stroke="${INK}" stroke-width="1.5"/>`;
+}
+function lifeCycleSVG(name, d){
+  const ic = iconFor(name); const art = ic ? ic.a : `<circle cx="50" cy="50" r="13"/>`;
+  const st = d.life, n = st.length, W = 340, colW = W / n, gy = 30;
+  let s = `<svg class="lifecycle" viewBox="0 0 ${W} 162" role="img" aria-label="Life cycle of the ${name}: ${st.join(", then ")}, then the cycle repeats.">`;
+  s += `<defs><marker id="lcah" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="${INK}"/></marker><marker id="lcahL" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="5"><path d="M0,0 L6,3 L0,6 Z" fill="${INK}"/></marker></defs>`;
+  st.forEach((label,i)=>{
+    const cx = colW*(i+0.5);
+    s += lcGlyph(label, art, cx, gy);
+    const lines = wrapWords(label, 15);
+    lines.forEach((ln,li)=>{ s += `<text x="${cx}" y="${58+li*11}" text-anchor="middle" font-size="9.5" fill="#3a2c1e">${ln}</text>`; });
+    if(i<n-1){ const x1=colW*(i+0.5)+16, x2=colW*(i+1.5)-16; s += `<line x1="${x1}" y1="${gy}" x2="${x2}" y2="${gy}" stroke="${INK}" stroke-width="1.6" marker-end="url(#lcah)"/>`; }
+  });
+  // loop-back arrow
+  const lastX = colW*(n-0.5), firstX = colW*0.5;
+  s += `<path d="M${lastX},104 C${lastX},140 ${firstX},140 ${firstX},104" fill="none" stroke="${INK}" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#lcahL)"/>`;
+  s += `<text x="${W/2}" y="154" text-anchor="middle" font-size="9.5" fill="#6e655a" font-style="italic">the cycle begins again</text>`;
+  s += `</svg>`;
+  if(d.metamorphic) s += `<p class="life-cycle-note">This is a <strong>metamorphic</strong> life cycle &mdash; the body changes shape completely (egg &rarr; tadpole &rarr; frog).</p>`;
+  return s;
+}
+function statusBlurb(s){
+  if(!s) return "";
+  if(/critically/i.test(s)) return "at extremely high risk of extinction in the wild";
+  if(/endangered/i.test(s)) return "at serious risk of extinction";
+  if(/vulnerable/i.test(s)) return "facing a high risk of extinction in the future";
+  if(/near/i.test(s)) return "close to being threatened — worth watching";
+  if(/relict/i.test(s)) return "an ancient survivor needing protection";
+  return "not currently at risk of extinction";
+}
 
 /* ================= DATA: night sky ================= */
 /* Constellation shapes: local coordinates, [x, y, radius, colour?] */
@@ -806,9 +1094,28 @@ const SEASON_OF_MONTH = ["Summer","Summer","Autumn","Autumn","Autumn","Winter","
 /* ================= LOGIC ================= */
 const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
-const REGION_ORDER = ["WA","NT","QLD","SA","NSW","VIC","TAS","ACT"];
+const REGION_ORDER = ["WA","NT","QLD","SA","NSW","VIC","TAS","ACT","NZ"];
+
+/* Conservation status by animal (IUCN/DOC/EPBC where applicable) */
+const ANIMAL_STATUS = {
+  "Numbat":"Endangered", "Quokka":"Vulnerable", "Whale shark":"Endangered", "Red kangaroo":"Least concern",
+  "Saltwater crocodile":"Least concern", "Frilled-neck lizard":"Least concern", "Thorny devil":"Least concern", "Magpie goose":"Least concern",
+  "Southern cassowary":"Endangered", "Green turtle":"Endangered", "Lumholtz’s tree-kangaroo":"Near threatened", "Koala":"Endangered",
+  "Southern hairy-nosed wombat":"Near threatened", "Yellow-footed rock-wallaby":"Near threatened", "Shingleback lizard":"Least concern", "Emu":"Least concern",
+  "Platypus":"Near threatened", "Superb lyrebird":"Least concern", "Common wombat":"Least concern",
+  "Leadbeater’s possum":"Critically endangered", "Little penguin":"Least concern", "Helmeted honeyeater":"Critically endangered",
+  "Tasmanian devil":"Endangered", "Eastern quoll":"Endangered", "Tasmanian pademelon":"Least concern", "Wedge-tailed eagle":"Least concern",
+  "Gang-gang cockatoo":"Vulnerable", "Northern corroboree frog":"Critically endangered", "Eastern grey kangaroo":"Least concern",
+  "Kiwi":"Vulnerable", "Kea":"Endangered", "Kākāpō":"Critically endangered", "Tuatara":"At risk (relict)"
+};
+function statusChip(name){
+  const s = ANIMAL_STATUS[name]; if(!s) return "";
+  const danger = /critically/i.test(s) ? "#b3271e" : /endangered/i.test(s) ? "#c4503c"
+    : /(vulnerable|near|risk)/i.test(s) ? "#c98a2b" : "#4a7c59";
+  return `<span class="a-status" style="background:${danger}">${s}</span>`;
+}
 const STATE_FILLS = {};
-$$("#statesLayer .state").forEach(p => STATE_FILLS[p.dataset.region] = p.getAttribute("fill"));
+$$("#statesLayer .state, #nzLayer .state").forEach(p => STATE_FILLS[p.dataset.region] = p.getAttribute("fill"));
 
 /* ---------- Tabs ---------- */
 $$(".tab-btn").forEach(b => b.addEventListener("click", () => {
@@ -850,14 +1157,15 @@ function fnSeasonsHTML(fn){
   } else {
     body = `<p>${fn.noSeasonsNote}</p>`;
   }
-  return `<div class="info-section"><h3>First Nations seasons — ${fn.title}</h3>${body}<p class="source-note">${fn.src}</p></div>`;
+  const heading = fn.heading || ("First Nations seasons — " + fn.title);
+  return `<div class="info-section"><h3>${heading}</h3>${body}<p class="source-note">${fn.src}</p></div>`;
 }
 
 /* ---------- Region info panel ---------- */
 let selectedRegion = null;
 function renderRegion(id){
   selectedRegion = id;
-  $$("#statesLayer .state").forEach(p => p.classList.toggle("selected", p.dataset.region === id));
+  $$("#statesLayer .state, #nzLayer .state").forEach(p => p.classList.toggle("selected", p.dataset.region === id));
   const r = REGIONS[id];
   $("#infoPanel").innerHTML = `
     <h2>${r.name}</h2>
@@ -865,12 +1173,16 @@ function renderRegion(id){
     ${zoneChips(r.zones)}
     <div class="info-section"><h3>Climate</h3><p>${r.climate}</p></div>
     <div class="info-section"><h3>Ecosystem</h3><p>${r.ecosystem}</p>
-      <div class="animal-grid">${r.animals.map(a =>
-        `<div class="animal-card"><div class="a-name">${a.n}</div><div class="a-desc">${a.d}</div></div>`).join("")}</div>
+      <div class="animal-grid">${r.animals.map(a => {
+        const hasDetail = !!ANIMAL_DETAIL[a.n];
+        return `<button class="animal-card${hasDetail?' has-detail':''}" ${hasDetail?`data-animal="${a.n.replace(/"/g,'&quot;')}" data-region="${r.name}"`:'disabled'}>
+          ${iconFor(a.n)?`<span class="ac-icon">${animalBadge(a.n,46,true)}</span>`:''}
+          <span class="ac-txt"><span class="a-name">${a.n}${statusChip(a.n)}${hasDetail?'<span class="a-more">explore ›</span>':''}</span>
+          <span class="a-desc">${a.d}</span></span></button>`; }).join("")}</div>
     </div>
     ${fnSeasonsHTML(r.fn)}
     <div class="info-section"><h3>Seasonal weather — ${r.capital}</h3>${weatherTable(r.weather)}
-      <p class="source-note">Approximate long-term averages for ${r.capital} (Bureau of Meteorology).</p></div>
+      <p class="source-note">Approximate long-term averages for ${r.capital} (${r.neighbour ? "NIWA, New Zealand" : "Bureau of Meteorology"}).</p></div>
     <div class="info-section"><h3>Night sky from here</h3><p>${r.skyNote}</p></div>
     <div class="info-section"><h3>Australian Curriculum v9 links</h3>${currHTML(r.curriculum)}</div>
     <div class="teacher-panel">
@@ -934,7 +1246,7 @@ $$("#mapModeSeg button").forEach(b => b.addEventListener("click", () => {
   $("#capitals").style.display = climate ? "none" : "";
   if (climate){ clearWeather(); clearAtlas(); }
   updateLegend();
-  $("#mapHint").textContent = climate ? "Tap a coloured climate zone to learn about it." : "Tap a state or territory to explore it.";
+  $("#mapHint").textContent = climate ? "Tap a coloured climate zone to learn about it." : "Tap a state, territory or New Zealand to explore it.";
   if (climate) renderZone("arid"); else (selectedRegion ? renderRegion(selectedRegion) : renderWelcome());
 }));
 
@@ -958,9 +1270,9 @@ function rainColor(mm){
   const a = [243,233,200], b = [31,111,159];
   return `rgb(${a.map((v,i) => Math.round(v + (b[i]-v)*t)).join(",")})`;
 }
-const WLABEL = {WA:[150,355], NT:[400,255], QLD:[625,315], SA:[432,440], NSW:[652,490], VIC:[610,548], TAS:[742,672], ACT:null};
+const WLABEL = {WA:[150,355], NT:[400,255], QLD:[625,315], SA:[432,440], NSW:[652,490], VIC:[610,548], TAS:[742,672], ACT:null, NZ:[905,560]};
 function paintWeather(){
-  $$("#statesLayer .state").forEach(p => {
+  $$("#statesLayer .state, #nzLayer .state").forEach(p => {
     const r = REGIONS[p.dataset.region];
     p.setAttribute("fill", rainColor(r.weather[weatherSeason].r));
   });
@@ -978,7 +1290,7 @@ function clearWeather(){
   $("#weatherBtn").classList.remove("active");
   $("#weatherSeasonRow").style.display = "none";
   $("#weatherLabels").innerHTML = "";
-  $$("#statesLayer .state").forEach(p => p.setAttribute("fill", STATE_FILLS[p.dataset.region]));
+  $$("#statesLayer .state, #nzLayer .state").forEach(p => p.setAttribute("fill", STATE_FILLS[p.dataset.region]));
   updateLegend();
 }
 $("#weatherBtn").addEventListener("click", () => {
@@ -1006,7 +1318,7 @@ function buildAtlasRow(){
     const sp = SPECIES[+b.dataset.sp];
     atlasSpecies = sp;
     $$(".atlas-chip").forEach(x => x.classList.toggle("active", x === b));
-    $$("#statesLayer .state").forEach(p => p.classList.toggle("dimmed", !sp.regions.includes(p.dataset.region)));
+    $$("#statesLayer .state, #nzLayer .state").forEach(p => p.classList.toggle("dimmed", !sp.regions.includes(p.dataset.region)));
     $("#mapHint").innerHTML = `<strong>${sp.n}:</strong> ${sp.fact}`;
   }));
 }
@@ -1015,8 +1327,8 @@ function clearAtlas(){
   atlasOn = false; atlasSpecies = null;
   $("#atlasBtn").classList.remove("active");
   $("#atlasRow").style.display = "none";
-  $$("#statesLayer .state").forEach(p => p.classList.remove("dimmed"));
-  $("#mapHint").textContent = "Tap a state or territory to explore it.";
+  $$("#statesLayer .state, #nzLayer .state").forEach(p => p.classList.remove("dimmed"));
+  $("#mapHint").textContent = "Tap a state, territory or New Zealand to explore it.";
 }
 $("#atlasBtn").addEventListener("click", () => {
   if (atlasOn){ clearAtlas(); return; }
@@ -1030,7 +1342,7 @@ $("#atlasBtn").addEventListener("click", () => {
 buildAtlasRow();
 
 /* ---------- Map clicks ---------- */
-$$("#statesLayer .state").forEach(p => {
+$$("#statesLayer .state, #nzLayer .state").forEach(p => {
   const go = () => renderRegion(p.dataset.region);
   p.addEventListener("click", go);
   p.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
@@ -1069,8 +1381,30 @@ function constGroup(key, x, y, s, latShift){
   return `<g transform="translate(${x},${y + dy}) scale(${s})">${inner}${label}</g>`;
 }
 
+/* ---------- Moon phases (Southern Hemisphere) ---------- */
+const SYNODIC = 29.530588853;
+function moonPhaseFraction(date){
+  const epoch = Date.UTC(2000,0,6,18,14)/86400000; // a known new moon, in days
+  const now = (date?date.getTime():Date.now())/86400000;
+  return (((now - epoch) % SYNODIC + SYNODIC) % SYNODIC) / SYNODIC; // 0..1
+}
+const PHASE_NAMES = ["New Moon","Waxing crescent","First quarter","Waxing gibbous","Full Moon","Waning gibbous","Last quarter","Waning crescent"];
+function phaseName(f){ return PHASE_NAMES[Math.round(f*8)%8]; }
+function litPercent(f){ return Math.round((1-Math.cos(2*Math.PI*f))/2*100); }
+function moonLitPath(R,f){
+  const theta = 2*Math.PI*f, rx = R*Math.cos(theta), sweep = rx<0?1:0;
+  return `M 0 ${-R} A ${R} ${R} 0 0 1 0 ${R} A ${Math.abs(rx).toFixed(2)} ${R} 0 0 ${sweep} 0 ${-R} Z`;
+}
+function moonSVG(R,f,southern){
+  const flip = southern ? (f<=0.5) : (f>0.5);
+  let g = `<circle r="${R}" fill="#1b2740" stroke="#3a4a6a" stroke-width="1.4"/>`;
+  if(litPercent(f)>0) g += `<path d="${moonLitPath(R,f)}" fill="#f5edcf" transform="${flip?'scale(-1,1)':''}"/>`;
+  return g;
+}
+
 function renderSky(){
   const region = REGIONS[skyRegion];
+  const moonF = moonPhaseFraction();
   let season = skySeasonChoice, tonightNote = "";
   if (season === "tonight"){
     const now = new Date();
@@ -1107,6 +1441,9 @@ function renderSky(){
       ${emuLabel}
     </g>
     <ellipse cx="380" cy="270" rx="355" ry="245" fill="none" stroke="rgba(190,210,255,.3)" stroke-width="2"/>
+    <g transform="translate(108,112)">${moonSVG(26,moonF,true)}
+      <text x="0" y="46" text-anchor="middle" font-size="12" fill="#c9d4e8">Tonight&rsquo;s Moon</text>
+    </g>
     <text x="380" y="22" text-anchor="middle" font-size="14" fill="#8fa5c8" font-weight="700">N</text>
     <text x="380" y="534" text-anchor="middle" font-size="14" fill="#8fa5c8" font-weight="700">S</text>
     <text x="12" y="276" font-size="14" fill="#8fa5c8" font-weight="700">E</text>
@@ -1117,6 +1454,23 @@ function renderSky(){
   renderSkyInfo(season, region);
 }
 
+function moonSectionHTML(){
+  const f = moonPhaseFraction();
+  const strip = [0,1,2,3,4,5,6,7].map(i=>{
+    const pf=i/8, here=Math.round(f*8)%8===i;
+    return `<div class="phase-cell${here?' here':''}">
+      <svg width="46" height="46" viewBox="-26 -26 52 52">${moonSVG(22,pf,true)}</svg>
+      <div class="phase-lab">${PHASE_NAMES[i].replace(" Moon","").replace("Waxing ","Wax. ").replace("Waning ","Wan. ")}</div></div>`;
+  }).join("");
+  return `<div class="info-section" style="margin-top:14px;"><h3>The Moon tonight &amp; its phases</h3>
+    <div class="moon-now">
+      <svg width="74" height="74" viewBox="-34 -34 68 68">${moonSVG(30,f,true)}</svg>
+      <div><strong>${phaseName(f)}</strong><br><span class="source-note">about ${litPercent(f)}% lit &middot; as it looks from the Southern Hemisphere tonight</span></div>
+    </div>
+    <div class="phase-strip">${strip}</div>
+    <p style="font-size:.85rem; margin:6px 2px;">In the Southern Hemisphere the Moon is lit on the <strong>left</strong> as it grows (waxes) &mdash; the mirror image of the Northern-Hemisphere pictures in most books and apps.</p>
+    <p class="source-note">Māori knowledge connection: the <em>Maramataka</em> &mdash; the Māori lunar calendar &mdash; literally means &lsquo;the moon turning&rsquo;, reading these very phases to guide planting and fishing.</p></div>`;
+}
 function renderSkyInfo(season, region){
   const sky = SKY[season];
   $("#skyInfoPanel").innerHTML = `
@@ -1128,6 +1482,7 @@ function renderSkyInfo(season, region){
     </div>
     <div class="fn-sky"><div class="c-name">${sky.fn.t}</div><p>${sky.fn.p}</p>
       <p class="source-note">First Nations astronomy sourced from published research and community-shared accounts (see the references document accompanying this tool). Sky stories differ between nations.</p></div>
+    ${moonSectionHTML()}
     <div class="info-section" style="margin-top:14px;"><h3>Australian Curriculum v9 links</h3>${currHTML(["S2U01","S6U02"])}</div>
     <div class="teacher-panel">
       <h3>&#9733; Teacher panel</h3>
@@ -1191,6 +1546,62 @@ renderWelcome();
 updateLegend();
 renderSky();
 renderCompare();
+
+/* ================= Animal detail modal (all content in-tool) ================= */
+function foodChainHTML(name, d){
+  const foods = (d.eats||[]).map(x=>`<div class="chain-cell food">${x}</div>`).join("") || `<div class="chain-cell none">&mdash;</div>`;
+  const apex = !d.eatenBy || d.eatenBy.length===0 || d.eatenBy.some(x=>/^(none|few|no )/i.test(x));
+  const right = apex
+    ? `<div class="chain-cell none">${(d.eatenBy&&d.eatenBy[0])||"Top predator"}</div>`
+    : d.eatenBy.map(x=>`<div class="chain-cell pred">${x}</div>`).join("");
+  return `<div class="chain">
+      <div class="chain-col">${foods}</div>
+      <div class="chain-arrow">&rarr;</div>
+      <div class="chain-col"><div class="chain-cell animalc">${name}</div></div>
+      <div class="chain-arrow">&rarr;</div>
+      <div class="chain-col">${right}</div>
+    </div>
+    <p class="chain-note">Arrows point from food to feeder &mdash; the way energy flows.${apex?" As an apex predator, nothing usually hunts the healthy adult.":""}</p>`;
+}
+function lifeHTML(d){
+  const stages = d.life.map(s=>`<div class="life-stage">${s}</div>`).join('<div class="life-arrow">&rarr;</div>');
+  return `<div class="life">${stages}</div>
+    <p class="life-cycle-note">${d.metamorphic?"This is a <strong>metamorphic</strong> life cycle &mdash; the body changes completely (egg &rarr; tadpole &rarr; frog). ":""}&#8635; Then the cycle begins again with the next generation.</p>`;
+}
+function teacherPrompt(name, d){
+  const food = (d.eats && d.eats[0] ? d.eats[0].toLowerCase() : "its food");
+  return `Trace this food chain with your class: what might happen to the ${name.toLowerCase()} if ${food} disappeared from its habitat? Then ask which adaptation helps it survive where it lives.`;
+}
+function openAnimal(name, region){
+  const d = ANIMAL_DETAIL[name]; if(!d) return;
+  const status = ANIMAL_STATUS[name];
+  $("#animalHead").innerHTML = `<button id="animalClose" aria-label="Close">&times;</button>
+    <div class="ad-head-row">
+      <span class="ad-portrait">${animalBadge(name,72,true)}</span>
+      <div><div class="ad-crumb">Land &amp; Sky &middot; ${region||""}</div>
+      <h2>${name}</h2><p class="ad-role">${d.role}</p></div>
+    </div>`;
+  $("#animalBody").innerHTML = `
+    <div class="ad-sec"><h4>Where it lives &mdash; its habitat</h4><p>${d.habitat}</p></div>
+    <div class="ad-sec"><h4>What it eats</h4><p>${d.diet}</p></div>
+    <div class="ad-sec"><h4>Its place in the food chain</h4>${foodChainHTML(name,d)}</div>
+    <div class="ad-sec"><h4>Special adaptations</h4><p>${d.adapt}</p></div>
+    <div class="ad-sec"><h4>Life cycle</h4>${lifeCycleSVG(name,d)}</div>
+    ${status?`<div class="ad-sec"><h4>Conservation status</h4><p>${statusChip(name)} &mdash; ${statusBlurb(status)}.</p></div>`:""}
+    <div class="ad-sec"><h4>Australian Curriculum v9 links</h4><div class="ad-curric">${currHTML(["S3U01","S4U01","S5U01","S6U01"])}</div></div>
+    <div class="teacher-panel"><h3>&#9733; Teacher prompt</h3><p>${teacherPrompt(name,d)}</p></div>
+    ${animalSources(name)}`;
+  $("#animalOverlay").classList.add("open");
+  $("#animalCard").scrollTop = 0;
+  $("#animalClose").addEventListener("click", closeAnimal);
+}
+function closeAnimal(){ $("#animalOverlay").classList.remove("open"); }
+document.addEventListener("click", e => {
+  const card = e.target.closest("[data-animal]");
+  if(card) openAnimal(card.dataset.animal, card.dataset.region);
+});
+$("#animalOverlay").addEventListener("click", e => { if(e.target.id==="animalOverlay") closeAnimal(); });
+document.addEventListener("keydown", e => { if(e.key==="Escape") closeAnimal(); });
 
 </script>
 
