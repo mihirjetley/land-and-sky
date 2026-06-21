@@ -10,7 +10,7 @@
 <meta name="licence" content="CC BY 4.0 — https://creativecommons.org/licenses/by/4.0/">
 <style>
 :root{
-  --sand:#f7f1e5; --card:#fffdf8; --ink:#2b2620; --ink-soft:#6b6155;
+  --sand:#f7f1e5; --card:#fffdf8; --ink:#2b2620; --ink-soft:#574d42;
   --euca:#4a7c59; --ochre:#c75b39; --gold:#d9a23c; --night:#0b1d3a;
   --tropical:#2f9e6e; --subtropical:#74b25c; --arid:#d95f2b; --semiarid:#e8a14f;
   --med:#c9a227; --temperate:#3e8fb0; --cooltemp:#2f6f8f;
@@ -102,7 +102,7 @@ main{max-width:1280px; margin:0 auto; padding:14px;}
 .info-panel h2{margin:0 0 2px; font-size:1.3rem;}
 .info-panel .trad{font-size:.85rem; color:var(--ink-soft); margin:0 0 10px; font-style:italic;}
 .zone-chips{display:flex; gap:6px; flex-wrap:wrap; margin:8px 0 12px;}
-.zone-chip{font-size:.75rem; font-weight:700; color:#fff; border-radius:999px; padding:4px 10px;}
+.zone-chip{font-size:.75rem; font-weight:700; color:#23211d; text-shadow:0 1px 0 rgba(255,255,255,.4); border-radius:999px; padding:4px 10px;}
 .info-section{margin-bottom:14px;}
 .info-section h3{
   margin:0 0 6px; font-size:.82rem; text-transform:uppercase; letter-spacing:.7px;
@@ -219,7 +219,7 @@ body.teacher-on .teacher-panel{display:block;}
 @media (min-width:520px){ .phase-strip{grid-template-columns:repeat(8,1fr);} }
 .phase-cell{display:flex; flex-direction:column; align-items:center; text-align:center; border-radius:8px; padding:4px 2px;}
 .phase-cell.here{background:#fdf6ea;}
-.phase-lab{font-size:.6rem; color:var(--ink-soft); margin-top:2px; line-height:1.1;}
+.phase-lab{font-size:.68rem; color:var(--ink-soft); margin-top:2px; line-height:1.15;}
 .phase-cell.here .phase-lab{color:var(--ink); font-weight:700;}
 .fn-sky{border-left:5px solid var(--ochre); background:#fbeee6; border-radius:8px; padding:10px 12px; margin-top:12px;}
 .fn-sky .c-name{font-weight:700; font-size:.92rem;}
@@ -254,6 +254,87 @@ footer{max-width:1280px; margin:8px auto 28px; padding:0 14px;}
   .teacher-panel{display:none;}
   body.teacher-on .teacher-panel{display:block;}
 }
+
+/* ---------- Living Things tab ---------- */
+.life-intro{margin:2px 4px 12px;}
+.life-intro h2{margin:0 0 4px; font-size:1.3rem;}
+.life-intro p{margin:0; font-size:.92rem; color:var(--ink-soft);}
+.life-sub{display:flex; gap:6px; flex-wrap:wrap; margin:0 4px 14px;}
+.plant-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px;}
+button.plant-card{font-family:inherit; text-align:left; cursor:pointer; background:#eef3e6; border:1.5px solid #cfe0bf;
+  border-radius:12px; padding:11px 12px; transition:border-color .15s, transform .1s; display:flex; gap:10px; align-items:center;}
+button.plant-card:hover{border-color:var(--euca);}
+button.plant-card:active{transform:scale(.985);}
+.plant-card .p-name{font-weight:700; font-size:.92rem; display:block;}
+.plant-card .p-group{font-size:.72rem; color:#4a6a3a; font-weight:700; text-transform:uppercase; letter-spacing:.3px;}
+.plant-card .p-more{font-size:.72rem; font-weight:700; color:var(--euca);}
+.leaf-badge{flex:0 0 auto;}
+.kingdom-banner{display:flex; gap:10px; flex-wrap:wrap; margin:6px 0 14px;}
+.kingdom{flex:1; min-width:200px; border-radius:12px; padding:12px 14px;}
+.kingdom.animals{background:#eef0f8; border:1.5px solid #c4cbe6;}
+.kingdom.plants{background:#eef3e6; border:1.5px solid #cfe0bf;}
+.kingdom h3{margin:0 0 4px; font-size:1rem;}
+.kingdom p{margin:0; font-size:.82rem; color:var(--ink-soft);}
+.class-group{background:var(--card); border:1.5px solid #e6dcc4; border-radius:12px; padding:12px 14px; margin-bottom:10px;}
+.class-group h4{margin:0 0 2px; font-size:.95rem; display:flex; align-items:center; gap:8px;}
+.class-group .cg-feature{font-size:.8rem; color:var(--ink-soft); margin:0 0 8px;}
+.class-chips{display:flex; gap:6px; flex-wrap:wrap;}
+.life-chip{border:1.5px solid #d8cbb4; background:#fbf7ee; border-radius:999px; padding:7px 12px; font-size:.84rem; font-weight:600;
+  color:var(--ink); cursor:default; min-height:38px; display:inline-flex; align-items:center; gap:6px;}
+button.life-chip{cursor:pointer; transition:border-color .15s, transform .1s;}
+button.life-chip:hover{border-color:var(--euca);}
+button.life-chip:active{transform:scale(.97);}
+.life-chip .lc-grp{font-size:.66rem; color:#6e655a;}
+.nonliving-row{display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;}
+.nl-chip{background:#ece3d2; color:#6e5b33; border-radius:999px; padding:6px 12px; font-size:.82rem; font-weight:600;}
+.fn-group-note{border-left:5px solid var(--ochre); background:#fbeee6; border-radius:8px; padding:10px 12px; margin-top:10px; font-size:.85rem;}
+.web-svg{width:100%; height:auto; background:#f6fbf4; border:1.5px solid #d6e6c8; border-radius:12px;}
+.web-node{cursor:default;}
+.web-node.clickable{cursor:pointer;}
+.web-legend{display:flex; gap:14px; flex-wrap:wrap; font-size:.78rem; color:var(--ink-soft); margin:8px 4px 2px;}
+.web-legend .key{display:flex; align-items:center; gap:5px;}
+.web-legend .dot{width:13px; height:13px; border-radius:50%; display:inline-block;}
+.plant-life{display:flex; align-items:stretch; gap:6px; flex-wrap:wrap; margin-top:4px;}
+.pl-stage{background:#eef3e6; border:1.5px solid #cfe0bf; border-radius:9px; padding:8px 10px; font-size:.82rem; font-weight:600; flex:1; min-width:84px; text-align:center; display:flex; align-items:center; justify-content:center;}
+.pl-arrow{align-self:center; color:var(--euca); font-weight:800; font-size:1.1rem;}
+
+/* ---------- Year-level filter ---------- */
+.year-seg{display:flex; gap:4px; align-items:center; background:rgba(255,255,255,.14); border-radius:999px; padding:3px 4px;}
+.year-seg .yr-lab{color:#fdf6ea; font-size:.76rem; font-weight:700; opacity:.85; padding:0 4px;}
+.year-seg button{border:none; background:transparent; color:#fdf6ea; border-radius:999px; padding:7px 10px; font-size:.82rem; font-weight:700; cursor:pointer; min-height:38px;}
+.year-seg button.active{background:#fdf6ea; color:#5a3a26;}
+.curr-off{display:none !important;}
+.year-dim{opacity:.34; transition:opacity .2s ease;}
+.focus-banner{background:#fdf8ec; border:1.5px dashed var(--gold); border-radius:10px; padding:9px 13px; margin:0 0 12px; font-size:.84rem; color:#8a6a1f;}
+.teacher-panel .q-year{font-weight:700; color:#8a6a1f; font-size:.76rem; margin:9px 0 1px;}
+.teacher-panel .q-code{font-size:.62rem; color:#a9883f; font-weight:700; margin-left:5px; font-family:ui-monospace,Menlo,monospace; white-space:nowrap;}
+.teacher-panel .q-none{font-size:.85rem; color:var(--ink-soft); font-style:italic; margin:4px 0;}
+
+/* ---------- Curriculum coverage ---------- */
+.cov-intro{margin:2px 4px 12px;}
+.cov-intro h2{margin:0 0 4px; font-size:1.3rem;}
+.cov-intro p{margin:0; font-size:.9rem; color:var(--ink-soft);}
+.cov-table{width:100%; border-collapse:collapse; font-size:.86rem; margin-top:4px;}
+.cov-table th,.cov-table td{padding:8px 10px; text-align:left; border-bottom:1px solid #ece3d2; vertical-align:top;}
+.cov-table th{font-size:.7rem; text-transform:uppercase; letter-spacing:.5px; color:var(--ink-soft);}
+.cov-year{display:inline-block; font-weight:700; font-size:.72rem; color:#5a4a33; background:#e9e1cf; border-radius:6px; padding:2px 7px; white-space:nowrap;}
+.cov-where{color:var(--ink-soft); font-size:.82rem;}
+.diff-q{background:#fdf8ec; border:1.5px dashed var(--gold); border-radius:12px; padding:12px 16px; margin-top:14px;}
+.diff-q h3{margin:0 0 6px; color:#8a6a1f; font-size:.95rem;}
+.diff-q h4{margin:10px 0 3px; color:#8a6a1f; font-size:.8rem;}
+.diff-q ul{margin:3px 0 0; padding-left:20px;} .diff-q li{font-size:.88rem; margin-bottom:3px;}
+
+/* ---------- Glossary + read-aloud ---------- */
+.gloss{background:none; border:none; padding:0 1px; font:inherit; color:inherit; border-bottom:1.6px dotted var(--euca); cursor:help; line-height:inherit;}
+.gloss:hover,.gloss:focus{background:#eef3e6; outline:2px solid transparent; border-radius:2px;}
+#glossPop{position:absolute; z-index:90; max-width:280px; background:var(--card); border:1.5px solid #d8cbb4; border-radius:12px; box-shadow:0 8px 28px rgba(0,0,0,.24); padding:12px 14px; display:none;}
+#glossPop.open{display:block;}
+#glossPop .gp-term{font-weight:700; font-size:.96rem; margin:0 0 4px; text-transform:capitalize;}
+#glossPop .gp-def{font-size:.86rem; margin:0 0 9px;}
+.speak-btn{display:inline-flex; align-items:center; gap:5px; border:1.5px solid #cbb98f; background:#fbf7ee; color:#5a4a33; border-radius:999px; padding:6px 12px; font-size:.8rem; font-weight:600; cursor:pointer; min-height:36px;}
+.speak-btn:hover{border-color:var(--euca);}
+.ad-readaloud{margin:2px 0 10px;}
+body.no-speech .speak-btn{display:none;}
 </style>
 </head>
 <body>
@@ -267,8 +348,18 @@ footer{max-width:1280px; margin:8px auto 28px; padding:0 14px;}
       <nav class="tabs" aria-label="Main views">
         <button class="tab-btn active" data-view="map">Explore the Map</button>
         <button class="tab-btn" data-view="sky">Night Sky</button>
+        <button class="tab-btn" data-view="life">Living Things</button>
         <button class="tab-btn" data-view="compare">Compare Regions</button>
+        <button class="tab-btn" data-view="curric">Curriculum</button>
       </nav>
+      <div class="year-seg" id="yearSeg" role="group" aria-label="Focus on a year level">
+        <span class="yr-lab">Year</span>
+        <button class="active" data-yr="all">All</button>
+        <button data-yr="3">3</button>
+        <button data-yr="4">4</button>
+        <button data-yr="5">5</button>
+        <button data-yr="6">6</button>
+      </div>
       <button class="teacher-toggle" id="teacherToggle" aria-pressed="false">
         <span class="dot"></span> Teacher mode
       </button>
@@ -391,6 +482,24 @@ footer{max-width:1280px; margin:8px auto 28px; padding:0 14px;}
     </div>
   </section>
 
+  <!-- ============ LIVING THINGS VIEW ============ -->
+  <section class="view" id="view-life">
+    <div class="panel">
+      <div class="life-intro" id="lifeIntro"></div>
+      <div class="life-sub seg" id="lifeSubNav" role="group" aria-label="Living things view">
+        <button class="active" data-life="classify">Classify living things</button>
+        <button data-life="webs">Food webs</button>
+        <button data-life="plants">Plants &amp; producers</button>
+      </div>
+      <div id="lifeHolder"></div>
+    </div>
+  </section>
+
+  <!-- ============ CURRICULUM VIEW ============ -->
+  <section class="view" id="view-curric">
+    <div class="panel" id="curricHolder"></div>
+  </section>
+
   <!-- ============ COMPARE VIEW ============ -->
   <section class="view" id="view-compare">
     <div class="panel">
@@ -408,8 +517,12 @@ footer{max-width:1280px; margin:8px auto 28px; padding:0 14px;}
   <div class="ack">
     <strong>Acknowledgment of Country.</strong> We acknowledge the Traditional Owners and Custodians of the lands, waters and skies across Australia, and pay our respects to Elders past and present. We also acknowledge Māori as tangata whenua of Aotearoa New Zealand. The seasonal and sky knowledge shown here has been shared publicly by First Nations Australian communities (through the Bureau of Meteorology&rsquo;s <em>Indigenous Weather Knowledge</em> and CSIRO&rsquo;s Indigenous seasonal calendars) and by Māori sources such as Te Papa and Te Ara. This knowledge belongs to its communities. Teachers are encouraged to connect with local Traditional Owners and iwi to learn the knowledge of their own area.
   </div>
-  <p class="footer-meta">Works offline once loaded &bull; Built for touch &bull; Australian Curriculum v9 codes from ACARA &bull; Climate figures are approximate long-term averages (Bureau of Meteorology) &bull; Night-sky views are simplified evening guides (about 8&ndash;9 pm local time).</p>
+  <p class="footer-meta">Works offline once loaded &bull; Built for touch &bull; Climate figures are approximate long-term averages (Bureau of Meteorology) &bull; Night-sky views are simplified evening guides (about 8&ndash;9 pm local time).</p>
+  <p class="footer-meta">Australian Curriculum content elements are &copy; ACARA 2010 to present, licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>. Content descriptor codes and descriptions have been used and, in places, abridged for length; this material has been modified from the original. ACARA does not endorse this resource.</p>
+  <p class="footer-meta">This resource is released under CC BY 4.0 <strong>except where otherwise noted</strong>. Third-party material (ACARA, the Bureau of Meteorology, CSIRO, Te Papa and Te Ara) remains the property of its owners. First Nations Australian and M&#257;ori knowledge shared here belongs to its communities and is <strong>not</strong> licensed under this resource&rsquo;s CC BY 4.0 grant.</p>
 </footer>
+
+<div id="glossPop" role="dialog" aria-label="Word meaning"></div>
 
 <div id="animalOverlay" role="dialog" aria-modal="true" aria-label="Animal detail">
   <div id="animalCard">
@@ -422,7 +535,7 @@ footer{max-width:1280px; margin:8px auto 28px; padding:0 14px;}
 /* ================= DATA: regions ================= */
 const CURR = {
   HS3K03:{code:"AC9HS3K03", area:"HASS — Geography", year:"Year 3", text:"How Australia is represented as states and territories, and as the Countries/Places of First Nations Australians."},
-  HS3K05:{code:"AC9HS3K05", area:"HASS — Geography", year:"Year 3", text:"Similarities and differences between places, including the main climate types and their features."},
+  HS3K05:{code:"AC9HS3K05", area:"HASS — Geography", year:"Year 3", text:"The similarities and differences between places in Australia and neighbouring countries in terms of their natural, managed and constructed features."},
   HS4K05:{code:"AC9HS4K05", area:"HASS — Geography", year:"Year 4", text:"The importance of environments, including natural vegetation and water sources, to people and animals."},
   HS4K06:{code:"AC9HS4K06", area:"HASS — Geography", year:"Year 4", text:"Sustainable use of resources, including the custodial responsibility First Nations Australians have for Country/Place."},
   HS5K04:{code:"AC9HS5K04", area:"HASS — Geography", year:"Year 5", text:"The influence of people, including First Nations Australians, on the characteristics of a place."},
@@ -1110,8 +1223,8 @@ const ANIMAL_STATUS = {
 };
 function statusChip(name){
   const s = ANIMAL_STATUS[name]; if(!s) return "";
-  const danger = /critically/i.test(s) ? "#b3271e" : /endangered/i.test(s) ? "#c4503c"
-    : /(vulnerable|near|risk)/i.test(s) ? "#c98a2b" : "#4a7c59";
+  const danger = /critically/i.test(s) ? "#a8231b" : /endangered/i.test(s) ? "#b1402c"
+    : /(vulnerable|near|risk)/i.test(s) ? "#8a5e10" : "#3f6e4c";
   return `<span class="a-status" style="background:${danger}">${s}</span>`;
 }
 const STATE_FILLS = {};
@@ -1121,6 +1234,7 @@ $$("#statesLayer .state, #nzLayer .state").forEach(p => STATE_FILLS[p.dataset.re
 $$(".tab-btn").forEach(b => b.addEventListener("click", () => {
   $$(".tab-btn").forEach(x => x.classList.toggle("active", x === b));
   $$(".view").forEach(v => v.classList.toggle("active", v.id === "view-" + b.dataset.view));
+  if(b.dataset.view === "curric") renderCurric();
 }));
 
 /* ---------- Teacher mode ---------- */
@@ -1135,10 +1249,119 @@ function zoneChips(zones){
   return '<div class="zone-chips">' + zones.map(z =>
     `<span class="zone-chip" style="background:${CLIMATE_ZONES[z].color}">${CLIMATE_ZONES[z].name}</span>`).join("") + "</div>";
 }
+/* ---- shared UI state: year filter + read-aloud (defined early; used at init) ---- */
+let activeYear = "all";
+let currentDetail = null;
+let currentReadText = "";
+const SPK = '<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" style="vertical-align:-2px"><path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor"/><path d="M16 8.5a4 4 0 010 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+function speakBtnHTML(aria){ return `<button class="speak-btn" data-speak="page" aria-label="${aria}">${SPK} Read aloud</button>`; }
+function speak(text){
+  if(!("speechSynthesis" in window) || !text) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "en-AU"; u.rate = 0.95; u.pitch = 1;
+  window.speechSynthesis.speak(u);
+}
+function focusBanner(){
+  return activeYear === "all" ? "" :
+    `<div class="focus-banner">Showing a <strong>Year ${activeYear}</strong> focus — curriculum links and some sections are filtered. Tap <strong>All</strong> (top right) to see everything.</div>`;
+}
+/* ---- Year-differentiated discussion questions (cross-referenced to AC v9) ---- */
+function yrLabel(y){ return y==="2" ? "Foundation – Year 2" : y==="7" ? "Year 7 (extension)" : "Year "+y; }
+function qListHTML(map, fallback){
+  const one = y => `<ul>${map[y].map(o=>`<li>${o[0]} <span class="q-code">${o[1]}</span></li>`).join("")}</ul>`;
+  if(activeYear === "all") return Object.keys(map).sort().map(y=>`<p class="q-year">${yrLabel(y)}</p>${one(y)}`).join("");
+  if(map[activeYear]) return one(activeYear);
+  return `<p class="q-none">${fallback || "A focus for this year level sits on another tab."}</p>`;
+}
+const REGION_QYEAR = {
+  WA:{ "3":[["WA has the tropical Kimberley, red desert and the green south-west around Perth. Choose two and describe how their natural features differ.","AC9HS3K05"]],
+       "4":[["Why are the tall jarrah and karri forests of the south-west important to the animals that live there and to people?","AC9HS4K05"]],
+       "5":[["Noongar people used mosaic 'cool burning' for thousands of years. How has that shaped the south-west's plants and animals?","AC9HS5K04"]],
+       "6":[["If the south-west became hotter and drier, how might that affect a specialist like the numbat?","AC9S6U01"]] },
+  NT:{ "3":[["The Top End has a Wet and a Dry season instead of four. How does that make it different from where you live?","AC9HS3K05"]],
+       "4":[["Kakadu's wetlands fill each Wet season. Why are they important to magpie geese, crocodiles and to people?","AC9HS4K05"]],
+       "5":[["Larrakia and other First Nations peoples read seven seasons from nature. How does that knowledge shape how people live in the Top End?","AC9HS5K04"]],
+       "6":[["A saltwater crocodile needs warm water. How would a long, cold change affect where it can survive?","AC9S6U01"]] },
+  QLD:{ "3":[["Queensland has rainforest, reef and desert. Pick two and describe how their natural features differ.","AC9HS3K05"]],
+        "4":[["The Wet Tropics rainforest meets the Great Barrier Reef here. Why are they important to animals and to people?","AC9HS4K05"]],
+        "5":[["The reef faces threats like warming water and cyclones. How might people manage and protect it?","AC9HS5K05"]],
+        "6":[["The cassowary depends on rainforest fruit. How would clearing or drying the rainforest affect its survival?","AC9S6U01"]] },
+  SA:{ "3":[["SA is Australia's driest state, but Adelaide's coast is green. Describe how these two places differ.","AC9HS3K05"]],
+       "4":[["Water is scarce across much of SA. Why are rivers and waterholes so important to people and animals here?","AC9HS4K05"]],
+       "5":[["Kati Thanda–Lake Eyre floods only rarely. How do people and living things cope with such a dry, unpredictable environment?","AC9HS5K05"]],
+       "6":[["The hairy-nosed wombat burrows to escape heat. How would a longer, hotter drought affect its survival?","AC9S6U01"]] },
+  NSW:{ "3":[["NSW runs from surf beaches to snowy mountains to outback. Compare the natural features of two of these places.","AC9HS3K05"]],
+        "4":[["The Great Dividing Range makes the coast wet and the inland dry. Why does that matter to plants, animals and people on each side?","AC9HS4K05"]],
+        "5":[["NSW faces bushfires and floods. How do communities prepare for and manage these severe weather events?","AC9HS5K05"]],
+        "6":[["A platypus needs clean, permanent rivers. How would drought or polluted water affect its survival?","AC9S6U01"]] },
+  VIC:{ "3":[["Victoria has tall wet forests, snowy alps and dry mallee. Choose two and describe how they differ.","AC9HS3K05"]],
+        "4":[["The Budj Bim eel traps are over 6,000 years old. What do they show about how First Nations peoples sustainably managed Country?","AC9HS4K06"]],
+        "5":[["From ancient eel traps to a modern city, how have people shaped the land around Melbourne?","AC9HS5K04"]],
+        "6":[["Leadbeater's possum needs old tree hollows. How would more frequent bushfires affect its survival?","AC9S6U01"]] },
+  TAS:{ "3":[["Tasmania's wild west coast is soaked while the east is much drier. Describe how these two places differ.","AC9HS3K05"]],
+        "4":[["Tasmania's ancient Gondwanan forests grow almost nowhere else. Why are they important to its animals and to people?","AC9HS4K05"]],
+        "5":[["Fire can destroy 2,000-year-old Huon pines that never grow back. How might people manage that risk?","AC9HS5K05"]],
+        "6":[["The eastern quoll survives in Tasmania but died out on the mainland. What changed conditions might explain that?","AC9S6U01"]] },
+  ACT:{ "3":[["Canberra was built inland and high up, between Sydney and Melbourne. How is its setting different from a coastal city?","AC9HS3K05"]],
+        "4":[["Bogong moths once arrived in the mountains in their billions. Why were these mountains important to animals and to First Nations peoples?","AC9HS4K05"]],
+        "5":[["Australia chose to build its capital here. How have people changed this highland place?","AC9HS5K04"]],
+        "6":[["The northern corroboree frog lives only in cold alpine bogs. How would a warming climate affect its survival?","AC9S6U01"]] },
+  NZ:{ "3":[["New Zealand is Australia's neighbour across the Tasman Sea. Find it on the map, then name one way it's similar to Australia and one way it's different.","AC9HS3K05"]],
+       "4":[["New Zealand has almost no native land mammals, so birds fill those roles. Why is its forest environment so important to birds like the kiwi?","AC9HS4K05"]],
+       "5":[["People brought stoats and rats to New Zealand. How have those introduced animals changed the place for native birds?","AC9HS5K04"]],
+       "6":[["The kākāpō nearly went extinct. How do changed conditions (new predators) affect its survival, and how are people responding?","AC9S6U01"]] }
+};
+const CLASSIFY_Q = {
+  "3":[["Sort these living things into groups by features you can observe. What feature did you use for each group?","AC9S3U01"],
+       ["What makes something living rather than non-living? Test a rock, a fern and a frog against your rule.","AC9S3U01"],
+       ["What features make an emu a bird and a platypus a mammal — even though both lay eggs?","AC9S3U01"]],
+  "7":[["Scientists use dichotomous keys to classify. Could you make a yes/no key to tell a bird from a reptile?","AC9S7U01"]]
+};
+const WEB_Q = {
+  "4":[["Find a producer, a consumer and a decomposer. Why does the web need all three?","AC9S4U01"],
+       ["Follow the arrows: pick one animal and remove it. Which other living things would be affected?","AC9S4U01"]],
+  "6":[["Imagine a long drought dries out the plants. How would that change the whole food web?","AC9S6U01"]]
+};
+const PLANTVIEW_Q = {
+  "3":[["How is a plant's life cycle (seed → plant → seed) like and unlike an animal's?","AC9S3U01"]],
+  "4":[["Every food chain starts with a plant. Choose one and name an animal that depends on it.","AC9S4U01"]],
+  "5":[["The banksia needs fire to release its seeds; the mangrove pushes out salt. How do these features help each plant survive where it lives?","AC9S5U01"]]
+};
+const COMPARE_Q = {
+  "3":[["Compare your two regions: name one natural feature and one constructed feature that make them different.","AC9HS3K05"]],
+  "4":[["Compare how important water and native plants are to the people and animals of each region.","AC9HS4K05"]],
+  "5":[["How have people — including First Nations peoples — shaped each of these two places differently?","AC9HS5K04"],
+       ["Which of your two regions faces tougher severe weather (bushfire, flood, drought, cyclone), and how might people manage it?","AC9HS5K05"]]
+};
+const SKY_Q = {
+  "2":[["Watch how the Moon's shape changes over a week. What pattern can you see?","AC9S2U01"]],
+  "6":[["Why do we see different constellations in winter than in summer?","AC9S6U02"],
+       ["Earth tilts as it orbits the Sun. How does that explain longer summer days and shorter winter days?","AC9S6U02"],
+       ["The Moon repeats the same cycle of phases each month. What causes that repeating pattern?","AC9S6U02"]]
+};
+function animalQMap(name, d){
+  const food = (d.eats && d.eats[0]) ? d.eats[0].toLowerCase() : "its main food";
+  return {
+    "3":[[`Put the ${name}'s life-cycle stages in order. How is its life cycle different from a plant's?`,"AC9S3U01"]],
+    "4":[[`Trace the ${name}'s food chain. What might happen to it if ${food} disappeared?`,"AC9S4U01"]],
+    "5":[[`Which feature or behaviour helps the ${name} survive in its habitat — and how?`,"AC9S5U01"]],
+    "6":[[`If the ${name}'s habitat changed (hotter, drier or more crowded), how might that affect its survival?`,"AC9S6U01"]]
+  };
+}
+function plantQMap(name){
+  return {
+    "3":[[`How does the ${name} start life and make new plants? Compare that with how an animal's life cycle begins.`,"AC9S3U01"]],
+    "4":[[`The ${name} is a producer. Name an animal that depends on it, and what would happen if it vanished.`,"AC9S4U01"]],
+    "5":[[`Which feature helps the ${name} survive where it grows (fire, salt, frost or drought)?`,"AC9S5U01"]]
+  };
+}
+function codeYear(c){ const m = (c.year||"").match(/\d+/); return m ? m[0] : ""; }
 function currHTML(keys){
   return keys.map(k => {
     const c = CURR[k];
-    return `<p class="curr-item"><span class="curr-code">${c.code}</span><strong>${c.area} (${c.year}):</strong> ${c.text}</p>`;
+    const off = activeYear !== "all" && codeYear(c) !== activeYear;
+    return `<p class="curr-item${off?' curr-off':''}"><span class="curr-code">${c.code}</span><strong>${c.area} (${c.year}):</strong> ${c.text}</p>`;
   }).join("");
 }
 function weatherTable(w){
@@ -1162,12 +1385,25 @@ function fnSeasonsHTML(fn){
 }
 
 /* ---------- Region info panel ---------- */
+function regionPlantsHTML(id){
+  const list = Object.keys(PLANT_DETAIL).filter(p => (PLANT_DETAIL[p].regions||[]).includes(id));
+  if(!list.length) return "";
+  const cards = list.map(p => { const d = PLANT_DETAIL[p];
+    return `<button class="plant-card" data-plant="${p.replace(/"/g,'&quot;')}">
+      <span class="leaf">${leafBadge(d.grp,42)}</span>
+      <span><span class="p-name">${p}</span><span class="p-group">${d.group}</span> <span class="p-more">explore ›</span></span></button>`;
+  }).join("");
+  return `<div class="info-section"><h3>Plants (producers)</h3>
+    <p style="font-size:.85rem;color:var(--ink-soft);margin:0 0 8px;">The producers at the base of this region's food webs. Tap one to see its life cycle.</p>
+    <div class="plant-grid">${cards}</div></div>`;
+}
 let selectedRegion = null;
 function renderRegion(id){
   selectedRegion = id;
   $$("#statesLayer .state, #nzLayer .state").forEach(p => p.classList.toggle("selected", p.dataset.region === id));
   const r = REGIONS[id];
   $("#infoPanel").innerHTML = `
+    ${focusBanner()}
     <h2>${r.name}</h2>
     <p class="trad">${r.trad}</p>
     ${zoneChips(r.zones)}
@@ -1180,6 +1416,7 @@ function renderRegion(id){
           <span class="ac-txt"><span class="a-name">${a.n}${statusChip(a.n)}${hasDetail?'<span class="a-more">explore ›</span>':''}</span>
           <span class="a-desc">${a.d}</span></span></button>`; }).join("")}</div>
     </div>
+    ${regionPlantsHTML(id)}
     ${fnSeasonsHTML(r.fn)}
     <div class="info-section"><h3>Seasonal weather — ${r.capital}</h3>${weatherTable(r.weather)}
       <p class="source-note">Approximate long-term averages for ${r.capital} (${r.neighbour ? "NIWA, New Zealand" : "Bureau of Meteorology"}).</p></div>
@@ -1189,7 +1426,7 @@ function renderRegion(id){
       <h3>&#9733; Teacher panel</h3>
       <h4>Learning intention</h4><p>${r.teacher.intention}</p>
       <h4>Discussion questions</h4>
-      <ul>${r.teacher.questions.map(q => `<li>${q}</li>`).join("")}</ul>
+      ${qListHTML(REGION_QYEAR[id], "")}
       <h4>Tip</h4><p>Students can press <strong>Print</strong> (or screenshot on iPad) to keep a record of the regions they explore.</p>
     </div>`;
 }
@@ -1489,12 +1726,7 @@ function renderSkyInfo(season, region){
       <h4>Learning intention</h4>
       <p>We are learning that Earth&rsquo;s orbit around the sun changes which stars we see each season — and that the Southern Hemisphere sees a sky most of the world never sees.</p>
       <h4>Discussion questions</h4>
-      <ul>
-        <li>Why can we see Scorpius in winter but not in summer? (Hint: where is the sun?)</li>
-        <li>The Emu in the Sky is drawn in <em>dark</em> clouds, not stars. How does that change the way you look at the night sky?</li>
-        <li>Why can&rsquo;t people in Europe ever see the Southern Cross?</li>
-        <li>Try changing the city — why does the Southern Cross sit lower in the sky from Darwin than from Hobart?</li>
-      </ul>
+      ${qListHTML(SKY_Q, "Looking at another year? Sky patterns sit at Year 6; living-world questions are in Living Things and the region maps.")}
     </div>`;
 }
 
@@ -1528,12 +1760,7 @@ function renderCompare(){
     <h4>Learning intention</h4>
     <p>We are learning to compare places using geographic evidence: climate, rainfall, ecosystems and seasons.</p>
     <h4>Comparison prompts</h4>
-    <ul>
-      <li>Find <strong>two differences</strong> and <strong>one surprising similarity</strong> between these regions.</li>
-      <li>Which region gets more summer rain? Use the tables to prove your answer.</li>
-      <li>Could an animal from one region survive in the other? Why or why not?</li>
-      <li>How do the First Nations seasonal calendars differ — and what does each one pay attention to?</li>
-    </ul>`;
+    ${qListHTML(COMPARE_Q, "Looking at a Year 6 focus? See the animal pages and Night Sky.")}`;
 }
 ["cmpA","cmpB"].forEach((sid,i) => {
   const sel = document.getElementById(sid);
@@ -1575,6 +1802,9 @@ function teacherPrompt(name, d){
 function openAnimal(name, region){
   const d = ANIMAL_DETAIL[name]; if(!d) return;
   const status = ANIMAL_STATUS[name];
+  currentDetail = {kind:"animal", name:name, region:region||""};
+  currentReadText = `${name}. ${d.role}. Where it lives: ${d.habitat} What it eats: ${d.diet} Special adaptations: ${d.adapt}`;
+  const sec = yr => `class="ad-sec${activeYear!=="all" && String(yr)!==activeYear ? " year-dim" : ""}"`;
   $("#animalHead").innerHTML = `<button id="animalClose" aria-label="Close">&times;</button>
     <div class="ad-head-row">
       <span class="ad-portrait">${animalBadge(name,72,true)}</span>
@@ -1582,26 +1812,574 @@ function openAnimal(name, region){
       <h2>${name}</h2><p class="ad-role">${d.role}</p></div>
     </div>`;
   $("#animalBody").innerHTML = `
-    <div class="ad-sec"><h4>Where it lives &mdash; its habitat</h4><p>${d.habitat}</p></div>
+    <p class="ad-readaloud">${speakBtnHTML("Read this page aloud")}</p>
+    <div ${sec(6)}><h4>Where it lives &mdash; its habitat</h4><p>${d.habitat}</p></div>
     <div class="ad-sec"><h4>What it eats</h4><p>${d.diet}</p></div>
-    <div class="ad-sec"><h4>Its place in the food chain</h4>${foodChainHTML(name,d)}</div>
-    <div class="ad-sec"><h4>Special adaptations</h4><p>${d.adapt}</p></div>
-    <div class="ad-sec"><h4>Life cycle</h4>${lifeCycleSVG(name,d)}</div>
+    <div ${sec(4)}><h4>Its place in the food chain</h4>${foodChainHTML(name,d)}</div>
+    <div ${sec(5)}><h4>Special adaptations</h4><p>${d.adapt}</p></div>
+    <div ${sec(3)}><h4>Life cycle</h4>${lifeCycleSVG(name,d)}</div>
     ${status?`<div class="ad-sec"><h4>Conservation status</h4><p>${statusChip(name)} &mdash; ${statusBlurb(status)}.</p></div>`:""}
     <div class="ad-sec"><h4>Australian Curriculum v9 links</h4><div class="ad-curric">${currHTML(["S3U01","S4U01","S5U01","S6U01"])}</div></div>
-    <div class="teacher-panel"><h3>&#9733; Teacher prompt</h3><p>${teacherPrompt(name,d)}</p></div>
+    <div class="teacher-panel"><h3>&#9733; Teacher panel</h3><h4>Discussion questions</h4>${qListHTML(animalQMap(name,d),"")}</div>
     ${animalSources(name)}`;
-  $("#animalOverlay").classList.add("open");
+  const overlay = $("#animalOverlay");
+  overlay.classList.add("open");
   $("#animalCard").scrollTop = 0;
-  $("#animalClose").addEventListener("click", closeAnimal);
+  // Remember what had focus, then move focus into the dialog (a11y: WCAG 2.4.3)
+  lastFocusedBeforeModal = document.activeElement;
+  const closeBtn = $("#animalClose");
+  if(closeBtn) closeBtn.focus();
 }
-function closeAnimal(){ $("#animalOverlay").classList.remove("open"); }
+let lastFocusedBeforeModal = null;
+function closeAnimal(){
+  const overlay = $("#animalOverlay");
+  if(!overlay.classList.contains("open")) return;
+  overlay.classList.remove("open");
+  currentDetail = null;
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
+  // Restore focus to the element that opened the dialog
+  if(lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === "function"){
+    lastFocusedBeforeModal.focus();
+  }
+  lastFocusedBeforeModal = null;
+}
 document.addEventListener("click", e => {
+  if(e.target.closest("#animalClose")){ closeAnimal(); return; }
+  const plant = e.target.closest("[data-plant]");
+  if(plant){ openPlant(plant.dataset.plant); return; }
   const card = e.target.closest("[data-animal]");
   if(card) openAnimal(card.dataset.animal, card.dataset.region);
 });
 $("#animalOverlay").addEventListener("click", e => { if(e.target.id==="animalOverlay") closeAnimal(); });
-document.addEventListener("keydown", e => { if(e.key==="Escape") closeAnimal(); });
+document.addEventListener("keydown", e => {
+  const overlay = $("#animalOverlay");
+  if(!overlay.classList.contains("open")) return;
+  if(e.key==="Escape"){ closeAnimal(); return; }
+  if(e.key==="Tab"){
+    // Trap focus inside the open dialog (WCAG 2.1.2 No Keyboard Trap / 2.4.3)
+    const focusable = overlay.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if(!focusable.length) return;
+    const first = focusable[0], last = focusable[focusable.length-1];
+    if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+    else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+  }
+});
+
+/* ===================================================================
+   LIVING THINGS  —  plants (producers), classification & food webs
+   AC9S3U01 (Yr 3): characteristics of living/non-living things & the
+     life cycles of plants and animals  → plant life cycles + grouping
+   AC9S4U01 (Yr 4): producers, consumers, decomposers & food chains/webs
+   AC9S7U01 (Yr 7): formal classification & dichotomous keys — extension
+   =================================================================== */
+
+/* ---- Plants (producers) ---- */
+const PLANT_DETAIL = {
+  "River red gum":{group:"Flowering tree (eucalypt)", grp:"flowering", regions:["WA","NT","QLD","SA","NSW","VIC","ACT"],
+    where:"Lines rivers and creeks across mainland Australia.",
+    feature:"Survives both drought and flood, and resprouts after fire from buds hidden under its bark.",
+    eatenBy:["Koala","Insects","Cockatoos & ants (seeds)"],
+    life:["Seed (gumnut)","Seedling","Sapling","Flowering gum tree","Gumnuts with seeds"],
+    fn:"First Nations peoples shaped river red gum bark into canoes and coolamons — leaving 'scar trees' that still stand today."},
+  "Banksia":{group:"Flowering shrub", grp:"flowering", regions:["WA","SA","NSW","VIC","QLD"],
+    where:"Heathlands and woodlands of WA, SA and the south-east.",
+    feature:"Its woody seed cones stay shut until a bushfire's heat cracks them open — so new seedlings sprout in the ash.",
+    eatenBy:["Honeyeaters & pygmy-possums (nectar)","Cockatoos (seeds)"],
+    life:["Seed","Seedling","Shrub","Flower spike","Woody cone with seeds"],
+    fn:"Banksia flower spikes were soaked to make a sweet drink, and the dry cones used to carry fire."},
+  "Spinifex":{group:"Grass (a flowering plant)", grp:"flowering", regions:["WA","NT","SA","QLD"],
+    where:"Vast spiky rings across the arid centre.",
+    feature:"Rolls its needle-like leaves to lock in water, and grows in rings that spread outward over many years.",
+    eatenBy:["Insects & termites","Shelter for desert reptiles"],
+    life:["Seed","Seedling","Spiky tussock","Flowering","Seeds"],
+    fn:"Spinifex resin was prized as a strong natural glue for hafting spear tips and tools."},
+  "Grey mangrove":{group:"Flowering tree", grp:"flowering", regions:["NT","QLD","WA","NSW"],
+    where:"Muddy tropical and subtropical coasts of the north and east.",
+    feature:"Sends up snorkel-like roots to breathe in airless mud, and pushes salt out through its leaves.",
+    eatenBy:["Crabs (leaves)","Nursery & shelter for young fish"],
+    life:["Seed sprouts on the tree","Floating seedling","Roots in mud","Mangrove tree"],
+    fn:"Mangrove estuaries are rich First Nations food places for mud crabs, fish and shellfish."},
+  "Kangaroo grass":{group:"Grass (a flowering plant)", grp:"flowering", regions:["WA","NT","QLD","SA","NSW","VIC","ACT"],
+    where:"Native grasslands and grassy woodlands across the country.",
+    feature:"Deep roots and fire-tolerance let it bounce back quickly after burning.",
+    eatenBy:["Kangaroos & wallabies","Emus","Insects"],
+    life:["Seed","Seedling","Tussock","Reddish flower heads","Seeds"],
+    fn:"Its seed was harvested and ground into flour — part of one of the world's oldest baking traditions."},
+  "Mountain ash":{group:"Flowering tree", grp:"flowering", regions:["VIC","TAS"],
+    where:"Cool, wet mountain forests of Victoria and Tasmania.",
+    feature:"The world's tallest flowering plant (over 90 m). It depends on fire to release seed — but the adult trees are killed by it.",
+    eatenBy:["Leadbeater's possum (shelter & sap)","Insects (leaves)"],
+    life:["Seed","Seedling","Fast-growing sapling","Towering tree","Gum flowers & seed capsules"],
+    fn:"Old hollows in these forests take 150+ years to form — homes for gliders, possums and owls."},
+  "Silver fern":{group:"Fern (makes spores)", grp:"fern", regions:["NZ"],
+    where:"Shady forests of Aotearoa New Zealand.",
+    feature:"Makes no flowers or seeds — it reproduces by tiny spores under its fronds. New fronds uncurl as a 'koru'.",
+    eatenBy:["Insects & wētā","Shelter for forest birds"],
+    life:["Spore","Tiny heart-shaped plant","Young fern","Mature fern (makes spores)"],
+    fn:"The koru (unfurling frond) is a treasured Māori symbol of new life and growth."},
+  "Huon pine":{group:"Conifer (makes cones)", grp:"conifer", regions:["TAS"],
+    where:"River edges in the rainforests of western Tasmania.",
+    feature:"Makes seeds in tiny cones, not flowers. It grows incredibly slowly and can live over 2,000 years.",
+    eatenBy:["Insects","Seeds eaten by birds"],
+    life:["Seed in a cone","Seedling","Slow-growing tree","Ancient tree with cones"],
+    fn:"Living links to Gondwana — some Huon pines alive today were seedlings before the pyramids were built."},
+  "Kauri":{group:"Conifer (makes cones)", grp:"conifer", regions:["NZ"],
+    where:"Warm northern forests of Aotearoa New Zealand's North Island.",
+    feature:"One of the world's largest and longest-lived trees — making its seeds in cones, not flowers. Some living kauri are over 1,000 years old.",
+    eatenBy:["Insects","Seeds & shelter for forest birds"],
+    life:["Seed in a cone","Seedling","Slow-growing tree","Giant tree with cones"],
+    fn:"Kauri are taonga (treasures) to Māori, used for great waka (canoes) and carving; today they are guarded against kauri dieback disease."},
+  "Snow gum":{group:"Flowering tree (eucalypt)", grp:"flowering", regions:["NSW","VIC","ACT","TAS"],
+    where:"The high country and alps of the south-east, above the winter snowline.",
+    feature:"Twisted trunks and waxy, oil-rich leaves let it survive heavy snow and hard frost where few other trees can grow.",
+    eatenBy:["Insects (leaves)","Nectar for birds & insects","Possums"],
+    life:["Seed","Seedling","Hardy sapling","Gnarled snow gum","Gum flowers & seed capsules"],
+    fn:"The streaked, colourful bark of snow gums was a familiar marker along high-country travelling routes."}
+};
+const PLANT_SOURCES = "Royal Botanic Gardens, ANBG, Australian National Herbarium and NZ DOC (facts paraphrased for Years 3–6).";
+function leafBadge(grp,px){
+  const fill = grp==="conifer" ? "#3d6b4e" : grp==="fern" ? "#4f8a55" : "#4a7c59";
+  let art;
+  if(grp==="conifer") art=`<path d="M50,12 L66,52 H34 Z M50,34 L72,80 H28 Z" fill="${fill}"/><rect x="46" y="78" width="8" height="12" fill="#7a5230"/>`;
+  else if(grp==="fern") art=`<path d="M50,90 C50,55 50,30 50,14" stroke="${fill}" stroke-width="4" fill="none"/>`+
+    Array.from({length:7},(_,i)=>{const y=24+i*9,l=8+i*3;return `<path d="M50,${y} q-${l},-3 -${l+2},4 M50,${y} q${l},-3 ${l+2},4" stroke="${fill}" stroke-width="3" fill="none"/>`;}).join("")+
+    `<path d="M44,18 q6,-8 12,0 q-6,4 -12,0z" fill="${fill}"/>`;
+  else art=`<path d="M50,88 C50,60 50,40 50,22" stroke="#6b5a3a" stroke-width="4" fill="none"/><path d="M50,30 C30,30 22,48 50,58 C78,48 70,30 50,30 Z" fill="${fill}"/><path d="M50,54 C34,54 28,68 50,76 C72,68 66,54 50,54 Z" fill="${fill}"/>`;
+  return `<svg class="leaf-badge" width="${px}" height="${px}" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48" fill="#e3efd6" stroke="#cfe0bf" stroke-width="2"/>${art}</svg>`;
+}
+function plantLifeHTML(d){
+  const stages = d.life.map(s=>`<div class="pl-stage">${s}</div>`).join('<div class="pl-arrow">&rarr;</div>');
+  const extra = d.grp==="fern" ? " Ferns grow from <strong>spores</strong>, not seeds or flowers." :
+                d.grp==="conifer" ? " Conifers grow from seeds held in <strong>cones</strong>, not flowers." :
+                " Like most plants, it grows from a <strong>seed</strong> and makes <strong>flowers</strong> and new seeds.";
+  return `<div class="plant-life" role="img" aria-label="Life cycle: ${d.life.join(", then ")}, then the cycle repeats.">${stages}</div>
+    <p class="life-cycle-note">&#8635; Then the cycle begins again with the next generation.${extra}</p>`;
+}
+function openPlant(name){
+  const d = PLANT_DETAIL[name]; if(!d) return;
+  currentDetail = {kind:"plant", name:name};
+  currentReadText = `${name}. ${d.group}. Where it grows: ${d.where} Special feature: ${d.feature}`;
+  $("#animalHead").innerHTML = `<button id="animalClose" aria-label="Close">&times;</button>
+    <div class="ad-head-row">
+      <span class="ad-portrait">${leafBadge(d.grp,72)}</span>
+      <div><div class="ad-crumb">Land &amp; Sky &middot; Producer (plant)</div>
+      <h2>${name}</h2><p class="ad-role">${d.group}</p></div>
+    </div>`;
+  $("#animalBody").innerHTML = `
+    <p class="ad-readaloud">${speakBtnHTML("Read this page aloud")}</p>
+    <div class="ad-sec"><h4>Where it grows</h4><p>${d.where}</p></div>
+    <div class="ad-sec"><h4>Its job in the habitat</h4><p>A <strong>producer</strong> — it makes its own food from sunlight, water and air, and becomes food and shelter for animals.</p></div>
+    <div class="ad-sec"><h4>What feeds on it</h4>${d.eatenBy.map(x=>`<span class="life-chip">${x}</span>`).join(" ")}</div>
+    <div class="ad-sec"><h4>Special feature</h4><p>${d.feature}</p></div>
+    <div class="ad-sec"><h4>Life cycle</h4>${plantLifeHTML(d)}</div>
+    <div class="ad-sec"><h4>First Nations connection</h4><p>${d.fn}</p></div>
+    <div class="ad-sec"><h4>Australian Curriculum v9 links</h4><div class="ad-curric">${currHTML(["S3U01","S4U01"])}</div></div>
+    <div class="teacher-panel"><h3>&#9733; Teacher panel</h3><h4>Discussion questions</h4>${qListHTML(plantQMap(name),"Looking at a Year 6 focus? See the animal pages or Night Sky.")}</div>
+    <p class="ad-sources"><strong>Sources:</strong> ${PLANT_SOURCES}</p>`;
+  const overlay = $("#animalOverlay");
+  overlay.classList.add("open");
+  $("#animalCard").scrollTop = 0;
+  lastFocusedBeforeModal = document.activeElement;
+  const cb = $("#animalClose"); if(cb) cb.focus();
+}
+
+/* ---- Classification (grouping by observable features) ---- */
+const ANIMAL_GROUP = {
+  "Numbat":"mammal","Quokka":"mammal","Red kangaroo":"mammal","Koala":"mammal","Lumholtz’s tree-kangaroo":"mammal",
+  "Southern hairy-nosed wombat":"mammal","Yellow-footed rock-wallaby":"mammal","Platypus":"mammal","Common wombat":"mammal",
+  "Leadbeater’s possum":"mammal","Tasmanian devil":"mammal","Eastern quoll":"mammal","Tasmanian pademelon":"mammal","Eastern grey kangaroo":"mammal",
+  "Magpie goose":"bird","Southern cassowary":"bird","Emu":"bird","Superb lyrebird":"bird","Little penguin":"bird",
+  "Helmeted honeyeater":"bird","Wedge-tailed eagle":"bird","Gang-gang cockatoo":"bird","Kiwi":"bird","Kea":"bird","Kākāpō":"bird","Northern corroboree frog":"amphibian",
+  "Saltwater crocodile":"reptile","Frilled-neck lizard":"reptile","Thorny devil":"reptile","Shingleback lizard":"reptile","Green turtle":"reptile","Tuatara":"reptile",
+  "Whale shark":"fish"
+};
+const SPECIAL_GROUP = {
+  "Platypus":"egg-laying mammal (monotreme)","Green turtle":"reptile — a sea turtle","Whale shark":"the world's biggest fish (a shark)","Tuatara":"a special 'living fossil' reptile — not a lizard"
+};
+const VERT_GROUPS = [
+  {key:"mammal", name:"Mammals", feature:"Fur or hair, and feed their babies milk. (A few Australian ones — the platypus and echidna — lay eggs!)"},
+  {key:"bird", name:"Birds", feature:"Feathers, a beak and wings; they lay eggs."},
+  {key:"reptile", name:"Reptiles", feature:"Dry, scaly skin; most lay eggs on land."},
+  {key:"amphibian", name:"Amphibians", feature:"Moist skin; most start life in water (e.g. as tadpoles)."},
+  {key:"fish", name:"Fish", feature:"Live in water, breathe through gills and have fins."}
+];
+const INVERTS = ["Termites","Ants","Wētā","Mud crabs","Yabbies","Snails","Bogong moths"];
+function renderClassify(){
+  const animals = Object.keys(ANIMAL_DETAIL);
+  const animalGroups = VERT_GROUPS.map(g => {
+    const members = animals.filter(a => ANIMAL_GROUP[a]===g.key);
+    if(!members.length) return "";
+    const chips = members.map(a => `<button class="life-chip" data-animal="${a.replace(/"/g,'&quot;')}" data-region="">${a}${SPECIAL_GROUP[a]?` <span class="lc-grp">(${SPECIAL_GROUP[a]})</span>`:""}</button>`).join("");
+    return `<div class="class-group"><h4>${g.name} <span class="curr-code">vertebrate</span></h4><p class="cg-feature">${g.feature}</p><div class="class-chips">${chips}</div></div>`;
+  }).join("");
+  const plants = Object.keys(PLANT_DETAIL);
+  const plantGroupDefs = [
+    {key:"flowering", name:"Flowering plants (incl. grasses)", feature:"Make flowers and seeds. Most plants — and all grasses — belong here."},
+    {key:"conifer", name:"Conifers", feature:"Make seeds inside cones instead of flowers."},
+    {key:"fern", name:"Ferns", feature:"Make spores — no flowers and no seeds."}
+  ];
+  const plantGroups = plantGroupDefs.map(g => {
+    const members = plants.filter(p => PLANT_DETAIL[p].grp===g.key);
+    if(!members.length) return "";
+    const chips = members.map(p => `<button class="life-chip" data-plant="${p.replace(/"/g,'&quot;')}">${p}</button>`).join("");
+    return `<div class="class-group"><h4>${g.name} <span class="curr-code">${g.key==="fern"?"spore plant":"seed plant"}</span></h4><p class="cg-feature">${g.feature}</p><div class="class-chips">${chips}</div></div>`;
+  }).join("");
+  $("#lifeHolder").innerHTML = `
+    <p class="map-hint">Scientists sort living things into groups by features we can <strong>observe</strong>. Tap any animal or plant to explore it.</p>
+    <div class="class-group" style="background:#f4ecdd;">
+      <h4>First, is it living or non-living?</h4>
+      <p class="cg-feature">Living things grow, need food or sunlight, and make young. Non-living things do not.</p>
+      <div class="nonliving-row"><span class="life-chip">Living: animals &amp; plants</span><span class="nl-chip">Non-living: rock</span><span class="nl-chip">Non-living: water</span><span class="nl-chip">Non-living: sand</span></div>
+    </div>
+    <div class="kingdom-banner">
+      <div class="kingdom animals"><h3>Animals</h3><p>Move about, and eat other living things for food (they are <em>consumers</em>).</p></div>
+      <div class="kingdom plants"><h3>Plants</h3><p>Stay rooted and make their own food from sunlight (they are <em>producers</em>).</p></div>
+    </div>
+    <h3 class="info-section" style="border:none;margin:4px 4px 6px;">Grouping the animals</h3>
+    ${animalGroups}
+    <div class="class-group"><h4>Invertebrates <span class="curr-code">no backbone</span></h4><p class="cg-feature">Animals with no backbone — insects, spiders, crabs and worms. Many are the food that other animals depend on.</p><div class="class-chips">${INVERTS.map(i=>`<span class="life-chip">${i}</span>`).join("")}</div></div>
+    <h3 class="info-section" style="border:none;margin:14px 4px 6px;">Grouping the plants</h3>
+    ${plantGroups}
+    <div class="fn-group-note"><strong>First Nations science.</strong> Aboriginal and Torres Strait Islander Peoples have always grouped living things by observable features — by where they live, the season they appear, and how they can be used. This is one of the world's oldest classification systems.</div>
+    <div class="info-section" style="margin-top:14px;"><h3>Australian Curriculum v9 links</h3><div class="ad-curric">${currHTML(["S3U01"])}<p class="curr-item"><span class="curr-code">Extension</span><strong>AC9S7U01 (Year 7):</strong> using formal classification and dichotomous keys to order the diversity of life.</p></div></div>
+    <div class="teacher-panel"><h3>&#9733; Teacher panel</h3><h4>Learning intention</h4><p>We are learning to classify and compare living and non-living things, and to group living things by observable features (AC9S3U01).</p><h4>Discussion questions</h4>${qListHTML(CLASSIFY_Q, "Looking at another year? Living-things questions for Years 4–6 are on the animal pages and in Food webs.")}</div>`;
+}
+
+/* ---- Food webs ---- */
+const FOOD_WEBS = {
+  forest:{ name:"Eucalypt forest (south-east Australia)",
+    cols:[
+      {label:"Producers", color:"#cfe6cf", nodes:["Gum leaves","Grasses","Shrubs & wattle"]},
+      {label:"Plant-eaters", color:"#cfe3f0", nodes:["Koala","Eastern grey kangaroo","Common wombat","Insects"]},
+      {label:"Hunters", color:"#f3e2c6", nodes:["Superb lyrebird","Gang-gang cockatoo"]},
+      {label:"Top predator", color:"#f0d2c8", nodes:["Wedge-tailed eagle"]}
+    ],
+    decomposers:["Fungi","Bacteria","Earthworms"],
+    edges:[["Gum leaves","Koala"],["Grasses","Eastern grey kangaroo"],["Grasses","Common wombat"],
+      ["Shrubs & wattle","Insects"],["Gum leaves","Insects"],["Insects","Superb lyrebird"],
+      ["Shrubs & wattle","Gang-gang cockatoo"],["Eastern grey kangaroo","Wedge-tailed eagle"],
+      ["Superb lyrebird","Wedge-tailed eagle"],["Koala","Wedge-tailed eagle"]],
+    note:"" },
+  wetland:{ name:"Top End wetland & savanna (tropical north)",
+    cols:[
+      {label:"Producers", color:"#cfe6cf", nodes:["Water plants","Speargrass","Paperbark & fruit"]},
+      {label:"Plant-eaters", color:"#cfe3f0", nodes:["Magpie goose","Insects"]},
+      {label:"Hunters", color:"#f3e2c6", nodes:["Frilled-neck lizard"]},
+      {label:"Top predator", color:"#f0d2c8", nodes:["Saltwater crocodile","Wedge-tailed eagle"]}
+    ],
+    decomposers:["Fungi","Bacteria","Mud crabs"],
+    edges:[["Water plants","Magpie goose"],["Paperbark & fruit","Magpie goose"],["Speargrass","Insects"],
+      ["Insects","Frilled-neck lizard"],["Magpie goose","Saltwater crocodile"],
+      ["Frilled-neck lizard","Saltwater crocodile"],["Frilled-neck lizard","Wedge-tailed eagle"]],
+    note:"" },
+  desert:{ name:"Sandy desert (the arid centre)",
+    cols:[
+      {label:"Producers", color:"#cfe6cf", nodes:["Spinifex","Wildflowers & seeds","Acacia (mulga)"]},
+      {label:"Plant-eaters", color:"#cfe3f0", nodes:["Red kangaroo","Emu","Ants","Termites"]},
+      {label:"Hunters", color:"#f3e2c6", nodes:["Thorny devil","Shingleback lizard"]},
+      {label:"Top predators", color:"#f0d2c8", nodes:["Wedge-tailed eagle","Dingo"]}
+    ],
+    decomposers:["Fungi","Bacteria","Beetles"],
+    edges:[["Spinifex","Red kangaroo"],["Wildflowers & seeds","Emu"],["Acacia (mulga)","Ants"],["Spinifex","Termites"],
+      ["Ants","Thorny devil"],["Wildflowers & seeds","Shingleback lizard"],["Red kangaroo","Dingo"],
+      ["Red kangaroo","Wedge-tailed eagle"],["Emu","Dingo"],["Thorny devil","Wedge-tailed eagle"],["Shingleback lizard","Wedge-tailed eagle"]],
+    note:"" },
+  nz:{ name:"Forest of Aotearoa New Zealand",
+    cols:[
+      {label:"Producers", color:"#cfe6cf", nodes:["Forest fruit & seeds","Leaves & shoots","Ferns"]},
+      {label:"Plant-eaters", color:"#cfe3f0", nodes:["Kākāpō","Kea","Insects & wētā"]},
+      {label:"Insect-eaters", color:"#f3e2c6", nodes:["Kiwi"]},
+      {label:"Introduced predators", color:"#f4c9c2", nodes:["Stoats & rats"]}
+    ],
+    decomposers:["Fungi","Bacteria","Wētā & worms"],
+    edges:[["Forest fruit & seeds","Kākāpō"],["Leaves & shoots","Kea"],["Ferns","Insects & wētā"],
+      ["Leaves & shoots","Insects & wētā"],["Insects & wētā","Kiwi"],["Kākāpō","Stoats & rats"],
+      ["Kea","Stoats & rats"],["Kiwi","Stoats & rats"]],
+    danger:["Stoats & rats"],
+    note:"Aotearoa had almost no land mammals for millions of years, so birds had few predators — that is why so many became flightless. Introduced stoats, rats and cats now break this web, which is why many NZ birds are endangered." }
+};
+let currentWeb = "forest";
+function renderWeb(){
+  const w = FOOD_WEBS[currentWeb];
+  const cols = w.cols, nCols = cols.length;
+  const W = 720, PAD = 16, NODE_W = 124, NODE_H = 30, rowH = 50, bodyTop = 50;
+  const danger = new Set(w.danger||[]);
+  const maxRows = Math.max(...cols.map(c=>c.nodes.length));
+  const bodyH = maxRows*rowH;
+  const svgH = bodyTop + bodyH + 86;
+  const colGap = nCols>1 ? (W - 2*PAD - NODE_W)/(nCols-1) : 0;
+  const pos = {};
+  cols.forEach((c,ci)=>{
+    const cx = PAD + NODE_W/2 + ci*colGap;
+    const startY = bodyTop + (bodyH - c.nodes.length*rowH)/2;
+    c.nodes.forEach((n,ni)=>{ pos[n] = {x:cx, y:startY + (ni+0.5)*rowH, color:c.color}; });
+  });
+  let svg = `<svg class="web-svg" viewBox="0 0 ${W} ${svgH}" role="img" aria-label="Food web for ${w.name}. Arrows point from food to feeder.">`;
+  svg += `<defs><marker id="wah" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#5a6e52"/></marker>`+
+    `<marker id="wahR" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#b1402c"/></marker></defs>`;
+  // column headers
+  cols.forEach((c,ci)=>{ const cx = PAD + NODE_W/2 + ci*colGap;
+    svg += `<text x="${cx}" y="26" text-anchor="middle" font-size="12" font-weight="700" fill="#5a4a33">${c.label}</text>`;
+    svg += `<text x="${cx}" y="40" text-anchor="middle" font-size="16" fill="#9c8b78">&#8595;</text>`; });
+  // edges
+  w.edges.forEach(([a,b])=>{ const p=pos[a], q=pos[b]; if(!p||!q) return;
+    const isD = danger.has(b);
+    svg += `<line x1="${(p.x+NODE_W/2).toFixed(1)}" y1="${p.y.toFixed(1)}" x2="${(q.x-NODE_W/2-2).toFixed(1)}" y2="${q.y.toFixed(1)}" stroke="${isD?'#b1402c':'#9bb38c'}" stroke-width="${isD?2:1.4}" ${isD?'stroke-dasharray="5 3"':''} marker-end="url(#${isD?'wahR':'wah'})"/>`; });
+  // nodes
+  Object.keys(pos).forEach(n=>{ const p=pos[n];
+    const clickable = !!ANIMAL_DETAIL[n];
+    const x = p.x-NODE_W/2, y = p.y-NODE_H/2;
+    const lines = wrapWords(n,18);
+    const stroke = danger.has(n) ? "#b1402c" : "#bdae90";
+    svg += `<g class="web-node${clickable?' clickable':''}" ${clickable?`data-animal="${n.replace(/"/g,'&quot;')}" data-region="" tabindex="0" role="button" aria-label="${n} — open details"`:`aria-label="${n}"`}>`+
+      `<rect x="${x}" y="${y}" width="${NODE_W}" height="${NODE_H}" rx="9" fill="${p.color}" stroke="${stroke}" stroke-width="1.5"/>`;
+    lines.forEach((ln,li)=>{ svg += `<text x="${p.x}" y="${p.y + (lines.length>1? (li*10-4):3.5)}" text-anchor="middle" font-size="11" font-weight="600" fill="#2b2620">${ln}${clickable&&li===lines.length-1?' ›':''}</text>`; });
+    svg += `</g>`; });
+  // decomposer band
+  const by = svgH - 60;
+  svg += `<rect x="${PAD}" y="${by}" width="${W-2*PAD}" height="46" rx="10" fill="#efe7d6" stroke="#ddd0b6" stroke-width="1.5"/>`;
+  svg += `<text x="${PAD+12}" y="${by+19}" font-size="12" font-weight="700" fill="#6e5b33">Decomposers: ${w.decomposers.join(", ")}</text>`;
+  svg += `<text x="${PAD+12}" y="${by+36}" font-size="10.5" fill="#6e5b33">They break down dead plants and animals and return nutrients to the soil — feeding the producers again.</text>`;
+  svg += `</svg>`;
+  const opts = Object.keys(FOOD_WEBS).map(k=>`<option value="${k}"${k===currentWeb?' selected':''}>${FOOD_WEBS[k].name}</option>`).join("");
+  $("#lifeHolder").innerHTML = `
+    <div class="control-row"><label style="font-weight:600;font-size:.9rem;">Choose an ecosystem: <select id="webSelect" class="sky-region-select" style="background:#fff;color:#2b2620;border-color:#d8cbb4;">${opts}</select></label></div>
+    <p class="map-hint">A <strong>food web</strong> joins many food chains together. Arrows point from food to feeder — the way energy flows. Tap an animal with a › to explore it.</p>
+    ${svg}
+    <div class="web-legend">
+      <span class="key"><span class="dot" style="background:#cfe6cf"></span>Producers (plants)</span>
+      <span class="key"><span class="dot" style="background:#cfe3f0"></span>Plant-eaters</span>
+      <span class="key"><span class="dot" style="background:#f3e2c6"></span>Hunters</span>
+      <span class="key"><span class="dot" style="background:#f0d2c8"></span>Top predators</span>
+      <span class="key"><span class="dot" style="background:#efe7d6"></span>Decomposers</span>
+    </div>
+    ${w.note?`<div class="fn-group-note" style="border-left-color:#b1402c;background:#fbeae6;">${w.note}</div>`:""}
+    <div class="info-section" style="margin-top:14px;"><h3>Australian Curriculum v9 links</h3><div class="ad-curric">${currHTML(["S4U01"])}</div></div>
+    <div class="teacher-panel"><h3>&#9733; Teacher panel</h3><h4>Learning intention</h4><p>We are learning how producers, consumers and decomposers connect in a food web, and how energy flows through a habitat (AC9S4U01).</p><h4>Discussion questions</h4>${qListHTML(WEB_Q, "Looking at another year? Try the animal pages (adaptations, Year 5) or Classify (Year 3).")}</div>`;
+  const sel = $("#webSelect"); if(sel) sel.addEventListener("change", e=>{ currentWeb = e.target.value; renderWeb(); });
+}
+
+/* ---- Plants & producers view ---- */
+function renderPlants(){
+  const cards = Object.keys(PLANT_DETAIL).map(p=>{ const d=PLANT_DETAIL[p];
+    return `<button class="plant-card" data-plant="${p.replace(/"/g,'&quot;')}">
+      <span class="leaf">${leafBadge(d.grp,46)}</span>
+      <span><span class="p-name">${p}</span><span class="p-group">${d.group}</span> <span class="p-more">explore ›</span></span></button>`; }).join("");
+  $("#lifeHolder").innerHTML = `
+    <p class="map-hint">Plants are <strong>producers</strong> — they make their own food from sunlight and feed everything else. Tap a plant to see its life cycle.</p>
+    <div class="plant-grid">${cards}</div>
+    <div class="info-section" style="margin-top:14px;"><h3>Australian Curriculum v9 links</h3><div class="ad-curric">${currHTML(["S3U01","S4U01"])}</div></div>
+    <div class="teacher-panel"><h3>&#9733; Teacher panel</h3><h4>Learning intention</h4><p>We are learning to examine the differences between the life cycles of plants and animals (AC9S3U01).</p><h4>Discussion questions</h4>${qListHTML(PLANTVIEW_Q, "Looking at a Year 6 focus? See the animal pages or Night Sky.")}</div>`;
+}
+
+/* ---- Living Things dispatch ---- */
+let lifeMode = "classify";
+function renderLife(){
+  $("#lifeIntro").innerHTML = `${focusBanner()}<h2>Living things of Australia &amp; Aotearoa</h2>
+    <p>Group living things by their features, follow the food webs that connect them, and meet the plants that feed it all. <span class="curr-code">AC9S3U01</span><span class="curr-code">AC9S4U01</span></p>`;
+  if(lifeMode==="classify") renderClassify();
+  else if(lifeMode==="webs") renderWeb();
+  else renderPlants();
+}
+$$("#lifeSubNav button").forEach(b=> b.addEventListener("click", ()=>{
+  $$("#lifeSubNav button").forEach(x=>x.classList.toggle("active", x===b));
+  lifeMode = b.dataset.life; renderLife();
+}));
+// keyboard activation for SVG food-web nodes
+$("#lifeHolder").addEventListener("keydown", e=>{
+  if(e.key!=="Enter" && e.key!==" ") return;
+  const node = e.target.closest("[data-animal],[data-plant]");
+  if(node){ e.preventDefault(); if(node.dataset.plant) openPlant(node.dataset.plant); else openAnimal(node.dataset.animal, node.dataset.region||""); }
+});
+/* ===================================================================
+   UI BATCH — year-level filter, curriculum coverage, glossary + speech
+   =================================================================== */
+const speechOK = "speechSynthesis" in window;
+
+/* ---- Year-level filter (maps verified codes to year levels) ---- */
+$$("#yearSeg button").forEach(b => b.addEventListener("click", () => {
+  $$("#yearSeg button").forEach(x => x.classList.toggle("active", x === b));
+  activeYear = b.dataset.yr;
+  applyYear();
+}));
+function applyYear(){
+  if(selectedRegion) renderRegion(selectedRegion); else renderWelcome();
+  renderLife();
+  renderCurric();
+  try{ renderSky(); }catch(e){}
+  try{ renderCompare(); }catch(e){}
+  if($("#animalOverlay").classList.contains("open") && currentDetail){
+    if(currentDetail.kind === "plant") openPlant(currentDetail.name);
+    else openAnimal(currentDetail.name, currentDetail.region);
+  }
+}
+
+/* ---- Curriculum coverage view ---- */
+const CODE_ORDER = ["S2U01","S3U01","S4U01","S5U01","S5U02","S6U01","S6U02","HS3K03","HS3K05","HS4K05","HS4K06","HS5K04","HS5K05"];
+const WHERE_USED = {
+  S2U01:"Night Sky tab — constellations, seasonal sky & Moon phases.",
+  S3U01:"Living Things → Classify & Plants; plant and animal life-cycle pages.",
+  S4U01:"Living Things → Food webs; the food chain on every animal page.",
+  S5U01:"'Special adaptations' on each animal page; survival in a habitat.",
+  S5U02:"Climate panels & landform notes (e.g. Flinders Ranges, weathering).",
+  S6U01:"Animal 'habitat' sections; food-web change discussion questions.",
+  S6U02:"Night Sky — seasonal change, Earth's tilt, and the Moon's phases.",
+  HS3K03:"States & Territories map; region pages name First Nations Countries.",
+  HS3K05:"Climate Zones map; region climate panels; Compare Regions; New Zealand.",
+  HS4K05:"Ecosystem panels; Animal atlas; native vegetation & water in each region.",
+  HS4K06:"First Nations seasonal calendars; custodial-responsibility notes.",
+  HS5K04:"'People & place' content; the New Zealand neighbour comparison.",
+  HS5K05:"Seasonal weather tables; bushfire/flood/drought discussion prompts."
+};
+const DIFF_QUESTIONS = {
+  "3":["Sort five things you can see into living and non-living — what test did you use?",
+       "How is a fern's life cycle (spores) different from a frog's (eggs → tadpole → frog)?",
+       "What features make a platypus a mammal, even though it lays eggs?"],
+  "4":["In a food web, what would happen to the other animals if the plants died out?",
+       "Sort three living things into producer, consumer and decomposer — why is each needed?",
+       "Why does every food chain begin with a plant?"],
+  "5":["Choose an animal and name one structural feature and one behaviour that help it survive.",
+       "How does First Nations knowledge of weather and Country help care for the land?",
+       "Why might an animal (like the helmeted honeyeater) live in only one small place?"],
+  "6":["How might a longer drought change which living things survive in a habitat?",
+       "Why do we see different constellations in winter and in summer?",
+       "How does the Moon's shape change through the month — and why?"]
+};
+function renderCurric(){
+  const rows = CODE_ORDER.map(k => {
+    const c = CURR[k], yr = codeYear(c);
+    const off = activeYear !== "all" && yr !== activeYear;
+    return `<tr class="cov-row${off?' curr-off':''}">
+      <td><span class="curr-code">${c.code}</span></td><td>${c.area}</td>
+      <td><span class="cov-year">Year ${yr}</span></td><td>${c.text}</td>
+      <td class="cov-where">${WHERE_USED[k]||""}</td></tr>`;
+  }).join("");
+  const years = activeYear === "all" ? ["3","4","5","6"] : (DIFF_QUESTIONS[activeYear] ? [activeYear] : []);
+  const diff = years.map(y => `<h4>Year ${y}</h4><ul>${DIFF_QUESTIONS[y].map(q=>`<li>${q}</li>`).join("")}</ul>`).join("");
+  $("#curricHolder").innerHTML = `
+    <div class="cov-intro"><h2>Curriculum coverage &mdash; Australian Curriculum v9</h2>
+      <p>Every content descriptor this resource addresses, and where to find it. Use the <strong>Year</strong> filter (top of the page) to focus on one year level &mdash; it also pares back the student-facing views.</p></div>
+    ${focusBanner()}
+    <table class="cov-table"><thead><tr><th>Code</th><th>Learning area</th><th>Year</th><th>Content description</th><th>Where in this resource</th></tr></thead><tbody>${rows}</tbody></table>
+    <div class="diff-q"><h3>&#9733; Discussion questions by year level</h3>${diff || "<p>Pick a year level above to see targeted questions.</p>"}</div>
+    <p class="source-note" style="margin-top:10px;">Australian Curriculum content is &copy; ACARA, licensed under CC BY 4.0; descriptions abridged for length. Year 2 (AC9S2U01) sits just below this resource's main Years 3&ndash;6 band and shows under &ldquo;All&rdquo;.</p>`;
+}
+
+/* ---- Glossary: click a keyword for a meaning (+ optional read-aloud) ---- */
+const GLOSSARY = {
+  "producer":"A living thing — usually a plant — that makes its own food from sunlight.",
+  "consumer":"An animal that gets energy by eating other living things.",
+  "decomposer":"A living thing (like a fungus or worm) that breaks down dead plants and animals.",
+  "food chain":"A line showing who eats whom — energy passing from one living thing to the next.",
+  "food web":"Many food chains joined together, showing how living things in a habitat are connected.",
+  "habitat":"The natural home of a plant or animal, where it finds food, water and shelter.",
+  "adaptation":"A feature or behaviour that helps a living thing survive where it lives.",
+  "life cycle":"The stages a living thing passes through, from the start of life to making young of its own.",
+  "marsupial":"A mammal whose tiny baby grows in a pouch, like a kangaroo or koala.",
+  "monotreme":"A very unusual mammal that lays eggs — the platypus and the echidna.",
+  "nocturnal":"Active at night and resting during the day.",
+  "vertebrate":"An animal that has a backbone.",
+  "invertebrate":"An animal with no backbone, such as an insect, spider or crab.",
+  "mammal":"An animal with fur or hair that feeds its babies milk.",
+  "reptile":"A scaly-skinned animal, such as a lizard, snake, crocodile or turtle.",
+  "amphibian":"An animal like a frog that usually starts life in water and lives on land as an adult.",
+  "predator":"An animal that hunts and eats other animals.",
+  "prey":"An animal that is hunted and eaten by a predator.",
+  "apex predator":"A top predator that nothing else usually hunts.",
+  "species":"One particular kind of living thing.",
+  "climate":"The usual weather of a place over many years.",
+  "ecosystem":"All the living things in an area and the way they depend on each other and their surroundings.",
+  "endemic":"Found naturally in just one place on Earth and nowhere else.",
+  "migration":"A long journey animals make, often with the seasons, to feed or breed.",
+  "metamorphic":"Describing a life cycle where the body changes shape completely, like a tadpole into a frog.",
+  "camouflage":"Colours or patterns that help a living thing blend in and hide.",
+  "conservation":"Looking after living things and places so they survive into the future.",
+  "spore":"A tiny grain that ferns and fungi grow from instead of seeds.",
+  "conifer":"A plant that makes its seeds inside cones rather than flowers.",
+  "nectar":"The sweet liquid inside flowers that many birds and insects feed on.",
+  "estuary":"The place where a river meets the sea and fresh and salt water mix.",
+  "savanna":"A warm grassland dotted with scattered trees.",
+  "monsoon":"A season of heavy rain brought by winds that change direction each year.",
+  "constellation":"A pattern of stars in the night sky.",
+  "herbivore":"An animal that eats only plants.",
+  "carnivore":"An animal that eats other animals.",
+  "omnivore":"An animal that eats both plants and animals.",
+  "scavenger":"An animal that feeds on dead animals it did not hunt itself."
+};
+const GLOSS_KEYS = Object.keys(GLOSSARY).sort((a,b)=>b.length-a.length);
+const GLOSS_RE = new RegExp("\\b(" + GLOSS_KEYS.map(s=>s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|") + ")\\b","i");
+function applyGlossary(root){
+  if(!root || root.querySelector(".gloss")) return; // already processed for this content version
+  const used = new Set();
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode(n){
+      if(!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+      let p = n.parentElement;
+      while(p && p !== root.parentElement){
+        const t = p.tagName;
+        if(t==="BUTTON"||t==="A"||t==="H1"||t==="H2"||t==="H3"||t==="H4"||t==="STYLE"||t==="SCRIPT"||
+           p.classList.contains("curr-code")||p.classList.contains("gloss")||p.classList.contains("a-more")||p.classList.contains("cov-year"))
+          return NodeFilter.FILTER_REJECT;
+        p = p.parentElement;
+      }
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  const nodes = []; let cur; while(cur = walker.nextNode()) nodes.push(cur);
+  nodes.forEach(node => {
+    const text = node.nodeValue;
+    const m = GLOSS_RE.exec(text);
+    if(!m) return;
+    const key = m[1].toLowerCase();
+    if(used.has(key)) return;
+    used.add(key);
+    const before = text.slice(0, m.index), word = text.slice(m.index, m.index + m[1].length), after = text.slice(m.index + m[1].length);
+    const frag = document.createDocumentFragment();
+    if(before) frag.appendChild(document.createTextNode(before));
+    const btn = document.createElement("button");
+    btn.className = "gloss"; btn.dataset.term = key; btn.textContent = word;
+    btn.setAttribute("aria-label", word + " — tap for its meaning");
+    frag.appendChild(btn);
+    if(after) frag.appendChild(document.createTextNode(after));
+    node.parentNode.replaceChild(frag, node);
+  });
+}
+const GLOSS_CONTAINERS = ["#infoPanel","#animalBody","#lifeHolder","#skyInfoPanel","#compareGrid","#curricHolder"];
+let glossObs;
+function glossifyAll(){ GLOSS_CONTAINERS.forEach(s=>{ const el=$(s); if(el) applyGlossary(el); }); }
+function observeGloss(){ GLOSS_CONTAINERS.forEach(s=>{ const el=$(s); if(el) glossObs.observe(el,{childList:true,subtree:true}); }); }
+function initGlossary(){
+  glossObs = new MutationObserver(()=>{ glossObs.disconnect(); glossifyAll(); observeGloss(); });
+  glossifyAll(); observeGloss();
+}
+function showGloss(btn){
+  const term = btn.dataset.term, def = GLOSSARY[term]; if(!def) return;
+  const pop = $("#glossPop");
+  pop.innerHTML = `<p class="gp-term">${term}</p><p class="gp-def">${def}</p>` +
+    (speechOK ? `<button class="speak-btn" id="glossSpeak" aria-label="Hear the meaning">${SPK} Hear it</button>` : "");
+  pop.classList.add("open");
+  const r = btn.getBoundingClientRect(), pr = pop.getBoundingClientRect(), vw = document.documentElement.clientWidth;
+  let left = window.scrollX + r.left;
+  if(left + pr.width > window.scrollX + vw - 8) left = window.scrollX + vw - pr.width - 8;
+  if(left < window.scrollX + 8) left = window.scrollX + 8;
+  pop.style.left = left + "px";
+  pop.style.top = (window.scrollY + r.bottom + 8) + "px";
+  const gs = $("#glossSpeak"); if(gs) gs.addEventListener("click", ()=> speak(term + ". " + def));
+}
+function hideGloss(){ $("#glossPop").classList.remove("open"); }
+document.addEventListener("click", e => {
+  const sp = e.target.closest(".speak-btn");
+  if(sp){ if(sp.id !== "glossSpeak") speak(currentReadText); return; }
+  const g = e.target.closest(".gloss");
+  if(g){ showGloss(g); return; }
+  if(!e.target.closest("#glossPop")) hideGloss();
+});
+document.addEventListener("keydown", e => { if(e.key === "Escape" && $("#glossPop").classList.contains("open")) hideGloss(); });
+
+renderLife();
+renderCurric();
+if(!speechOK) document.body.classList.add("no-speech");
+initGlossary();
 
 </script>
 
